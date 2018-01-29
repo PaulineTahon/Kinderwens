@@ -1,0 +1,4 @@
+/dist/*
+/src/js/tree.js
+/src/js/controls/OrbitControls.js
+/src/js/OBJLoader.js
