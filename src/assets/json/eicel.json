@@ -1,0 +1,71 @@
+{
+  "eicel": [
+    {
+      "text": "Hallo, ik ben één van je eicellen. Ik ken jou al mijn hele leven. Zal ik jou ook iets over mij vertellen?"
+    },
+     {
+      "text": "Voor we van start gaan zou ik graag je leeftijd weten. Hoe oud ben je nu?"
+    },
+    {
+      "text": "Zal ik mijn levensverhaal vertellen vanaf het begin of schets ik hoe het nu met me gaat?",
+      "options": {
+        "start": "Begin",
+        "now": "Nu"
+      }
+    },
+    {
+      "text": "Hoe zal ik beginnen? Wij bestaan reeds voor je geboorte. Wij zijn dus even oud als jou. We tellen dan ongeveer met 1 miljoen in aantal.",
+      "text2": "Tijdens je leven dalen we in aantal. Daar hoef je je geen zorgen om te maken. Het zijn vooral de eicellen van mindere kwaliteit die afvallen. Elk jaar zijn we met zo’n 10.000 minder.",
+      "text3": "We zijn echter nog lang niet rijp, daarvoor missen we een hormoon dat je pas in je pubertijd zal aanmaken.",
+      "age": "0",
+      "eggCount": 1000000
+    },
+    {
+      "text": "Nu ben je in de puberteit. Dat is de overgang naar volwassenheid. Vanaf nu ben je vruchtbaar. Ook wij worden dan volwassen. Ookal slinken er redelijk wat eicellen, we zijn met ruim genoeg.",
+      "text2": "Iedere maand wordt één van ons rijp. De eicelletjes die niet bevrucht worden, sterven af. Dan is het de beurt aan iemand anders. Dat merk je wanneer je je maandstonden krijgt.",
+      "age": "10 tot 15",
+      "eggCount": 400000
+    },
+    {
+      "text": "Je bent nu 20 jaar. Dit is het begin van je vruchtbaarste periode. In dit stadium ben je meestal aan het studeren en op zoek naar de liefde van je leven, daarom wordt er vaak gekozen om later aan kinderen te beginnen.",
+      "age": "20",
+      "eggCount": 200000
+    },
+    {
+      "text": "Jij en ik zijn 30 jaar. Jouw vruchtbaarheid begint te dalen. Dat is geen probleem, toch breng ik je graag op de hoogte van enkele zaken.",
+      "age": "30",
+      "eggCount": 100000,
+      "info": {
+        "risks": "b",
+        "options": "d"
+      }
+    },
+    {
+      "text": "Je 35ste verjaardag is een bepalend moment voor ons. Je vruchtbaarheid daalt veel sneller. Ook de goede eicellen worden schaarser. Jij bent nog lang niet onvruchtbaar, maar je kans op een natuurlijke zwangerschap is kleiner.",
+      "age": "35",
+      "eggCount": 50000,
+      "info": {
+        "risks": "b",
+        "options": "d"
+      }
+    },
+    {
+      "text": "Nu je 40 jaar bent en we zijn nog maar met weinig. Onder ons bestaan er slechts enkelen van goede kwaliteit. Op deze leeftijd zijn er veel meer risico’s.  Wens je graag nog een kindje? IVF een mogelijkheid , doch de slaagkans is klein.",
+      "age": "40",
+      "eggCount": 1000,
+      "info": {
+        "risks": "b",
+        "options": "d"
+      }
+    },
+    {
+      "text": "Het einde van ons bestaan is nabij. De kans op een zwangerschap is zeer klein. Gezien de te grote risico’s is IVF uitgesloten.",
+      "age": "50",
+      "eggCount": 0,
+      "info": {
+        "risks": "b",
+        "options": "d"
+      }
+    }
+  ]
+}

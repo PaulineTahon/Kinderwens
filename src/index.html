@@ -9,8 +9,8 @@
 
       WebFontConfig = {
         custom: {
-          families: ['abrilfatface:n4'],
-          urls: ['/assets/fonts/abrilfatface/abrilfatface.css']
+          families: ['futura'],
+          urls: ['/assets/fonts/futura/futura.css']
         }
       };
 
@@ -25,15 +25,14 @@
 
     </script>
 
-    <script id="vertexShader" type="x-shader/x-vertex">
+<script id="vertexShader" type="x-shader/x-vertex">
   varying vec2 vUv;
   void main() {
     vUv = uv;
 
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0 );
     gl_Position = projectionMatrix * mvPosition;
-  }
-
+}
 </script>
 <script id="fragmentShader" type="x-shader/x-fragment">
 
@@ -76,9 +75,23 @@
     <audio class="audio" src="assets/audio/main_ambiance.mp3" autoplay loop></audio>
     <canvas id="c" class="c" width="1400" height="700"></canvas>
     <div class="eicel">
-      <h1>Hi, ik ben een van je eicellen. <br /> Hoewel ik je al je hele leven ken,<br /> wil ik jou ook wat over mij vertellen.</h1>
+      <h1 class="eicel_stage_text"></h1>
+      <div class="user_age">
+        <p class="user_age_input_value"></p>
+        <input class="user_age_input" type="range" min="0" max="100" oninput="handleAge(this.value)" onchange="handleAge(this.value)"></p>
+      </div>
+      <div class="buttons">
+        <button class="buttons_previous"></button>
+        <button class="buttons_next">ja</button>
+      </div>
+      <div class="eicel_stage_stats">
+        <p class="eicel_stage_stats_age"></p>
+        <p class="eicel_stage_stats_count"></p>
+      </div>
     </div>
     <script src="js/three.min.js"></script>
+    <script src="js/script.js"></script>
+      <script src="js/storyScript.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
 
 		</script>

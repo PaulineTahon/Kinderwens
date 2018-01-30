@@ -5,6 +5,7 @@ html {
 
 body {
   background-color: #3a3d46;
+  font-family: futura;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -24,4 +25,72 @@ body {
   width: 100vw;
   height: 100vh;
   color: white;
+}
+
+.eicel_stage_stats {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+}
+
+.eicel_stage_text {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+  width: 32rem;
+  line-height: 3rem;
+  padding-right: 15rem;
+}
+
+.buttons {
+  margin: 0 auto;
+  display: flex;
+  width: 50vw;
+  justify-content: space-between;
+}
+
+.buttons_next {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 15rem;
+  padding: 1rem;
+  border-radius: 5rem;
+  font-size: 1.6rem;
+  background-color: pink;
+  font-family: futura;
+}
+
+.buttons_previous {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 15rem;
+  padding: 1rem;
+  border-radius: 5rem;
+  font-size: 1.6rem;
+  background-color: pink;
+  font-family: futura;
+}
+
+.user_age {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  width: 50vw;
+
+  &_input {
+    width: 50vw;
+  }
+
+  &_input_age {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
 }
