@@ -14,6 +14,8 @@ let startTime;
 
 let textureCube;
 
+/* vars light --------------------------------------*/
+let bulbLight, bulbLight2;
 
 const noise = new OpenSimplexNoise();
 
@@ -22,6 +24,7 @@ const init = () => {
   startTime = Date.now();
 
   createScene();
+  createLights();
   createAudio();
   createSpheres();
   createBackground();
@@ -127,6 +130,40 @@ const createScene = () => {
 
 };
 
+const createLights = () => {
+
+
+  /* Light1
+  --------------------------------------*/
+  const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
+  bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+  const bulbMat = new THREE.MeshStandardMaterial({
+    emissive: 0xffffee,
+    emissiveIntensity: 1,
+    color: 0x000000
+  });
+
+  bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+  bulbLight.position.set(10, 10, 10);
+  bulbLight.castShadow = true;
+  scene.add(bulbLight);
+
+  /* Light2
+  --------------------------------------*/
+
+  bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
+  const bulbMat2 = new THREE.MeshStandardMaterial({
+    emissive: 0xffffee,
+    emissiveIntensity: 1,
+    color: 0x000000
+  });
+  bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
+  bulbLight2.position.set(10, 10, 10);
+  bulbLight2.castShadow = true;
+  scene.add(bulbLight2);
+
+};
+
 const createAudio = () => {
   const audio = document.querySelector(`.audio`);
   audio.volume = 0.1;
@@ -160,7 +197,7 @@ const animate = () => {
 };
 
 const render = () => {
-
+  animateLights();
   makeRoughBall(ball);
   makeRoughBall(ball2);
   animateSpheres();
@@ -170,6 +207,17 @@ const render = () => {
   renderer.render(scene, camera);
 
 };
+
+const animateLights = () => {
+  const time = Date.now() * 0.0005;
+  bulbLight.position.x = Math.sin(time * 0.7) * 20;
+  bulbLight.position.y = Math.cos(time * 0.5) * 10;
+
+
+  bulbLight2.position.x = Math.sin(time * 0.5) * 20;
+  bulbLight2.position.y = Math.cos(time * 0.3) * 10;
+};
+
 const animateSpheres = () => {
   const timer = 0.00001 * Date.now();
   //

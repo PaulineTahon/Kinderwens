@@ -4847,6 +4847,10 @@ only@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
 
+open-simplex-noise@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/open-simplex-noise/-/open-simplex-noise-1.4.1.tgz#aca36363325c5c5f0cb11cd5787374ae45dd09d9"
+
 opn@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.1.0.tgz#72ce2306a17dbea58ff1041853352b4a8fc77519"
