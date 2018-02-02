@@ -2318,9 +2318,9 @@ es6-templates@^0.2.2:
     recast "~0.11.12"
     through "~2.3.6"
 
-es6-tween@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/es6-tween/-/es6-tween-4.1.0.tgz#75a112c0bf3616f23116e90abfa7f6036b9672ea"
+es6-tween@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/es6-tween/-/es6-tween-5.1.0.tgz#0a694a4047bfcce32b7df4f2610f8d8e8b804fba"
 
 es6-weak-map@^2.0.1:
   version "2.0.2"

@@ -1,10 +1,11 @@
 import OpenSimplexNoise from 'open-simplex-noise';
 
-let ball, ball2;
+let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
+// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
 
 const spheres = [];
 
@@ -67,10 +68,15 @@ const createScene = () => {
   //texture.repeat.set(0.2, 0.2);
 
   const lambertMaterial = new THREE.MeshLambertMaterial({
-    color: `green`,
-    emissive: `red`,
-    refractionRatio: 0.985,
-    transparent: true,
+    color: 0xF6318C,
+    emissive: 0x471764,
+    opacity: 4,
+    wireframe: false,
+    // color: `green`,
+    // emissive: `red`,
+    // refractionRatio: 0.985,
+    transparent: true
+    // opacity: 1
     //map: texture
   });
 
@@ -121,13 +127,61 @@ const createScene = () => {
   //scene.add(ball2);
   scene.add(ball);
 
+  ball3 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball3.position.x = - 50;
+  ball3.position.y = 5;
+  ball3.position.z = - 70;
+  ball3.castShadow = true;
+  scene.add(ball3);
+
+  ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball4.position.x = 60;
+  ball4.position.y = - 20;
+  ball4.position.z = - 60;
+  ball4.castShadow = true;
+  scene.add(ball4);
+
+  ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball5.position.x = - 10;
+  ball5.position.y = 5;
+  ball5.position.z = 100;
+  ball5.castShadow = true;
+  scene.add(ball5);
+
+  ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball6.position.x = - 70;
+  ball6.position.y = 5;
+  ball6.position.z = 80;
+  ball6.castShadow = true;
+  scene.add(ball6);
+
+  ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball7.position.x = - 70;
+  ball7.position.y = 5;
+  ball7.position.z = - 100;
+  ball7.castShadow = true;
+  scene.add(ball7);
+
+  ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball8.position.x = - 70;
+  ball8.position.y = 5;
+  ball8.position.z = - 100;
+  ball8.castShadow = true;
+  scene.add(ball8);
+  //ball.receiveShadow = true;
+
   /* AmbientLight
   --------------------------------------*/
-  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
-  scene.add(ambientLight);
+  // const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
+  // scene.add(ambientLight);
+  // camera.add(ambientLight);
+
+  // const pointLight = new THREE.PointLight(0x999999); //0x999999
+  // pointLight.position.set(1, 1, 2);
+  // camera.add(pointLight);
 
   /* SpotLight
-  --------------------------------------*/
+  // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
   spotLight.intensity = 0.8;
   spotLight.position.set(- 10, 40, 20);
@@ -135,12 +189,26 @@ const createScene = () => {
   spotLight.castShadow = true;
   scene.add(spotLight);
 
+  // camera.add(spotLight);
+
 
   //orbitcontrols;
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.minDistance = 20;
   controls.maxDistance = 500;
   controls.enablePan = true;
+
+  // new TWEEN.Tween(lambertMaterial)
+  //     .to({opacity: 0.0}, 1000)
+  //     .start();
+
+  // new TWEEN.Tween(camera.position)
+  //     .to({x: 0, y: 0, z: 400}, 10000)
+  //     .start();
+
+  console.log(lambertMaterial);
+
+
 
 };
 
@@ -222,7 +290,8 @@ const createParticles = () => {
   scene.add(particleCloud);
 };
 
-const animate = () => {
+const animate = time => {
+  TWEEN.update(time);
 
   requestAnimationFrame(animate);
   render();

@@ -105,7 +105,7 @@ const handlePrevious = e => {
 
 const handleAge = () => {
   ageValue.innerHTML = ageInput.value;
-}
+};
 
 const readJson = data => {
   story = data.eicel;
