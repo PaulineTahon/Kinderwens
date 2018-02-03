@@ -4,7 +4,6 @@ html {
 }
 
 body {
-  background-image: url(../assets/img/bgRainbow.png);
   background-size: cover;
   font-family: futura;
   width: 100%;
@@ -25,9 +24,10 @@ body {
 }
 
 .eicel {
+  display: none;
   overflow: hidden;
   position: fixed;
-  background-image: url(../assets/img/rainbow.png);
+  /*background-image: url(../assets/img/rainbow.png);*/
   background-size: cover;
   top: 0;
   width: 100vw;
@@ -56,8 +56,9 @@ body {
 }
 
 .buttons {
+  display: none;
   margin: 0 auto;
-  display: flex;
+  /*display: flex;*/
   width: 50vw;
   justify-content: space-between;
 

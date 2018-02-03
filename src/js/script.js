@@ -6,12 +6,12 @@ let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
-// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
+scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
 
 const spheres = [];
-
-//let uniforms;
-//let startTime;
+//
+// let uniforms;
+// let startTime;
 //const index = 0;
 let textureCube;
 
@@ -37,6 +37,7 @@ const noise = new OpenSimplexNoise();
 
 const init = () => {
   //startTime = Date.now();
+  createTerrain();
   createScene();
   initPostprocessing();
 //  createLights();
@@ -51,6 +52,34 @@ const init = () => {
   console.log(particleCloud);
   //document.addEventListener(`click`, handleClick);
   window.addEventListener(`resize`, onWindowResize, false);
+};
+
+const createTerrain = () => {
+  const terrainSize = 150;
+
+  const geometry = new THREE.Geometry();
+  let vertex;
+  for (let i = 0;i < terrainSize;i ++) {
+    for (let j = 0;j < terrainSize;j ++) {
+      vertex = new THREE.Vector3();
+      vertex.x = (i - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+      vertex.y = - 155 + Math.random() * 100;
+      vertex.z = (j - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+      geometry.vertices.push(vertex);
+    }
+  }
+
+  const material = new THREE.PointsMaterial({
+    color: 0xffdb8f,
+    size: 5,
+    map: textureLoader.load(`./assets/img/light.png`),
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  });
+  // Добавляем систему частиц на сцену
+  const particles = new THREE.Points(geometry, material);
+
+  scene.add(particles);
 };
 
 const createScene = () => {
@@ -71,8 +100,9 @@ const createScene = () => {
 
   /* Ball
   --------------------------------------*/
-  const icosahedronGeometry = new THREE.IcosahedronGeometry(10, 4);
+  const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
   const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
+  const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
   //const texture = new THREE.TextureLoader().load(`./assets/img/sand.jpg`);
 
   //texture.repeat.set(0.2, 0.2);
@@ -80,10 +110,9 @@ const createScene = () => {
   const lambertMaterial = new THREE.MeshLambertMaterial({
 
     // color: 0xF6318C,
-    // emissive: 0x471764,
+    // emissive: 0x471764, 0xccfffd,
     color: 0xccfffd,
-    emissive: 0x471764,
-    //opacity: 4,
+    emissive: 0x333333,
     wireframe: false,
     //transparent: true
 
@@ -109,10 +138,19 @@ const createScene = () => {
 
   const lambertMaterial2 = new THREE.MeshLambertMaterial({
     color: 0x999999,
-    emissive: 0x471764,
+    emissive: 0x222222,
     wireframe: false,
     transparent: true,
     opacity: 0.0,
+    //map: texture
+  });
+
+  const lambertMaterial3 = new THREE.MeshLambertMaterial({
+    color: 0x999999,
+    emissive: `white`,
+    wireframe: false,
+    transparent: true,
+    opacity: 0.1,
     //map: texture
   });
 
@@ -133,15 +171,16 @@ const createScene = () => {
   ball2.position.y = 3;
   ball2.position.z = 0;
   ball2.castShadow = true;
+  // ball2.scale.multiplyScalar(20);
   scene.add(ball2);
   scene.add(ball);
 
-  ball3 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball3.position.x = - 50;
+  ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
+  ball3.position.x = 0;
   ball3.position.y = 5;
-  ball3.position.z = - 70;
+  ball3.position.z = 0;
   ball3.castShadow = true;
-//  scene.add(ball3);
+  scene.add(ball3);
 
   ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball4.position.x = 60;
@@ -190,7 +229,7 @@ const createScene = () => {
   // scene.add(ambientLight);
   // camera.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(0xff0000, 1, 100);
+  const pointLight = new THREE.PointLight(`white`, 1, 100);
   pointLight.position.set(10, 10, 10);
   scene.add(pointLight);
 
@@ -211,7 +250,7 @@ const createScene = () => {
   //
   /* SpotLight
   // --------------------------------------*/
-  const spotLight = new THREE.SpotLight(`green`); //0xaaaaaaa
+  const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
   spotLight.intensity = 0.8;
   spotLight.position.set(- 10, 40, 20);
   spotLight.lookAt(ball);
@@ -242,7 +281,7 @@ const createScene = () => {
 
 
   new TWEEN.Tween(lambertMaterial2)
-      .to({opacity: .5}, 10000)
+      .to({opacity: .3}, 10000)
       .start();
 
 };
@@ -379,7 +418,7 @@ const createParticles = () => {
     particleGeometry.vertices.push(vertex);
   }
 
-  const material = new THREE.PointsMaterial({size: 10, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true});
+  const material = new THREE.PointsMaterial({size: 7, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true, opacity: .3});
 
   particleCloud = new THREE.Points(particleGeometry, material);
   console.log(particleCloud);
@@ -403,6 +442,7 @@ const render = () => {
   //animateLights();
   makeRoughBall(ball);
   makeRoughBall(ball2);
+  makeRoughBall(ball3);
   animateSpheres();
   animateParticles();
   createLightRays();
@@ -491,7 +531,7 @@ const createLightRays = () => {
 
 const animateParticles = () => {
 
-  const time = Date.now() * 0.0000005;
+  const time = Date.now() * 0.0000007;
 
   for (let i = 0;i < scene.children.length;i ++) {
     const object = scene.children[ i ];
@@ -514,67 +554,35 @@ const animateParticles = () => {
 
 
 const animateSpheres = () => {
-  const timer = 0.00001 * Date.now();
-  //
-  // camera.position.x += (mouseX - camera.position.x) * .05;
-  // camera.position.y += (- mouseY - camera.position.y) * .05;
-  // camera.lookAt(scene.position);
+  const time = 0.00001 * Date.now();
+
   for (let i = 0, il = spheres.length;i < il;i ++) {
     const sphere = spheres[ i ];
-    sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
-    sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
+    // sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
+    // sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
+    sphere.position.x = 200 * Math.cos(time);
+    sphere.position.z = 200 * Math.cos(time) - 100;
   }
 };
 
 const createSpheres = () => {
 
-  const geometry = new THREE.SphereBufferGeometry(6, 32, 16);
+  const geometry = new THREE.SphereBufferGeometry(4, 32, 16);
 
-  const material = new THREE.MeshBasicMaterial({color: 0xffee88, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
+  const material = new THREE.MeshBasicMaterial({color: 0x999999, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
 
   for (let i = 0;i < 30;i ++) {
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = Math.random() * 5000 - 2500;
     mesh.position.y = Math.random() * 5000 - 2500;
-    mesh.position.z = - 100;
-    //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
+    mesh.position.z = Math.random() * 0 - 100;
     scene.add(mesh);
 
     spheres.push(mesh);
 
   }
 };
-
-
-  // const geometry = new THREE.SphereBufferGeometry(100, 32, 16);
-  //
-  // const texture = new THREE.TextureLoader()
-  //   .load(`assets/img/sand.jpg`);
-  //
-  // texture.mapping = THREE.RefractionMapping;
-  //
-  // const material = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: texture, refractionRatio: 0.95});
-  //
-  // for (let i = 0;i < 500;i ++) {
-  //
-  //   const mesh = new THREE.Mesh(geometry, material);
-  //   mesh.position.x = Math.random() * 10000 - 5000;
-  //   mesh.position.y = Math.random() * 10000 - 5000;
-  //   mesh.position.z = Math.random() * 10000 - 5000;
-  //   mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
-  //   scene.add(mesh);
-  //   spheres.push(mesh);
-  // }
-
-//};
-
-// const onDocumentMouseMove = event => {
-//
-//   mouseX = (event.clientX - windowHalfX) * 10;
-//   mouseY = (event.clientY - windowHalfY) * 10;
-//
-// };
 
 const makeRoughBall = mesh => {
   mesh.geometry.vertices.forEach(function(vertex) {
@@ -594,12 +602,6 @@ const makeRoughBall = mesh => {
   mesh.geometry.computeVertexNormals();
   mesh.geometry.computeFaceNormals();
 };
-
-// const onWindowResize = () => {
-//   camera.aspect = window.innerWidth / window.innerHeight;
-//   camera.updateProjectionMatrix();
-//   renderer.setSize(window.innerWidth, window.innerHeight);
-// };
 
 const onWindowResize = () => {
   camera.aspect = window.innerWidth / window.innerHeight;
