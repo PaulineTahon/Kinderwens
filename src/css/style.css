@@ -4,7 +4,8 @@ html {
 }
 
 body {
-  background-color: #3a3d46;
+  background-image: url(../assets/img/bgRainbow.png);
+  background-size: cover;
   font-family: futura;
   width: 100%;
   height: 100%;
@@ -19,9 +20,15 @@ body {
   padding: 0;
 }
 
-.eicel {
+.storyIndex {
   display: none;
+}
+
+.eicel {
+  overflow: hidden;
   position: fixed;
+  background-image: url(../assets/img/rainbow.png);
+  background-size: cover;
   top: 0;
   width: 100vw;
   height: 100vh;
@@ -37,12 +44,14 @@ body {
   &_stage_text {
     margin: 0 auto;
     display: flex;
+    font-size: 2.4rem;
     justify-content: center;
     align-items: center;
     height: 75vh;
-    width: 32rem;
+    width: 25rem;
     line-height: 3rem;
-    padding-right: 15rem;
+    padding-right: 30rem;
+    color: #b1a8cb;
   }
 }
 

@@ -13,7 +13,7 @@ const nextButton = document.querySelector(`.buttons_next`);
 const previousButton = document.querySelector(`.buttons_previous`);
 
 const risks = document.querySelector(`.eicel_stage_risks`);
-const info = document.querySelector(`.eicel_stage_info`);
+const info = document.querySelector(`.eicel_stage_actions`);
 
 let currentAge;
 const stages = [
