@@ -298,18 +298,28 @@ const createParticles = () => {
   const textureLoader = new THREE.TextureLoader();
   const lightImg = textureLoader.load(`./assets/img/light.png`);
 
-  for (let i = 0;i < 100;i ++) {
+  for (let i = 0;i < 50;i ++) {
     const vertex = new THREE.Vector3();
     vertex.x = Math.random() * 200 - 100;
     vertex.y = Math.random() * 200 - 100;
     vertex.z = Math.random() * 200 - 100;
+
+    vertex.direction = {
+      x: Math.random(),
+      y: Math.random()
+    };
+
     particleGeometry.vertices.push(vertex);
   }
 
-  const material = new THREE.PointsMaterial({size: 5, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true});
+  const material = new THREE.PointsMaterial({size: 10, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true});
 
   particleCloud = new THREE.Points(particleGeometry, material);
   console.log(particleCloud);
+
+  particleCloud.rotation.x = Math.random() * 6;
+  particleCloud.rotation.y = Math.random() * 6;
+  particleCloud.rotation.z = Math.random() * 6;
 
   scene.add(particleCloud);
 };
@@ -326,7 +336,7 @@ const render = () => {
   makeRoughBall(ball);
   makeRoughBall(ball2);
   animateSpheres();
-  //animateParticles();
+  animateParticles();
   const currentTime = Date.now();
 
   uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0001;
@@ -335,19 +345,18 @@ const render = () => {
 
 };
 
-// let index = 0;
-//
-// const animateParticles = () => {
-//   for (let x = 0;x < window.innerWidth;x ++) {
-//     for (let z = 0;z < window.innerHeight;z ++) {
-//       //particleCloud.geometry.vertices[index].y ++;
-//       index ++;
-//       //particleCloud.geometry.vertices[index].y = (Math.cos((ix / window.innerWidth * Math.PI * 8)) + Math.sin((iz / window.innerHeight * Math.PI * 8)));
-//     }
-//   }
-//
-//   particleCloud.geometry.verticesNeedUpdate = true;
-// };
+const animateParticles = () => {
+
+  const time = Date.now() * 0.0000005;
+
+  for (let i = 0;i < scene.children.length;i ++) {
+    const object = scene.children[ i ];
+    if (object instanceof THREE.Points) {
+      object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+    }
+  }
+  particleCloud.geometry.verticesNeedUpdate = true;
+};
 
 // const animateLights = () => {
 //   const time = Date.now() * 0.0005;

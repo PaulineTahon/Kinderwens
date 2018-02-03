@@ -196,10 +196,7 @@ const countAgeDown = () => {
 
 const handleAge = () => {
   ageValue.innerHTML = ageInput.value;
-<<<<<<< HEAD
   currentAge = ageInput.value;
-=======
->>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 };
 
 const readJson = data => {
