@@ -76,6 +76,10 @@
     <canvas id="c" class="c" width="1400" height="700"></canvas>
     <div class="eicel">
       <h1 class="eicel_stage_text"></h1>
+      <div>
+        <ul class="eicel_stage_risks"></ul>
+        <ul class="eicel_stage_actions"></ul>
+      </div>
       <div class="user_age">
         <p class="user_age_input_value"></p>
         <input class="user_age_input" type="range" min="0" max="100" oninput="handleAge(this.value)" onchange="handleAge(this.value)"></p>
@@ -89,9 +93,21 @@
         <p class="eicel_stage_stats_count"></p>
       </div>
     </div>
+    <div class="risks">
+      <h2 class="risks_title"></h2>
+      <img class="risks_img" src="" alt="">
+      <p class="risks_text"></p>
+    </div>
+    <div class="info">
+      <h2 class="info_title"></h2>
+      <img class="info_img" src="" alt="">
+      <p class="info_text"></p>
+    </div>
+
     <script src="js/three.min.js"></script>
+    <script src="js/storyScript.js"></script>
     <script src="js/script.js"></script>
-      <script src="js/storyScript.js"></script>
+    <script src="js/tween.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
 
 		</script>

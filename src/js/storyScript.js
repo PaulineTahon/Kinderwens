@@ -12,6 +12,20 @@ const ageValue = document.querySelector(`.user_age_input_value`);
 const nextButton = document.querySelector(`.buttons_next`);
 const previousButton = document.querySelector(`.buttons_previous`);
 
+const risks = document.querySelector(`.eicel_stage_risks`);
+const info = document.querySelector(`.eicel_stage_info`);
+
+let currentAge;
+const stages = [
+  {age: 0, index: 3},
+  {age: 15, index: 4},
+  {age: 20, index: 5},
+  {age: 30, index: 6},
+  {age: 35, index: 7},
+  {age: 40, index: 8},
+  {age: 50, index: 9}
+];
+
 const indexStory = () => {
   loadJson();
   previousButton.style.display = `none`;
@@ -60,12 +74,61 @@ const handleNext = e => {
     innerIndex ++;
   } else {
     innerIndex = 0;
-    storyIndex ++;
+    if (storyIndex === 2) {
+      //START STORY ON CURRENT AGE
+      for (let i = 0;i < stages.length;i ++) {
+        console.log(parseInt(stages[i].age), currentAge);
+        if (parseInt(currentAge) <= stages[i].age) {
+          console.log(`ja`, stages[i].age);
+          storyIndex = stages[i - 1].index;
+          text.innerHTML = story[storyIndex].text;
+          return;
+        } else {
+          storyIndex = 9;
+        }
+      }
+    } else {
+      storyIndex ++;
+    }
     text.innerHTML = story[storyIndex].text;
     if (story[storyIndex].age) {
       age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
-      eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
+      if (story[storyIndex - 1].eggCount) {
+        countAgeDown();
+      } else {
+        eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
+      }
     }
+  }
+
+  while (risks.firstChild) {
+    risks.removeChild(risks.firstChild);
+  }
+
+  if (story[storyIndex].info) {
+    risks.innerHTML = `risico's`;
+    info.innerHTML = `wat kan ik doen?`;
+
+    // const woman =  story[storyIndex].info.risks[2].woman[1];
+    // const child =  story[storyIndex].info.risks[1].child[1];
+    // console.log(woman);
+
+    // for (let i = 0;i < woman.risks.length;i ++) {
+    //   const risk = document.createElement(`li`);
+    //   risk.className = `eicel_stage_risks_risk`;
+    //   risk.innerHTML = woman.risks[i].title;
+    //   console.log(risk);
+    //   risks.appendChild(risk);
+    // }
+    //
+    // for (let i = 0;i < child.risks.length;i ++) {
+    //   const risk = document.createElement(`li`);
+    //   risk.className = `eicel_stage_risks_risk`;
+    //   risk.innerHTML = child.risks[i].title;
+    //   console.log(risk);
+    //   risks.appendChild(risk);
+    // }
+
   }
 
   if (storyIndex === 1) {
@@ -74,6 +137,12 @@ const handleNext = e => {
     ageInput.addEventListener(`change`, handleAge);
   } else {
     userAge.style.display = `none`;
+  }
+
+  if (storyIndex === 2) {
+    console.log(`options`);
+    previousButton.innerHTML = story[storyIndex].options.start;
+    nextButton.innerHTML = story[storyIndex].options.now;
   }
 
   console.log(`ja`, storyIndex, innerIndex);
@@ -94,7 +163,13 @@ const handlePrevious = e => {
     innerIndex --;
   } else {
     innerIndex = 0;
-    storyIndex --;
+    if (storyIndex === 2) {
+      storyIndex ++;
+      previousButton.innerHTML = `vorige`;
+      nextButton.innerHTML = `volgende`;
+    } else {
+      storyIndex --;
+    }
     text.innerHTML = story[storyIndex].text;
     if (story[storyIndex].age) {
       age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
@@ -103,9 +178,26 @@ const handlePrevious = e => {
   }
 };
 
+const countAgeDown = () => {
+  console.log(story[storyIndex - 1].eggCount, story[storyIndex].eggCount);
+  let eggsLeft = story[storyIndex - 1].eggCount;
+  const eggTimer = setInterval(() => {
+    if (story[storyIndex].eggCount >= 50000) {
+      eggsLeft -= 10000;
+    } else {
+      eggsLeft -= 1000;
+    }
+    eggCount.innerHTML = `aantal eicellen: ${eggsLeft}`;
+    if (eggsLeft === story[storyIndex].eggCount || eggsLeft === 0) {
+      clearInterval(eggTimer);
+    }
+  }, 10);
+};
+
 const handleAge = () => {
   ageValue.innerHTML = ageInput.value;
-}
+  currentAge = ageInput.value;
+};
 
 const readJson = data => {
   story = data.eicel;

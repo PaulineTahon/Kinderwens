@@ -1,10 +1,12 @@
 import OpenSimplexNoise from 'open-simplex-noise';
 
-let ball, ball2;
+
+let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
+// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
 
 const spheres = [];
 
@@ -15,20 +17,18 @@ let textureCube;
 
 let particleCloud;
 let particleGeometry;
-const separation = 50;
 
 /* vars light --------------------------------------*/
-let bulbLight, bulbLight2;
+//et bulbLight, bulbLight2;
 
 
 const noise = new OpenSimplexNoise();
 
 const init = () => {
-
   startTime = Date.now();
 
   createScene();
-  createLights();
+//  createLights();
   createAudio();
   createSpheres();
   createBackground();
@@ -67,11 +67,13 @@ const createScene = () => {
   //texture.repeat.set(0.2, 0.2);
 
   const lambertMaterial = new THREE.MeshLambertMaterial({
-    color: `green`,
-    emissive: `red`,
-    refractionRatio: 0.985,
-    transparent: true,
-    //map: texture
+    // color: 0xF6318C,
+    // emissive: 0x471764,
+    color: 0xccfffd,
+    emissive: 0x471764,
+    opacity: 4,
+    wireframe: false,
+    transparent: true
   });
 
   // const shaderMaterial = new THREE.RawShaderMaterial({
@@ -93,11 +95,11 @@ const createScene = () => {
 //  const phongMaterial = new THREE.MeshPhongMaterial({color: 0xccfffd, envMap: textureCube, refractionRatio: 0.985, transparent: true, opacity: 0.3});
 
   const lambertMaterial2 = new THREE.MeshLambertMaterial({
-    color: 0xccfffd,
+    color: 0x999999,
     emissive: 0x471764,
     wireframe: false,
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.0,
     //map: texture
   });
 
@@ -118,22 +120,88 @@ const createScene = () => {
   ball2.position.y = 3;
   ball2.position.z = 0;
   ball2.castShadow = true;
-  //scene.add(ball2);
+  scene.add(ball2);
   scene.add(ball);
+
+  ball3 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball3.position.x = - 50;
+  ball3.position.y = 5;
+  ball3.position.z = - 70;
+  ball3.castShadow = true;
+//  scene.add(ball3);
+
+  ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball4.position.x = 60;
+  ball4.position.y = - 20;
+  ball4.position.z = - 60;
+  ball4.castShadow = true;
+//  scene.add(ball4);
+
+  ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball5.position.x = - 10;
+  ball5.position.y = 5;
+  ball5.position.z = 100;
+  ball5.castShadow = true;
+//  scene.add(ball5);
+
+  ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball6.position.x = - 70;
+  ball6.position.y = 5;
+  ball6.position.z = 80;
+  ball6.castShadow = true;
+//  scene.add(ball6);
+
+  ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball7.position.x = - 70;
+  ball7.position.y = 5;
+  ball7.position.z = - 100;
+  ball7.castShadow = true;
+  //scene.add(ball7);
+
+  ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball8.position.x = - 70;
+  ball8.position.y = 5;
+  ball8.position.z = - 100;
+  ball8.castShadow = true;
+//  scene.add(ball8);
+  //ball.receiveShadow = true;
 
   /* AmbientLight
   --------------------------------------*/
-  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
-  scene.add(ambientLight);
+  // const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
+  // scene.add(ambientLight);
+  // camera.add(ambientLight);
 
+
+  const pointLight = new THREE.PointLight(0xff0000, 1, 100);
+  pointLight.position.set(10, 10, 10);
+  scene.add(pointLight);
+
+  // const sphereSize = 1;
+  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+  // scene.add(pointLightHelper);
+  //
+  // const pointLight = new THREE.PointLight(0x999999); //0x999999
+  // pointLight.position.set(0, 0, 10);
+  // camera.add(pointLight);
+  //
+  // const sphereSize = 1;
+  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+  // scene.add(pointLightHelper);
+
+
+  console.log(ball.material);
+  //
   /* SpotLight
-  --------------------------------------*/
-  const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
+  // --------------------------------------*/
+  const spotLight = new THREE.SpotLight(0xccfffd); //0xaaaaaaa
   spotLight.intensity = 0.8;
   spotLight.position.set(- 10, 40, 20);
   spotLight.lookAt(ball);
   spotLight.castShadow = true;
   scene.add(spotLight);
+
+  // camera.add(spotLight);
 
 
   //orbitcontrols;
@@ -142,41 +210,56 @@ const createScene = () => {
   controls.maxDistance = 500;
   controls.enablePan = true;
 
-};
+  // new TWEEN.Tween(camera.position)
+  //     .to({x: 0, y: 0, z: 400}, 10000)
+  //     .start();
 
-const createLights = () => {
+  //RIJPE EICEL
+
+  new TWEEN.Tween(lambertMaterial)
+      .to({opacity: .9}, 10000)
+      .start();
 
 
-  /* Light1
-  --------------------------------------*/
-  const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
-  bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
-  const bulbMat = new THREE.MeshStandardMaterial({
-    emissive: 0xffffee,
-    emissiveIntensity: 1,
-    color: 0x000000
-  });
-
-  bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
-  bulbLight.position.set(10, 10, 10);
-  bulbLight.castShadow = true;
-  scene.add(bulbLight);
-
-  /* Light2
-  --------------------------------------*/
-
-  bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
-  const bulbMat2 = new THREE.MeshStandardMaterial({
-    emissive: 0xffffee,
-    emissiveIntensity: 1,
-    color: 0x000000
-  });
-  bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
-  bulbLight2.position.set(10, 10, 10);
-  bulbLight2.castShadow = true;
-  scene.add(bulbLight2);
+  new TWEEN.Tween(lambertMaterial2)
+      .to({opacity: .5}, 10000)
+      .start();
 
 };
+
+// const createLights = () => {
+//
+//
+//   /* Light1
+//   --------------------------------------*/
+//   const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
+//   bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   const bulbMat = new THREE.MeshStandardMaterial({
+//     emissive: 0xffffee,
+//     emissiveIntensity: 1,
+//     color: 0x000000
+//   });
+//
+//   bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+//   bulbLight.position.set(10, 10, 10);
+//   bulbLight.castShadow = true;
+//   scene.add(bulbLight);
+//
+//   /* Light2
+//   --------------------------------------*/
+//
+//   bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   const bulbMat2 = new THREE.MeshStandardMaterial({
+//     emissive: 0xffffee,
+//     emissiveIntensity: 1,
+//     color: 0x000000
+//   });
+//   bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
+//   bulbLight2.position.set(10, 10, 10);
+//   bulbLight2.castShadow = true;
+//   scene.add(bulbLight2);
+//
+// };
 
 const createAudio = () => {
   const audio = document.querySelector(`.audio`);
@@ -206,34 +289,39 @@ const createBackground = () => {
 
 const createParticles = () => {
   particleGeometry = new THREE.Geometry();
-  const material = new THREE.MeshBasicMaterial({color: `green`});
 
-  for (let ix = 0;ix < this.WIDTH;ix ++) {
-    for (let iz = 0;iz < this.HEIGHT;iz ++) {
-      const vert = new THREE.Vector3();
-      vert.x = ix * separation - ((window.innerWidth * separation) / 2);
-      vert.y = (Math.cos((ix / window.innerWidth) * Math.PI * 6) + Math.sin((iz / window.innerHeight) * Math.PI * 6));
-      vert.z = iz * separation - ((window.innerHeight * separation) / 2);
-      particleGeometry.vertices.push(vert);
-    }
+  const textureLoader = new THREE.TextureLoader();
+  const lightImg = textureLoader.load(`./assets/img/light.png`);
+
+  for (let i = 0;i < 100;i ++) {
+    const vertex = new THREE.Vector3();
+    vertex.x = Math.random() * 200 - 100;
+    vertex.y = Math.random() * 200 - 100;
+    vertex.z = Math.random() * 200 - 100;
+    particleGeometry.vertices.push(vertex);
   }
 
+  const material = new THREE.PointsMaterial({size: 5, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true});
+
   particleCloud = new THREE.Points(particleGeometry, material);
+  console.log(particleCloud);
+
   scene.add(particleCloud);
 };
 
-const animate = () => {
+const animate = time => {
+  TWEEN.update(time);
 
   requestAnimationFrame(animate);
   render();
 };
 
 const render = () => {
-  animateLights();
+  //animateLights();
   makeRoughBall(ball);
   makeRoughBall(ball2);
   animateSpheres();
-//animateParticles();
+  //animateParticles();
   const currentTime = Date.now();
 
   uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0001;
@@ -242,26 +330,29 @@ const render = () => {
 
 };
 
+// let index = 0;
+//
 // const animateParticles = () => {
-//   for (let ix = 0;ix < window.innerWidth;ix ++) {
-//     for (let iz = 0;iz < window.innerHeight;iz ++) {
-//       particleCloud.geometry.vertices[index].y = (Math.cos((ix / window.innerWidth * Math.PI * 8)) + Math.sin((iz / window.innerHeight * Math.PI * 8)));
+//   for (let x = 0;x < window.innerWidth;x ++) {
+//     for (let z = 0;z < window.innerHeight;z ++) {
+//       //particleCloud.geometry.vertices[index].y ++;
 //       index ++;
+//       //particleCloud.geometry.vertices[index].y = (Math.cos((ix / window.innerWidth * Math.PI * 8)) + Math.sin((iz / window.innerHeight * Math.PI * 8)));
 //     }
 //   }
 //
 //   particleCloud.geometry.verticesNeedUpdate = true;
 // };
 
-const animateLights = () => {
-  const time = Date.now() * 0.0005;
-  bulbLight.position.x = Math.sin(time * 0.7) * 20;
-  bulbLight.position.y = Math.cos(time * 0.5) * 10;
-
-
-  bulbLight2.position.x = Math.sin(time * 0.5) * 20;
-  bulbLight2.position.y = Math.cos(time * 0.3) * 10;
-};
+// const animateLights = () => {
+//   const time = Date.now() * 0.0005;
+//   bulbLight.position.x = Math.sin(time * 0.7) * 20;
+//   bulbLight.position.y = Math.cos(time * 0.5) * 10;
+//
+//
+//   bulbLight2.position.x = Math.sin(time * 0.5) * 20;
+//   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
+// };
 
 
 const animateSpheres = () => {
