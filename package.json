@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "color-tween": "^0.1.1",
-    "es6-tween": "^4.1.0",
+    "es6-tween": "^5.1.0",
     "open-simplex-noise": "^1.4.1"
   }
 }

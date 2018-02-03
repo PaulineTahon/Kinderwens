@@ -1,6 +1,9 @@
 import OpenSimplexNoise from 'open-simplex-noise';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
 let camera;
 const canvas = document.getElementById(`c`);
@@ -67,6 +70,7 @@ const createScene = () => {
   //texture.repeat.set(0.2, 0.2);
 
   const lambertMaterial = new THREE.MeshLambertMaterial({
+<<<<<<< HEAD
     // color: 0xF6318C,
     // emissive: 0x471764,
     color: 0xccfffd,
@@ -74,6 +78,18 @@ const createScene = () => {
     opacity: 4,
     wireframe: false,
     transparent: true
+=======
+    color: 0xF6318C,
+    emissive: 0x471764,
+    opacity: 4,
+    wireframe: false,
+    // color: `green`,
+    // emissive: `red`,
+    // refractionRatio: 0.985,
+    transparent: true
+    // opacity: 1
+    //map: texture
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
   });
 
   // const shaderMaterial = new THREE.RawShaderMaterial({
@@ -128,42 +144,66 @@ const createScene = () => {
   ball3.position.y = 5;
   ball3.position.z = - 70;
   ball3.castShadow = true;
+<<<<<<< HEAD
 //  scene.add(ball3);
+=======
+  scene.add(ball3);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball4.position.x = 60;
   ball4.position.y = - 20;
   ball4.position.z = - 60;
   ball4.castShadow = true;
+<<<<<<< HEAD
 //  scene.add(ball4);
+=======
+  scene.add(ball4);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball5.position.x = - 10;
   ball5.position.y = 5;
   ball5.position.z = 100;
   ball5.castShadow = true;
+<<<<<<< HEAD
 //  scene.add(ball5);
+=======
+  scene.add(ball5);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball6.position.x = - 70;
   ball6.position.y = 5;
   ball6.position.z = 80;
   ball6.castShadow = true;
+<<<<<<< HEAD
 //  scene.add(ball6);
+=======
+  scene.add(ball6);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball7.position.x = - 70;
   ball7.position.y = 5;
   ball7.position.z = - 100;
   ball7.castShadow = true;
+<<<<<<< HEAD
   //scene.add(ball7);
+=======
+  scene.add(ball7);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball8.position.x = - 70;
   ball8.position.y = 5;
   ball8.position.z = - 100;
   ball8.castShadow = true;
+<<<<<<< HEAD
 //  scene.add(ball8);
+=======
+  scene.add(ball8);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
   //ball.receiveShadow = true;
 
   /* AmbientLight
@@ -172,10 +212,16 @@ const createScene = () => {
   // scene.add(ambientLight);
   // camera.add(ambientLight);
 
+<<<<<<< HEAD
 
   const pointLight = new THREE.PointLight(0xff0000, 1, 100);
   pointLight.position.set(10, 10, 10);
   scene.add(pointLight);
+=======
+  // const pointLight = new THREE.PointLight(0x999999); //0x999999
+  // pointLight.position.set(1, 1, 2);
+  // camera.add(pointLight);
+>>>>>>> a92f1c68370984c5bfb449f505c5508daf9a462f
 
   // const sphereSize = 1;
   // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
