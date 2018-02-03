@@ -5,7 +5,7 @@ let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
-// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
+scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
 
 const spheres = [];
 
@@ -205,6 +205,12 @@ const createScene = () => {
   // new TWEEN.Tween(camera.position)
   //     .to({x: 0, y: 0, z: 400}, 10000)
   //     .start();
+
+  new TWEEN.Tween(spotLight.position)
+      .to({x: 0, y: 0, z: 400}, 10000)
+      .start();
+
+
 
   console.log(lambertMaterial);
 
