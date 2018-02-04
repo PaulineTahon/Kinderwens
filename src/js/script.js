@@ -1,18 +1,16 @@
 import OpenSimplexNoise from 'open-simplex-noise';
-//import storyIndex from './storyScript';
 
-let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
 
+let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
+const blobSpeed = 0.0007;
+
 const spheres = [];
-//
-// let uniforms;
-// let startTime;
-//const index = 0;
+
 let textureCube;
 
 let particleCloud;
@@ -24,14 +22,12 @@ let materialDepth;
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
-
 const postprocessing = {enabled: true};
 const bgColor = `black`;
 const sunColor = 0xffee00;
 
 /* vars light --------------------------------------*/
-//et bulbLight, bulbLight2;
-
+//let bulbLight, bulbLight2;
 
 const noise = new OpenSimplexNoise();
 
@@ -39,11 +35,13 @@ const init = () => {
   //startTime = Date.now();
   createTerrain();
   createScene();
+  createIce();
   initPostprocessing();
-//  createLights();
+
+  //createLights();
   createAudio();
   createSpheres();
-//  createBackground();
+  //createBackground();
   createParticles();
   onWindowResize();
 
@@ -225,40 +223,26 @@ const createScene = () => {
 
   /* AmbientLight
   --------------------------------------*/
-  // const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
-  // scene.add(ambientLight);
-  // camera.add(ambientLight);
+  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
+  scene.add(ambientLight);
+  camera.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(`white`, 1, 100);
+  const pointLight = new THREE.PointLight(0xccfffd, 1, 100);
   pointLight.position.set(10, 10, 10);
   scene.add(pointLight);
 
-  // const sphereSize = 1;
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
-  // scene.add(pointLightHelper);
-  //
   // const pointLight = new THREE.PointLight(0x999999); //0x999999
   // pointLight.position.set(0, 0, 10);
   // camera.add(pointLight);
-  //
-  // const sphereSize = 1;
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
-  // scene.add(pointLightHelper);
 
-
-  console.log(ball.material);
-  //
   /* SpotLight
   // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
-  spotLight.intensity = 0.8;
+  spotLight.intensity = 0.1;
   spotLight.position.set(- 10, 40, 20);
   spotLight.lookAt(ball);
   spotLight.castShadow = true;
   scene.add(spotLight);
-
-  // camera.add(spotLight);
-
 
   //orbitcontrols;
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -339,14 +323,13 @@ const initPostprocessing = () => {
 
 // const createLights = () => {
 //
-//
 //   /* Light1
 //   --------------------------------------*/
 //   const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
-//   bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   bulbLight = new THREE.PointLight(0x471764, 1, 100, 2);
 //   const bulbMat = new THREE.MeshStandardMaterial({
-//     emissive: 0xffffee,
-//     emissiveIntensity: 1,
+//     emissive: 0x471764,
+//     emissiveIntensity: .1,
 //     color: 0x000000
 //   });
 //
@@ -358,10 +341,10 @@ const initPostprocessing = () => {
 //   /* Light2
 //   --------------------------------------*/
 //
-//   bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   bulbLight2 = new THREE.PointLight(0x471764, 1, 100, 2);
 //   const bulbMat2 = new THREE.MeshStandardMaterial({
-//     emissive: 0xffffee,
-//     emissiveIntensity: 1,
+//     emissive: 0x471764,
+//     emissiveIntensity: .1,
 //     color: 0x000000
 //   });
 //   bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
@@ -397,6 +380,62 @@ const createAudio = () => {
 //   mesh.position.z = - 120;
 //   scene.add(mesh);
 //
+// };
+
+const createIce = () => {
+  const geometry = new THREE.DodecahedronGeometry(12.5, 1);
+  const material = new THREE.MeshLambertMaterial({
+    // uniforms: {
+    //   time: {value: 1.0}
+    // },
+    // vertexShader: document.getElementById(`vertexShader2`).textContent,
+    // fragmentShader: document.getElementById(`fragmentShader2`).textContent,
+    // side: THREE.DoubleSide,
+    // transparent: true,
+    color: 0x007a87,
+    emissice: `white`,
+    transparent: true,
+    opacity: .7
+  });
+
+  const iceShard = new THREE.Mesh(geometry, material);
+  iceShard.position.y = 5;
+  scene.add(iceShard);
+};
+
+// const createIce = () => {
+//   const triangles = 50;
+//   const geometry = new THREE.BufferGeometry();
+//   const positions = [];
+//   const colors = [];
+//   for (let i = 0;i < triangles;i ++) {
+//     positions.push(Math.random() - 0.5);
+//     positions.push(Math.random() - 0.5);
+//     positions.push(Math.random() - 0.5) + 100;
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//   }
+//   const positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
+//   const colorAttribute = new THREE.Uint8BufferAttribute(colors, 4);
+//   colorAttribute.normalized = true;
+//   geometry.addAttribute(`position`, positionAttribute);
+//   geometry.addAttribute(`color`, colorAttribute);
+// 				// material
+//   const material = new THREE.RawShaderMaterial({
+//     uniforms: {
+//       time: {value: 1.0}
+//     },
+//     vertexShader: document.getElementById(`vertexShader2`).textContent,
+//     fragmentShader: document.getElementById(`fragmentShader2`).textContent,
+//     side: THREE.DoubleSide,
+//     transparent: true
+//   });
+//   const iceShard = new THREE.Mesh(geometry, material);
+//   iceShard.scale.multiplyScalar(30);
+//
+//   scene.add(iceShard);
 // };
 
 const createParticles = () => {
@@ -445,11 +484,23 @@ const render = () => {
   makeRoughBall(ball3);
   animateSpheres();
   animateParticles();
+  //updateIceMaterial();
   createLightRays();
   //const currentTime = Date.now();
 
 //  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
 };
+
+// const updateIceMaterial = () => {
+//   //const time = Date.now();
+//   for (let i = 0;i < scene.children.length;i ++) {
+//     const object = scene.children[ i ];
+//
+//     }
+//     //  object.material.uniforms.time.value = time * 0.005;
+//   //  }
+//   }
+// };
 
 const createLightRays = () => {
   // const time = Date.now() / 4000;
@@ -547,11 +598,9 @@ const animateParticles = () => {
 //   bulbLight.position.x = Math.sin(time * 0.7) * 20;
 //   bulbLight.position.y = Math.cos(time * 0.5) * 10;
 //
-//
 //   bulbLight2.position.x = Math.sin(time * 0.5) * 20;
 //   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
 // };
-
 
 const animateSpheres = () => {
   const time = 0.00001 * Date.now();
@@ -587,13 +636,13 @@ const createSpheres = () => {
 const makeRoughBall = mesh => {
   mesh.geometry.vertices.forEach(function(vertex) {
     const offset = mesh.geometry.parameters.radius;
-    // const amp = guiControls.amp;
+
     const time = Date.now();
     vertex.normalize();
     const distance = offset + noise.noise3D(
-        vertex.x + time / 2 * 0.0007,
-        vertex.y + time / 2 * 0.0008,
-        vertex.z + time / 2 * 0.0009
+        vertex.x + time / 2 * blobSpeed,
+        vertex.y + time / 2 * (blobSpeed * 1.1),
+        vertex.z + time / 2 * (blobSpeed * 1.2)
     ) * 2;
     vertex.multiplyScalar(distance);
   });

@@ -42,6 +42,7 @@ body {
   }
 
   &_stage_text {
+    visibility: hidden;
     margin: 0 auto;
     display: flex;
     font-size: 2.4rem;
@@ -51,27 +52,35 @@ body {
     width: 25rem;
     line-height: 3rem;
     padding-right: 30rem;
+    /*color: #9d6b83;*/
     color: #b1a8cb;
   }
 }
 
 .buttons {
-  display: none;
   margin: 0 auto;
   /*display: flex;*/
-  width: 50vw;
   justify-content: space-between;
 
   &_next {
-    margin: 0 auto;
     display: flex;
     justify-content: center;
-    width: 15rem;
-    padding: 1rem;
-    border-radius: 5rem;
-    font-size: 1.6rem;
-    background-color: pink;
-    font-family: futura;
+    align-items: center;
+    margin-top: -7rem;
+    cursor: pointer;
+
+    &_text {
+      position: absolute;
+      margin: 0 auto;
+      color: white;
+    }
+
+    &_bg {
+      position: absolute;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
   }
 
   &_previous {
@@ -82,7 +91,7 @@ body {
     padding: 1rem;
     border-radius: 5rem;
     font-size: 1.6rem;
-    background-color: pink;
+    background-color: #9d6b83;
     font-family: futura;
   }
 }
@@ -103,6 +112,7 @@ body {
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 }
 
@@ -110,4 +120,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.organic-blob {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.2);
+  top: 0;
+  cursor: pointer;
+}
+
+.organic-blob2 {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.3);
+  top: 0;
+  cursor: pointer;
+}
+
+.organic-blob3 {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.4);
+  top: 0;
+  cursor: pointer;
 }

@@ -75,38 +75,42 @@
          gl_FragColor = vec4(r,g,b,1.0);
         }
     </script>
+    <script id="vertexShader2" type="x-shader/x-vertex">
+
+      precision mediump float;
+      precision mediump int;
+      uniform mat4 modelViewMatrix; // optional
+      uniform mat4 projectionMatrix; // optional
+      attribute vec3 position;
+      attribute vec4 color;
+      varying vec3 vPosition;
+      varying vec4 vColor;
+
+      void main()	{
+        vPosition = position;
+        vColor = color;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+      }
+
+    </script>
     <script id="fragmentShader2" type="x-shader/x-fragment">
 
-      uniform float exposure;
-      uniform float decay;
-      uniform float density;
-      uniform float weight;
-      uniform vec2 lightPositionOnScreen;
-      uniform sampler2D firstPass;
-      const int NUM_SAMPLES = 100 ;
+			precision mediump float;
+			precision mediump int;
+			uniform float time;
+			varying vec3 vPosition;
+			varying vec4 vColor;
 
-      void main()
-      {
-      	vec2 deltaTextCoord = vec2( gl_TexCoord[0].st - lightPositionOnScreen.xy );
-      	vec2 textCoo = gl_TexCoord[0].st;
-      	deltaTextCoord *= 1.0 /  float(NUM_SAMPLES) * density;
-      	float illuminationDecay = 1.0;
+			void main()	{
 
+        float r = 0.0;
+        float g = 0.5;
+        float b = 0.6;
+				//color.g += sin( vPosition.x * 10.0 + time ) * 0.05;
+				gl_FragColor = vec4(r,g,b,.2);
+			}
 
-      	for(int i=0; i < NUM_SAMPLES ; i++)
-          {
-                   textCoo -= deltaTextCoord;
-                   vec4 sample = texture2D(firstPass, textCoo );
-
-                   sample *= illuminationDecay * weight;
-
-                   gl_FragColor += sample;
-
-                   illuminationDecay *= decay;
-           }
-           gl_FragColor *= exposure;
-      }
-    </script>
+		</script>
   </head>
   <body>
     <audio class="audio" src="assets/audio/main_ambiance.mp3" autoplay loop></audio>
@@ -121,10 +125,82 @@
         <p class="user_age_input_value"></p>
         <input class="user_age_input" type="range" min="0" max="100" oninput="handleAge(this.value)" onchange="handleAge(this.value)"></p>
       </div>
-      <div class="buttons">
-        <button class="buttons_previous"></button>
-        <button class="buttons_next">ja</button>
+      <div class="buttons_next">
+        <div class="buttons_next_bg">
+          <svg class="organic-blob" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
+            <defs>
+              <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+              </filter>
+            </defs>
+            <g>
+               <!-- begin="circle1.mouseover" -->
+              <circle id="circle1" r="100" cy="145" cx="150">
+                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+               </circle>
+              <circle r="100" cy="155" cx="150">
+                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+               </circle>
+              <circle r="100" cy="150" cx="145">
+                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+               </circle>
+              <circle r="100" cy="150" cx="155">
+                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+               </circle>
+            </g>
+          </svg>
+          <svg class="organic-blob2" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
+            <defs>
+              <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+              </filter>
+            </defs>
+            <g>
+              <circle r="100" cy="145" cx="150">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="155" cx="150">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="150" cx="145">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="150" cx="155">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+          </svg>
+          <svg class="organic-blob3" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
+            <defs>
+              <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+              </filter>
+            </defs>
+            <g>
+              <circle r="100" cy="145" cx="150">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="155" cx="150">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="150" cx="145">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle r="100" cy="150" cx="155">
+              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+          </svg>
+        </div>
+        <p class="buttons_next_text"></p>
       </div>
+      <div class="buttons_previous"></div>
       <div class="eicel_stage_stats">
         <p class="eicel_stage_stats_age"></p>
         <p class="eicel_stage_stats_count"></p>
