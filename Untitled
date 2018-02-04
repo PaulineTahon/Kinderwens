@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Haley Landon - Programming Assignment 2</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				padding:0;
+				margin:0;
+				font-weight: bold;
+				overflow:hidden;
+			}
+
+		</style>
+	</head>
+	<body>
+
+		<script src="/pa2/build/three.js"></script>
+		<script src="/pa2/js/libs/stats.min.js"></script>
+
+		<script>
+
+			var container, stats;
+
+			var camera, backgroundCamera, scene, backgroundScene, renderer;
+
+			var geometry, geometry2, geometry3, root;
+
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 15000 );
+				camera.position.z = 500;
+
+				scene = new THREE.Scene();
+
+				var light = new THREE.AmbientLight( 0xffffff );
+				light.position.set( 0, 1, 1 ).normalize();
+				scene.add(light);
+
+
+				// Load the background texture
+		         var texture = THREE.ImageUtils.loadTexture( 'images/underwater.jpg' );
+		         var backgroundMesh = new THREE.Mesh(
+		             new THREE.PlaneGeometry(2, 2, 0),
+		             new THREE.MeshBasicMaterial({
+		                 map: texture
+		             }));
+
+		         backgroundMesh .material.depthTest = false;
+		         backgroundMesh .material.depthWrite = false;
+
+		         // Create your background scene
+		         backgroundScene = new THREE.Scene();
+		         backgroundCamera = new THREE.Camera();
+		         backgroundScene .add(backgroundCamera );
+		         backgroundScene .add(backgroundMesh );
+
+
+				var geometry = new THREE.TorusGeometry(50, 5, 100, 100 );
+				var geometry2 = new THREE.SphereGeometry( 500, 60, 100, Math.PI, Math.PI, 3*Math.PI/2);
+				var geometry3 = new THREE.CylinderGeometry( 10, 10, 200, 200 );
+				var material = new THREE.MeshPhongMaterial( { color: 0xffffff, transparent: true, opacity:0.4 } );
+				var material2 = new THREE.MeshPhongMaterial( { color: 0x84d4d6, transparent: true, opacity:0.5 } );
+
+				material.side = THREE.DoubleSide;
+				material2.side = THREE.DoubleSide;
+				root = new THREE.Mesh( geometry, material );
+				root.position.x = 1000;
+				scene.add( root );
+
+				var amount = 30, object, parent = root;
+
+				for ( var i = 0; i < amount-5; i ++ ) {
+
+					object = new THREE.Mesh( geometry, material2 );
+					object.position.x = -20;
+					object.position.y = - 100;
+					parent.add( object );
+					parent = object;
+
+				}
+
+				parent = root;
+
+				for ( var i = 0; i < 1; i ++ ) {
+
+					object = new THREE.Mesh( geometry2, material );
+					object.position.x = - 20;
+					object.position.y = - 150;
+
+					parent.add( object );
+					parent = object;
+
+				}
+
+				parent = root;
+
+				for ( var i = 0; i < amount+15; i ++ ) {
+
+					object = new THREE.Mesh( geometry, material );
+					object.position.y = - 100;
+					object.position.x = 20;
+
+					parent.add( object );
+					parent = object;
+
+				}
+
+				parent = root;
+
+				for ( var i = 0; i < amount-10; i ++ ) {
+
+					object = new THREE.Mesh( geometry, material2 );
+					object.position.z = -20;
+					object.position.y =-100;
+					object.position.x =20;
+
+					parent.add( object );
+					parent = object;
+
+				}
+
+				parent = root;
+
+				for ( var i = 0; i < amount; i ++ ) {
+
+					object = new THREE.Mesh( geometry, material );
+					object.position.z = -20;
+					object.position.y = - 100;
+					object.position.x = - 20;
+
+					parent.add( object );
+					parent = object;
+
+				}
+
+				parent = root;
+
+				for ( var i = 0; i < amount+19; i ++ ) {
+
+					object = new THREE.Mesh( geometry, material2 );
+					object.position.z = 20;
+					object.position.y = - 100;
+					object.position.x = - 20;
+
+					parent.add( object );
+					parent = object;
+
+				}
+
+
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setClearColor( 0xffffff );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.sortObjects = false;
+				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove(event) {
+
+				mouseX = ( event.clientX - windowHalfX ) * 10;
+				mouseY = ( event.clientY - windowHalfY ) * 10;
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+				//stats.update();
+
+			}
+
+			function render() {
+
+				var time = Date.now() * 0.001;
+
+				var rx = Math.sin( time * 0.7 ) * 0.1;
+				var ry = Math.sin( time * 0.3 ) * 0.1;
+				var rz = Math.sin( time * 0.2 ) * 0.1;
+
+				camera.position.x += ( mouseX - camera.position.x ) * .05;
+				camera.position.y += ( - mouseY - camera.position.y ) * .05;
+
+				camera.lookAt( scene.position );
+
+				root.traverse( function ( object ) {
+
+					object.rotation.x = rx;
+					object.rotation.y = ry;
+					object.rotation.z = rz;
+
+				} );
+
+				renderer.autoClear = false;
+            	renderer.clear();
+				renderer.render( backgroundScene , backgroundCamera );
+				renderer.render( scene, camera );
+			}
+
+		</script>
+
+	</body>
+</html>

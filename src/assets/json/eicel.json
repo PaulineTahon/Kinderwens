@@ -21,13 +21,14 @@
       "eggCount": 1000000
     },
     {
-      "text": "Nu ben je in de puberteit. Dat is de overgang naar volwassenheid. Vanaf nu ben je vruchtbaar. Ook wij worden dan volwassen. Ookal slinken er redelijk wat eicellen, we zijn met ruim genoeg.",
-      "text2": "Iedere maand wordt één van ons rijp. De eicelletjes die niet bevrucht worden, sterven af. Dan is het de beurt aan iemand anders. Dat merk je wanneer je je maandstonden krijgt.",
+      "text": "Nu ben je in de puberteit. Dat is de overgang naar volwassenheid. Vanaf nu ben je vruchtbaar. ",
+      "text2": "Ook wij worden dan volwassen. Ookal slinken er redelijk wat eicellen, we zijn met ruim genoeg.",
+      "text3": "Iedere maand wordt één van ons rijp. De eicelletjes die niet bevrucht worden, sterven af. Dan is het de beurt aan iemand anders. Dat merk je wanneer je je maandstonden krijgt.",
       "age": "10 tot 15",
       "eggCount": 400000
     },
     {
-      "text": "Je bent nu 20 jaar. Dit is het begin van je vruchtbaarste periode. In dit stadium ben je meestal aan het studeren en op zoek naar de liefde van je leven, daarom wordt er vaak gekozen om later aan kinderen te beginnen.",
+      "text": "Je bent in je vruchtbaarste periode. In dit stadium ben je meestal aan het studeren en op zoek naar de liefde van je leven, daarom wordt er vaak gekozen om later aan kinderen te beginnen.",
       "age": "20",
       "eggCount": 200000
     },
@@ -36,27 +37,99 @@
       "age": "30",
       "eggCount": 100000,
       "info": {
-        "risks": "b",
-        "options": "d"
+        "risks": [
+          {
+            "text": "risico's op 30 jarige leeftijd."
+          },
+          {"child":
+            {
+              "text": "risico's van het kindje."
+            }
+          },
+          {"woman":
+            {
+              "text": "Als je pas 30 bent is kans op zwanger worden even groot als een eind de twintig bent. De meeste vrouwen ondervinden nog maar weinig last met zwanger worden. Je hebt 75% kans om zwanger te worden tijdens het eerste jaar. Het risico op een miskraam is slechts lichtjes hoger."
+            }
+          }
+        ],
+        "actions": {
+          "text": "Indien je van plan bent je kinderwens nog even uit te stellen, kun je ervoor opteren om je eicellen te laten invriezen. Vanaf dan verouderen wij niet meer, dat minimaliseert de kans op complicaties bij uitgestelde zwangerschap."
+        }
       }
     },
     {
-      "text": "Je 35ste verjaardag is een bepalend moment voor ons. Je vruchtbaarheid daalt veel sneller. Ook de goede eicellen worden schaarser. Jij bent nog lang niet onvruchtbaar, maar je kans op een natuurlijke zwangerschap is kleiner.",
+      "text": "Je 35ste verjaardag is een bepalend moment voor ons. Je vruchtbaarheid daalt veel sneller.",
+      "text2": "Ook de goede eicellen worden schaarser. Jij bent nog lang niet onvruchtbaar, maar je kans op een natuurlijke zwangerschap is kleiner.",
       "age": "35",
       "eggCount": 50000,
       "info": {
-        "risks": "b",
-        "options": "d"
+        "risks": [
+          {
+            "text ": "Vanaf je 35e verhogen de risico's bij zwangerschap zowel voor jou als voor je kindje."
+          },
+          {"child":
+            [
+              {
+                "text": "Naarmate de leeftijd oploopt, is er meer kans op complicaties."
+              },
+              {
+              "risks":
+                [
+                  {
+                    "title": "Chromosomale afwijkingen",
+                    "text": " Bij het willen zwanger worden moet men rekening houden dat de kans op chromosomale afwijkingen bij de baby, zoals bijvoorbeeld het syndroom van Down, groter is. Op 35 jarige leeftijd is de kans dat je kindje het syndroom van Down zal hebben 1 op 384."
+                  },
+                  {
+                    "title": "Vroeggeboorte",
+                    "text": "Boven de 35 jaar neemt de kans op een vroeggeboorte toe. De kans op een vroeggeboorte (voor de 33ste week) anderhalf keer zo groot. De oorzaak hiervan is hoogstwaarschijnlijk omdat je placenta dan van minder goede kwaliteit is."
+                  }
+                ]
+              }
+            ]
+          },
+          {"woman":
+            [
+              {
+              "text": "Er zijn verschillende risico’s verbonden aan een zwangerschap op latere leeftijd. Allereerst is het aan te raden eerst een dokter te contacteren voor je probeert zwanger te worden. Waarover wil je meer weten?"
+              },
+              {
+              "risks":
+                [
+                  {
+                    "title": "Vruchtbaarheid",
+                    "text": "Op je 35 daalt je vruchtbaarheid exponentieel. De kans om spontaan zwanger te worden is dan de helft dan die op 30 jarige leeftijd."
+                  },
+                  {
+                    "title": "Keizersnede",
+                    "text": "Eenmaal zwanger geworden en je bent ouder dan 35 jaar stijgt de kans op complicaties bij de bevalling. Daarom wordt er vaker gekozen voor een keizersned. Dit gebeurt in 40% van de gevallen."
+                  },
+                  {
+                    "title": "Zwangerschaps diabetes",
+                    "text": "Deze vorm van suikerziekte komt, zoals de naam al zegt, voor als je zwanger bent.Als je leeftijd toeneemt, krijg je ook meer kans op zwangerschapsdiabetes. Hiervoor wordt soms medicatie voorgeschreven"
+                  },
+                  {
+                    "title": "Tweeling",
+                    "text": "Eenmaal zwanger geworden en je bent ouder dan 35 jaar is er 40 % kans dat de bevalling met een keizersnede zal gebeuren. Als je voor het eerst bevalt na je 35 jaar is de kans op een miskraam 40 %. Ook al neem je geen medicatie om zwanger te worden toch is kans op een tweeling."
+                  },
+                  {
+                    "title": "Miskraam",
+                    "text": "Het aantal miskramen neemt toe als de leeftijd van de moeder toeneemt. Als je voor het eerst bevalt na je 35 jaar is de kans op een miskraam 40 %."
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": {
+          "text": "Indien je van plan bent je kinderwens nog even uit te stellen, kun je ervoor opteren om je eicellen te laten invriezen. Vanaf dan verouderen wij niet meer, dat minimaliseert de kans op complicaties bij uitgestelde zwangerschap."
+        }
       }
     },
     {
-      "text": "Nu je 40 jaar bent en we zijn nog maar met weinig. Onder ons bestaan er slechts enkelen van goede kwaliteit. Op deze leeftijd zijn er veel meer risico’s.  Wens je graag nog een kindje? IVF een mogelijkheid , doch de slaagkans is klein.",
+      "text": "Nu je 40 jaar bent en we zijn nog maar met weinig. Onder ons bestaan er slechts enkelen van goede kwaliteit.",
+      "text2": "Op deze leeftijd zijn er veel meer risico’s. Wens je graag nog een kindje? Dan is IVF een mogelijkheid , doch de slaagkans is klein.",
       "age": "40",
-      "eggCount": 1000,
-      "info": {
-        "risks": "b",
-        "options": "d"
-      }
+      "eggCount": 1000
     },
     {
       "text": "Het einde van ons bestaan is nabij. De kans op een zwangerschap is zeer klein. Gezien de te grote risico’s is IVF uitgesloten.",
@@ -64,7 +137,7 @@
       "eggCount": 0,
       "info": {
         "risks": "b",
-        "options": "d"
+        "actions": "d"
       }
     }
   ]

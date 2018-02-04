@@ -75,6 +75,7 @@ const handleNext = e => {
   } else {
     userAge.style.display = `none`;
   }
+  window.yourGlobalVariable = storyIndex;
 
   console.log(`ja`, storyIndex, innerIndex);
 

@@ -1,83 +1,139 @@
 import OpenSimplexNoise from 'open-simplex-noise';
+// require (`./storyScript`);
 
-let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
+
+let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9, ball10, ball11;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
+let startAnimation = true;
+
+// scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
+
+// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
+
 
 const spheres = [];
-
-let uniforms;
-let startTime;
+//
+// let uniforms;
+// let startTime;
 //const index = 0;
 let textureCube;
 
 let particleCloud;
 let particleGeometry;
-const separation = 50;
+
+const textureLoader = new THREE.TextureLoader();
+
+let materialDepth;
+const sunPosition = new THREE.Vector3(0, 1000, - 1000);
+const screenSpacePosition = new THREE.Vector3();
+
+
+const postprocessing = {enabled: true};
+const bgColor = `black`;
+const sunColor = 0xffee00;
 
 /* vars light --------------------------------------*/
-let bulbLight, bulbLight2;
+//et bulbLight, bulbLight2;
 
 
 const noise = new OpenSimplexNoise();
 
 const init = () => {
-
-  startTime = Date.now();
-
+  //startTime = Date.now();
+  createTerrain();
   createScene();
-  createLights();
+  initPostprocessing();
+  // console.log(storyIndex);
+//  createLights();
   createAudio();
   createSpheres();
-  createBackground();
+//  createBackground();
   createParticles();
   onWindowResize();
+  camera.rotation.x = 0.6;
+  camera.rotation.y = 0.6;
+  camera.rotation.z = 0.6;
 
   animate();
 
   console.log(particleCloud);
-  // document.addEventListener(`mousemove`, onDocumentMouseMove, false);
+  //document.addEventListener(`click`, handleClick);
   window.addEventListener(`resize`, onWindowResize, false);
 };
 
-const createScene = () => {
+const createTerrain = () => {
+  const terrainSize = 150;
 
+  const geometry = new THREE.Geometry();
+  let vertex;
+  for (let i = 0;i < terrainSize;i ++) {
+    for (let j = 0;j < terrainSize;j ++) {
+      vertex = new THREE.Vector3();
+      vertex.x = (i - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+      vertex.y = - 155 + Math.random() * 100;
+      vertex.z = (j - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+      geometry.vertices.push(vertex);
+    }
+  }
+
+  // const material = new THREE.PointsMaterial({
+  //   color: 0xffdb8f,
+  //   size: 5,
+  //   map: textureLoader.load(`./assets/img/light.png`),
+  //   blending: THREE.AdditiveBlending,
+  //   transparent: true
+  // });
+  // Добавляем систему частиц на сцену
+  // const particles = new THREE.Points(geometry, material);
+
+  // scene.add(particles);
+};
+
+const createScene = () => {
+  materialDepth = new THREE.MeshDepthMaterial();
   // scene.background = new THREE.CubeTextureLoader()
   //   .setPath(`./assets/img/`)
   //   .load([ `px.jpg`, `nx.jpg`, `py.jpg`, `ny.jpg`, `nz.jpg`, `pz.jpg` ]);
 
   //scene.background = new THREE.TextureLoader().load(`./assets/img/black.jpg`);
-  //scene.fog = new THREE.FogExp2(0xe8d1b5, 0.01);
+  // scene.fog = new THREE.FogExp2(0x0, 0.02);
 
   /* Camera
   --------------------------------------*/
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  // camera.position.x = 0;
+  // camera.position.y = 0;
+  // camera.position.z = 50;
   camera.position.x = 0;
-  camera.position.y = 0;
-  camera.position.z = 50;
+  camera.position.y = - 200;
+  camera.position.z = 100;
+  camera.rotation.x = 0.6;
+  camera.rotation.y = 0.6;
+  camera.rotation.z = 0.6;
+
+  // x: 0, y: - 200, z: 100
 
   /* Ball
   --------------------------------------*/
-  const icosahedronGeometry = new THREE.IcosahedronGeometry(10, 4);
+  const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
   const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
+  const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
   //const texture = new THREE.TextureLoader().load(`./assets/img/sand.jpg`);
 
   //texture.repeat.set(0.2, 0.2);
 
   const lambertMaterial = new THREE.MeshLambertMaterial({
-    color: 0xF6318C,
-    emissive: 0x471764,
-    opacity: 4,
+
+    // color: 0xF6318C,
+    // emissive: 0x471764, 0xccfffd,
+    color: 0xccfffd,
+    emissive: 0x333333,
     wireframe: false,
-    // color: `green`,
-    // emissive: `red`,
-    // refractionRatio: 0.985,
-    transparent: true
-    // opacity: 1
-    //map: texture
+    //transparent: true
+
   });
 
   // const shaderMaterial = new THREE.RawShaderMaterial({
@@ -99,11 +155,20 @@ const createScene = () => {
 //  const phongMaterial = new THREE.MeshPhongMaterial({color: 0xccfffd, envMap: textureCube, refractionRatio: 0.985, transparent: true, opacity: 0.3});
 
   const lambertMaterial2 = new THREE.MeshLambertMaterial({
-    color: 0xccfffd,
-    emissive: 0x471764,
+    color: 0x999999,
+    emissive: 0x222222,
+    wireframe: false,
+    // transparent: true,
+    // opacity: 0.0,
+    //map: texture
+  });
+
+  const lambertMaterial3 = new THREE.MeshLambertMaterial({
+    color: 0x999999,
+    emissive: `white`,
     wireframe: false,
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.1,
     //map: texture
   });
 
@@ -118,56 +183,83 @@ const createScene = () => {
   ball.position.z = 0;
   ball.castShadow = true;
   //ball.receiveShadow = true;
+  scene.add(ball);
 
   ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
   ball2.position.x = 0;
   ball2.position.y = 3;
   ball2.position.z = 0;
   ball2.castShadow = true;
-  //scene.add(ball2);
-  scene.add(ball);
+  // ball2.scale.multiplyScalar(20);
+  scene.add(ball2);
 
-  ball3 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball3.position.x = - 50;
+  ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
+  ball3.position.x = 0;
   ball3.position.y = 5;
-  ball3.position.z = - 70;
+  ball3.position.z = 0;
   ball3.castShadow = true;
   scene.add(ball3);
 
   ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball4.position.x = 60;
-  ball4.position.y = - 20;
-  ball4.position.z = - 60;
+  ball4.position.x = 50;
+  ball4.position.y = - 30;
+  ball4.position.z = - 40;
   ball4.castShadow = true;
   scene.add(ball4);
 
+
   ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball5.position.x = - 10;
-  ball5.position.y = 5;
-  ball5.position.z = 100;
+  ball5.position.x = - 70;
+  ball5.position.y = - 25;
+  ball5.position.z = - 100;
   ball5.castShadow = true;
   scene.add(ball5);
 
+
   ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
   ball6.position.x = - 70;
-  ball6.position.y = 5;
-  ball6.position.z = 80;
+  ball6.position.y = 95;
+  ball6.position.z = - 150;
   ball6.castShadow = true;
   scene.add(ball6);
 
+
   ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball7.position.x = - 70;
-  ball7.position.y = 5;
-  ball7.position.z = - 100;
+  ball7.position.x = 70;
+  ball7.position.y = 112;
+  ball7.position.z = - 200;
   ball7.castShadow = true;
   scene.add(ball7);
 
+
   ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball8.position.x = - 70;
-  ball8.position.y = 5;
-  ball8.position.z = - 100;
+  ball8.position.x = - 150;
+  ball8.position.y = 30;
+  ball8.position.z = - 140;
   ball8.castShadow = true;
   scene.add(ball8);
+
+  ball9 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball9.position.x = - 100;
+  ball9.position.y = - 50;
+  ball9.position.z = - 30;
+  ball9.castShadow = true;
+  scene.add(ball9);
+
+  ball10 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball10.position.x = - 50;
+  ball10.position.y = - 100;
+  ball10.position.z = 0;
+  ball10.castShadow = true;
+  scene.add(ball10);
+
+  ball11 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+  ball11.position.x = - 30;
+  ball11.position.y = - 180;
+  ball11.position.z = 70;
+  ball11.castShadow = true;
+  scene.add(ball11);
+
   //ball.receiveShadow = true;
 
   /* AmbientLight
@@ -176,18 +268,36 @@ const createScene = () => {
   // scene.add(ambientLight);
   // camera.add(ambientLight);
 
-  // const pointLight = new THREE.PointLight(0x999999); //0x999999
-  // pointLight.position.set(1, 1, 2);
-  // camera.add(pointLight);
+  const pointLight = new THREE.PointLight(`white`, 1, 100);
+  pointLight.position.set(10, 10, 10);
+  scene.add(pointLight);
 
+  // const sphereSize = 1;
+  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+  // scene.add(pointLightHelper);
+  //
+  // const pointLight = new THREE.PointLight(0x999999); //0x999999
+  // pointLight.position.set(0, 0, 10);
+  // camera.add(pointLight);
+  //
+  // const sphereSize = 1;
+  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+  // scene.add(pointLightHelper);
+
+
+
+  //
   /* SpotLight
   // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
   spotLight.intensity = 0.8;
-  spotLight.position.set(- 10, 40, 20);
+  spotLight.position.set(0, 1000, 20);
   spotLight.lookAt(ball);
   spotLight.castShadow = true;
   scene.add(spotLight);
+
+  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+  scene.add(spotLightHelper);
 
   // camera.add(spotLight);
 
@@ -198,105 +308,225 @@ const createScene = () => {
   controls.maxDistance = 500;
   controls.enablePan = true;
 
-  // new TWEEN.Tween(lambertMaterial)
-  //     .to({opacity: 0.0}, 1000)
-  //     .start();
-
   // new TWEEN.Tween(camera.position)
-  //     .to({x: 0, y: 0, z: 400}, 10000)
+  //     .to({x: 0, y: - 200, z: 100}, 20000)
+  //     .start();
+  //
+  // // new TWEEN.Tween(camera.rotation)
+  // //     .to({x: .3, y: 1, z: .3}, 10000)
+  // //     .start();
+  //
+  // const A = new TWEEN.Tween(camera.rotation).to({x: .3, y: .3, z: .3}, 5000);
+  // const B = new TWEEN.Tween(camera.rotation).to({x: .6, y: .6, z: .6}, 5000);
+  // //
+  // A.chain(B);
+  // A.start();
+
+  // const C = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
+  // const D = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
+  // //
+  // C.chain(D);
+  // C.start();
+
+// <<<<<<< HEAD
+//   new TWEEN.Tween(spotLight.position)
+//       .to({x: 0, y: 0, z: 400}, 10000)
+//       .start();
+
+
+  //
+  // console.log(lambertMaterial);
+
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.autoClear = false;
+  //RIJPE EICEL
+
+
+  // new TWEEN.Tween(lambertMaterial)
+  //     .to({opacity: .9}, 10000)
+  //     .start();
+  //
+  //
+  // new TWEEN.Tween(lambertMaterial2)
+  //     .to({opacity: .3}, 10000)
   //     .start();
 
-  new TWEEN.Tween(spotLight.position)
-      .to({x: 0, y: 0, z: 400}, 10000)
-      .start();
-
-
-
-  console.log(lambertMaterial);
-
-
-
 };
 
-const createLights = () => {
-
-
-  /* Light1
-  --------------------------------------*/
-  const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
-  bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
-  const bulbMat = new THREE.MeshStandardMaterial({
-    emissive: 0xffffee,
-    emissiveIntensity: 1,
-    color: 0x000000
+const initPostprocessing = () => {
+  postprocessing.scene = new THREE.Scene();
+  postprocessing.camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2,  window.innerHeight / 2, window.innerHeight / - 2, - 10000, 10000);
+  postprocessing.camera.position.z = 100;
+  postprocessing.scene.add(postprocessing.camera);
+  const pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
+  postprocessing.rtTextureColors = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
+  // Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
+  // investigate further for now.
+  // pars.format = THREE.LuminanceFormat;
+  // I would have this quarter size and use it as one of the ping-pong render
+  // targets but the aliasing causes some temporal flickering
+  postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
+  // Aggressive downsize god-ray ping-pong render targets to minimize cost
+  const w = window.innerWidth / 4.0;
+  const h = window.innerHeight / 4.0;
+  postprocessing.rtTextureGodRays1 = new THREE.WebGLRenderTarget(w, h, pars);
+  postprocessing.rtTextureGodRays2 = new THREE.WebGLRenderTarget(w, h, pars);
+  // god-ray shaders
+  const godraysGenShader = THREE.ShaderGodRays[ `godrays_generate` ];
+  postprocessing.godrayGenUniforms = THREE.UniformsUtils.clone(godraysGenShader.uniforms);
+  postprocessing.materialGodraysGenerate = new THREE.ShaderMaterial({
+    uniforms: postprocessing.godrayGenUniforms,
+    vertexShader: godraysGenShader.vertexShader,
+    fragmentShader: godraysGenShader.fragmentShader
   });
-
-  bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
-  bulbLight.position.set(10, 10, 10);
-  bulbLight.castShadow = true;
-  scene.add(bulbLight);
-
-  /* Light2
-  --------------------------------------*/
-
-  bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
-  const bulbMat2 = new THREE.MeshStandardMaterial({
-    emissive: 0xffffee,
-    emissiveIntensity: 1,
-    color: 0x000000
+  const godraysCombineShader = THREE.ShaderGodRays[ `godrays_combine` ];
+  postprocessing.godrayCombineUniforms = THREE.UniformsUtils.clone(godraysCombineShader.uniforms);
+  postprocessing.materialGodraysCombine = new THREE.ShaderMaterial({
+    uniforms: postprocessing.godrayCombineUniforms,
+    vertexShader: godraysCombineShader.vertexShader,
+    fragmentShader: godraysCombineShader.fragmentShader
   });
-  bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
-  bulbLight2.position.set(10, 10, 10);
-  bulbLight2.castShadow = true;
-  scene.add(bulbLight2);
-
+  const godraysFakeSunShader = THREE.ShaderGodRays[ `godrays_fake_sun` ];
+  postprocessing.godraysFakeSunUniforms = THREE.UniformsUtils.clone(godraysFakeSunShader.uniforms);
+  postprocessing.materialGodraysFakeSun = new THREE.ShaderMaterial({
+    uniforms: postprocessing.godraysFakeSunUniforms,
+    vertexShader: godraysFakeSunShader.vertexShader,
+    fragmentShader: godraysFakeSunShader.fragmentShader
+  });
+  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
+  postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
+  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.1;
+  postprocessing.quad = new THREE.Mesh(
+    new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
+    postprocessing.materialGodraysGenerate
+  );
+  postprocessing.quad.position.z = - 9900;
+  postprocessing.scene.add(postprocessing.quad);
 };
+
+// const createLights = () => {
+//
+//
+//   /* Light1
+//   --------------------------------------*/
+//   const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
+//   bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   const bulbMat = new THREE.MeshStandardMaterial({
+//     emissive: 0xffffee,
+//     emissiveIntensity: 1,
+//     color: 0x000000
+//   });
+//
+//   bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+//   bulbLight.position.set(10, 10, 10);
+//   bulbLight.castShadow = true;
+//   scene.add(bulbLight);
+//
+//   /* Light2
+//   --------------------------------------*/
+//
+//   bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   const bulbMat2 = new THREE.MeshStandardMaterial({
+//     emissive: 0xffffee,
+//     emissiveIntensity: 1,
+//     color: 0x000000
+//   });
+//   bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
+//   bulbLight2.position.set(10, 10, 10);
+//   bulbLight2.castShadow = true;
+//   scene.add(bulbLight2);
+//
+// };
 
 const createAudio = () => {
   const audio = document.querySelector(`.audio`);
-  audio.volume = 0.1;
+  audio.volume = 0.0;
 };
 
-const createBackground = () => {
-
-  const geometry = new THREE.PlaneBufferGeometry(280, 200);
-
-  uniforms = {
-    iGlobalTime: {type: `f`, value: 1.0},
-    iResolution: {type: `v1`, value: new THREE.Vector2()}
-  };
-
-  const material = new THREE.ShaderMaterial({
-    uniforms: uniforms,
-    vertexShader: document.getElementById(`vertexShader`).textContent,
-    fragmentShader: document.getElementById(`fragmentShader`).textContent
-  });
-
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.z = - 120;
-  scene.add(mesh);
-
-};
+// const createBackground = () => {
+//
+//   const geometry = new THREE.PlaneBufferGeometry(280, 200);
+//
+//   //const planeTexture = textureLoader.load(`./assets/img/dirt_spec.jpg`);
+//
+//   uniforms = {
+//     iGlobalTime: {type: `f`, value: 1.0},
+//     iResolution: {type: `v1`, value: new THREE.Vector2()}
+//   };
+//
+//   const material = new THREE.ShaderMaterial({
+//     uniforms: uniforms,
+//     vertexShader: document.getElementById(`vertexShader`).textContent,
+//     fragmentShader: document.getElementById(`fragmentShader`).textContent,
+//   });
+//
+//   const mesh = new THREE.Mesh(geometry, material);
+//   mesh.position.z = - 120;
+//   scene.add(mesh);
+//
+// };
 
 const createParticles = () => {
   particleGeometry = new THREE.Geometry();
-  const material = new THREE.MeshBasicMaterial({color: `green`});
 
-  for (let ix = 0;ix < this.WIDTH;ix ++) {
-    for (let iz = 0;iz < this.HEIGHT;iz ++) {
-      const vert = new THREE.Vector3();
-      vert.x = ix * separation - ((window.innerWidth * separation) / 2);
-      vert.y = (Math.cos((ix / window.innerWidth) * Math.PI * 6) + Math.sin((iz / window.innerHeight) * Math.PI * 6));
-      vert.z = iz * separation - ((window.innerHeight * separation) / 2);
-      particleGeometry.vertices.push(vert);
-    }
+  const lightImg = textureLoader.load(`./assets/img/light.png`);
+
+  for (let i = 0;i < 50;i ++) {
+    const vertex = new THREE.Vector3();
+    vertex.x = Math.random() * 200 - 100;
+    vertex.y = Math.random() * 200 - 100;
+    vertex.z = Math.random() * 200 - 100;
+
+    vertex.direction = {
+      x: Math.random(),
+      y: Math.random()
+    };
+
+    particleGeometry.vertices.push(vertex);
   }
 
+  const material = new THREE.PointsMaterial({size: 7, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true, opacity: .3});
+
   particleCloud = new THREE.Points(particleGeometry, material);
+  console.log(particleCloud);
+
+  particleCloud.rotation.x = Math.random() * 6;
+  particleCloud.rotation.y = Math.random() * 6;
+  particleCloud.rotation.z = Math.random() * 6;
+
   scene.add(particleCloud);
 };
 
 const animate = time => {
+  // camera.rotation.x = 0.6;
+  // camera.rotation.y = 0.6;
+  // camera.rotation.z = 0.6;
+  if (!window.yourGlobalVariable || window.yourGlobalVariable < 1) {
+    window.yourGlobalVariable = 0;
+  }
+
+  if (window.yourGlobalVariable && window.yourGlobalVariable > 0 && startAnimation) {
+    startAnimation = false;
+    new TWEEN.Tween(camera.position)
+        .to({x: 0, y: 0, z: 50}, 20000)
+        .easing(TWEEN.Easing.Cubic.InOut)
+        .start();
+
+    // new TWEEN.Tween(camera.rotation)
+    //     .to({x: .3, y: 1, z: .3}, 10000)
+    //     .start();
+
+    const A = new TWEEN.Tween(camera.rotation).to({x: .0, y: .0, z: .0}, 20000).easing(TWEEN.Easing.Cubic.InOut);
+    const B = new TWEEN.Tween(camera.rotation).to({x: 0, y: 0, z: 0}, 5000);
+    //
+    A.chain(B);
+    A.start();
+  }
+  // console.log(window.yourGlobalVariable);
+  console.log(camera.rotation);
+  console.log(camera.position);
+  // console.log(storyIndex.storyIndex);
   TWEEN.update(time);
 
   requestAnimationFrame(animate);
@@ -304,103 +534,151 @@ const animate = time => {
 };
 
 const render = () => {
-  animateLights();
+
+  //animateLights();
   makeRoughBall(ball);
   makeRoughBall(ball2);
+  makeRoughBall(ball3);
   animateSpheres();
-//animateParticles();
-  const currentTime = Date.now();
+  animateParticles();
+  createLightRays();
+  //const currentTime = Date.now();
 
-  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0001;
-
-  renderer.render(scene, camera);
-
+//  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
 };
 
-// const animateParticles = () => {
-//   for (let ix = 0;ix < window.innerWidth;ix ++) {
-//     for (let iz = 0;iz < window.innerHeight;iz ++) {
-//       particleCloud.geometry.vertices[index].y = (Math.cos((ix / window.innerWidth * Math.PI * 8)) + Math.sin((iz / window.innerHeight * Math.PI * 8)));
-//       index ++;
-//     }
-//   }
+const createLightRays = () => {
+  // const time = Date.now() / 4000;
+  // sphereMesh.position.x = orbitRadius * Math.cos(time);
+  // sphereMesh.position.z = orbitRadius * Math.sin(time) - 100;
+
+  if (postprocessing.enabled) {
+      // Find the screenspace position of the sun
+    screenSpacePosition.copy(sunPosition).project(camera);
+    screenSpacePosition.x = (screenSpacePosition.x + 1) / 2;
+    screenSpacePosition.y = (screenSpacePosition.y + 1) / 2;
+      // Give it to the god-ray and sun shaders
+    postprocessing.godrayGenUniforms[ `vSunPositionScreenSpace` ].value.x = screenSpacePosition.x;
+    postprocessing.godrayGenUniforms[ `vSunPositionScreenSpace` ].value.y = screenSpacePosition.y;
+    postprocessing.godraysFakeSunUniforms[ `vSunPositionScreenSpace` ].value.x = screenSpacePosition.x;
+    postprocessing.godraysFakeSunUniforms[ `vSunPositionScreenSpace` ].value.y = screenSpacePosition.y;
+      // -- Draw sky and sun --
+      // Clear colors and depths, will clear to sky color
+    renderer.clearTarget(postprocessing.rtTextureColors, true, true, false);
+      // Sun render. Runs a shader that gives a brightness based on the screen
+      // space distance to the sun. Not very efficient, so i make a scissor
+      // rectangle around the suns position to avoid rendering surrounding pixels.
+    const sunsqH = 0.74 * window.innerHeight; // 0.74 depends on extent of sun from shader
+    const sunsqW = 0.74 * window.innerHeight; // both depend on height because sun is aspect-corrected
+    screenSpacePosition.x *= window.innerWidth;
+    screenSpacePosition.y *= window.innerHeight;
+    renderer.setScissor(screenSpacePosition.x - sunsqW / 2, screenSpacePosition.y - sunsqH / 2, sunsqW, sunsqH);
+    renderer.setScissorTest(true);
+    postprocessing.godraysFakeSunUniforms[ `fAspect` ].value = window.innerWidth / window.innerHeight;
+    postprocessing.scene.overrideMaterial = postprocessing.materialGodraysFakeSun;
+    renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors);
+    renderer.setScissorTest(false);
+      // -- Draw scene objects --
+      // Colors
+    scene.overrideMaterial = null;
+    renderer.render(scene, camera, postprocessing.rtTextureColors);
+      // Depth
+    scene.overrideMaterial = materialDepth;
+    renderer.render(scene, camera, postprocessing.rtTextureDepth, true);
+      // -- Render god-rays --
+      // Maximum length of god-rays (in texture space [0,1]X[0,1])
+    const filterLen = 1.0;
+      // Samples taken by filter
+    const TAPS_PER_PASS = 6.0;
+      // Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
+      // would start with a small filter support and grow to large. however
+      // the large-to-small order produces less objectionable aliasing artifacts that
+      // appear as a glimmer along the length of the beams
+      // pass 1 - render into first ping-pong target
+    let pass = 1.0;
+    let stepLen = filterLen * Math.pow(TAPS_PER_PASS, - pass);
+    postprocessing.godrayGenUniforms[ `fStepSize` ].value = stepLen;
+    postprocessing.godrayGenUniforms[ `tInput` ].value = postprocessing.rtTextureDepth.texture;
+    postprocessing.scene.overrideMaterial = postprocessing.materialGodraysGenerate;
+    renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTextureGodRays2);
+      // pass 2 - render into second ping-pong target
+    pass = 2.0;
+    stepLen = filterLen * Math.pow(TAPS_PER_PASS, - pass);
+    postprocessing.godrayGenUniforms[ `fStepSize` ].value = stepLen;
+    postprocessing.godrayGenUniforms[ `tInput` ].value = postprocessing.rtTextureGodRays2.texture;
+    renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTextureGodRays1);
+      // pass 3 - 1st RT
+    pass = 3.0;
+    stepLen = filterLen * Math.pow(TAPS_PER_PASS, - pass);
+    postprocessing.godrayGenUniforms[ `fStepSize` ].value = stepLen;
+    postprocessing.godrayGenUniforms[ `tInput` ].value = postprocessing.rtTextureGodRays1.texture;
+    renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTextureGodRays2);
+      // final pass - composite god-rays onto colors
+    postprocessing.godrayCombineUniforms[`tColors`].value = postprocessing.rtTextureColors.texture;
+    postprocessing.godrayCombineUniforms[`tGodRays`].value = postprocessing.rtTextureGodRays2.texture;
+    postprocessing.scene.overrideMaterial = postprocessing.materialGodraysCombine;
+    renderer.render(postprocessing.scene, postprocessing.camera);
+    postprocessing.scene.overrideMaterial = null;
+  } else {
+    renderer.clear();
+    renderer.render(scene, camera);
+  }
+};
+
+const animateParticles = () => {
+
+  const time = Date.now() * 0.0000007;
+
+  for (let i = 0;i < scene.children.length;i ++) {
+    const object = scene.children[ i ];
+    if (object instanceof THREE.Points) {
+      object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+    }
+  }
+  particleCloud.geometry.verticesNeedUpdate = true;
+};
+
+// const animateLights = () => {
+//   const time = Date.now() * 0.0005;
+//   bulbLight.position.x = Math.sin(time * 0.7) * 20;
+//   bulbLight.position.y = Math.cos(time * 0.5) * 10;
 //
-//   particleCloud.geometry.verticesNeedUpdate = true;
+//
+//   bulbLight2.position.x = Math.sin(time * 0.5) * 20;
+//   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
 // };
-
-const animateLights = () => {
-  const time = Date.now() * 0.0005;
-  bulbLight.position.x = Math.sin(time * 0.7) * 20;
-  bulbLight.position.y = Math.cos(time * 0.5) * 10;
-
-
-  bulbLight2.position.x = Math.sin(time * 0.5) * 20;
-  bulbLight2.position.y = Math.cos(time * 0.3) * 10;
-};
 
 
 const animateSpheres = () => {
-  const timer = 0.00001 * Date.now();
-  //
-  // camera.position.x += (mouseX - camera.position.x) * .05;
-  // camera.position.y += (- mouseY - camera.position.y) * .05;
-  // camera.lookAt(scene.position);
+  const time = 0.00001 * Date.now();
+
   for (let i = 0, il = spheres.length;i < il;i ++) {
     const sphere = spheres[ i ];
-    sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
-    sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
+    // sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
+    // sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
+    sphere.position.x = 200 * Math.cos(time);
+    sphere.position.z = 200 * Math.cos(time) - 100;
   }
 };
 
 const createSpheres = () => {
 
-  const geometry = new THREE.SphereBufferGeometry(6, 32, 16);
+  const geometry = new THREE.SphereBufferGeometry(4, 32, 16);
 
-  const material = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
+  const material = new THREE.MeshBasicMaterial({color: 0x999999, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
 
   for (let i = 0;i < 30;i ++) {
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.x = Math.random() * 5000 - 2500;
     mesh.position.y = Math.random() * 5000 - 2500;
-    mesh.position.z = - 100;
-    //mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
+    mesh.position.z = Math.random() * 0 - 100;
     scene.add(mesh);
 
     spheres.push(mesh);
 
   }
 };
-
-
-  // const geometry = new THREE.SphereBufferGeometry(100, 32, 16);
-  //
-  // const texture = new THREE.TextureLoader()
-  //   .load(`assets/img/sand.jpg`);
-  //
-  // texture.mapping = THREE.RefractionMapping;
-  //
-  // const material = new THREE.MeshBasicMaterial({color: 0xffffff, envMap: texture, refractionRatio: 0.95});
-  //
-  // for (let i = 0;i < 500;i ++) {
-  //
-  //   const mesh = new THREE.Mesh(geometry, material);
-  //   mesh.position.x = Math.random() * 10000 - 5000;
-  //   mesh.position.y = Math.random() * 10000 - 5000;
-  //   mesh.position.z = Math.random() * 10000 - 5000;
-  //   mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 3 + 1;
-  //   scene.add(mesh);
-  //   spheres.push(mesh);
-  // }
-
-//};
-
-// const onDocumentMouseMove = event => {
-//
-//   mouseX = (event.clientX - windowHalfX) * 10;
-//   mouseY = (event.clientY - windowHalfY) * 10;
-//
-// };
 
 const makeRoughBall = mesh => {
   mesh.geometry.vertices.forEach(function(vertex) {
@@ -421,17 +699,11 @@ const makeRoughBall = mesh => {
   mesh.geometry.computeFaceNormals();
 };
 
-// const onWindowResize = () => {
-//   camera.aspect = window.innerWidth / window.innerHeight;
-//   camera.updateProjectionMatrix();
-//   renderer.setSize(window.innerWidth, window.innerHeight);
-// };
-
 const onWindowResize = () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  uniforms.iResolution.value.x = window.innerWidth;
-  uniforms.iResolution.value.y = window.innerHeight;
+  // uniforms.iResolution.value.x = window.innerWidth;
+  // uniforms.iResolution.value.y = window.innerHeight;
   renderer.setSize(window.innerWidth, window.innerHeight);
 };
 
