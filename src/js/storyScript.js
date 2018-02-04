@@ -11,6 +11,8 @@ const ageValue = document.querySelector(`.user_age_input_value`);
 
 const nextButton = document.querySelector(`.buttons_next`);
 const previousButton = document.querySelector(`.buttons_previous`);
+const nextButtonText = document.querySelector(`.buttons_next_text`);
+const previousButtonText = document.querySelector(`.buttons_previous_text`);
 
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
@@ -48,15 +50,16 @@ let innerIndex = 0;
 const handleNext = e => {
   e.preventDefault();
 
-  if (nextButton.innerHTML !== `volgende`) {
-    nextButton.innerHTML = `volgende`;
+  if (nextButtonText.innerHTML !== `volgende`) {
+    nextButtonText.innerHTML = `volgende`;
   }
 
   if (storyIndex >= 1) {
-    previousButton.innerHTML = `vorige`;
+    previousButtonText.innerHTML = `vorige`;
     previousButton.style.display = `block`;
+    previousButtonText.style.display = `block`;
   } else {
-    previousButton.style.display = `none`;
+    previousButtonText.style.display = `none`;
   }
 
   if (storyIndex === story.length - 1) {
@@ -94,7 +97,7 @@ const handleNext = e => {
     if (story[storyIndex].age) {
       age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
       if (story[storyIndex - 1].eggCount) {
-        countAgeDown();
+        countEggsDown();
       } else {
         eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
       }
@@ -141,9 +144,12 @@ const handleNext = e => {
 
   if (storyIndex === 2) {
     console.log(`options`);
-    previousButton.innerHTML = story[storyIndex].options.start;
-    nextButton.innerHTML = story[storyIndex].options.now;
+    previousButtonText.innerHTML = story[storyIndex].options.start;
+    nextButtonText.innerHTML = story[storyIndex].options.now;
   }
+
+  window.storyIndex = storyIndex;
+  window.innerIndex = innerIndex;
 
   console.log(`ja`, storyIndex, innerIndex);
 
@@ -165,8 +171,8 @@ const handlePrevious = e => {
     innerIndex = 0;
     if (storyIndex === 2) {
       storyIndex ++;
-      previousButton.innerHTML = `vorige`;
-      nextButton.innerHTML = `volgende`;
+      previousButtonText.innerHTML = `vorige`;
+      nextButtonText.innerHTML = `volgende`;
     } else {
       storyIndex --;
     }
@@ -178,7 +184,7 @@ const handlePrevious = e => {
   }
 };
 
-const countAgeDown = () => {
+const countEggsDown = () => {
   console.log(story[storyIndex - 1].eggCount, story[storyIndex].eggCount);
   let eggsLeft = story[storyIndex - 1].eggCount;
   const eggTimer = setInterval(() => {

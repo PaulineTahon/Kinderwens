@@ -4,10 +4,20 @@ let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
+let startCameraAnimation = true;
 
-let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8;
+// scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
+
+scene.fog = new THREE.FogExp2(0x181818, 0.008);
+
+let ball, ball2, ball3, iceShard;
+let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+let lambertMaterial, lambertMaterial2, lambertMaterial3;
+
+let pointLight;
+
 const blobSpeed = 0.0007;
+let blobMovement = true;
 
 const spheres = [];
 
@@ -31,19 +41,130 @@ const sunColor = 0xffee00;
 
 const noise = new OpenSimplexNoise();
 
+class Egg {
+  constructor () {
+    this.mesh = new THREE.Object3D();
+
+    const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
+    const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
+    const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
+
+    lambertMaterial = new THREE.MeshLambertMaterial({
+      color: 0xccfffd,
+      emissive: 0x333333,
+      wireframe: false,
+      transparent: true
+    });
+
+    lambertMaterial2 = new THREE.MeshLambertMaterial({
+      color: 0x999999,
+      emissive: 0x222222,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.0,
+        //map: texture
+    });
+
+    lambertMaterial3 = new THREE.MeshLambertMaterial({
+      color: 0x999999,
+      emissive: `white`,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.1,
+        //map: texture
+    });
+
+    lambertMaterial.depthWrite = false;
+    lambertMaterial2.depthWrite = false;
+    lambertMaterial3.depthWrite = false;
+
+    ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+    ball.position.x = 0;
+    ball.position.y = 5;
+    ball.position.z = 0;
+    ball.castShadow = true;
+    //ball.receiveShadow = true;
+    //scene.add(ball);
+
+    ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
+    ball2.position.x = 0;
+    ball2.position.y = 3;
+    ball2.position.z = 0;
+    ball2.castShadow = true;
+    // ball2.scale.multiplyScalar(20);
+    //scene.add(ball2);
+
+    ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
+    ball3.position.x = 0;
+    ball3.position.y = 5;
+    ball3.position.z = 0;
+    ball3.castShadow = true;
+
+    this.mesh.add(ball);
+    this.mesh.add(ball2);
+    this.mesh.add(ball3);
+  }
+
+  animateEgg = () => {
+    makeRoughBall(ball);
+    makeRoughBall(ball2);
+    makeRoughBall(ball3);
+  }
+
+  fertilize = () => {
+
+    new TWEEN.Tween(lambertMaterial)
+        .to({opacity: .7}, 1000)
+        .start();
+
+    new TWEEN.Tween(lambertMaterial2)
+        .to({opacity: .3}, 1000)
+        .start();
+
+  }
+
+  freeze = () => {
+
+    if (iceShard.material.opacity >= .35) {
+      blobMovement = false;
+    }
+
+    new TWEEN.Tween(iceShard.material)
+        .to({opacity: 0.7}, 5000)
+        .start();
+
+  }
+
+  unfreeze = () => {
+
+    if (iceShard.material.opacity <= .35) {
+      blobMovement = true;
+    }
+
+    new TWEEN.Tween(iceShard.material)
+        .to({opacity: 0.0}, 2000)
+        .start();
+
+  }
+}
+
 const init = () => {
   //startTime = Date.now();
   createTerrain();
   createScene();
   createIce();
   initPostprocessing();
-
-  //createLights();
+  // console.log(storyIndex);
+  // createLights();
   createAudio();
   createSpheres();
   //createBackground();
   createParticles();
   onWindowResize();
+
+  camera.rotation.x = 0.6;
+  camera.rotation.y = 0.6;
+  camera.rotation.z = 0.6;
 
   animate();
 
@@ -67,17 +188,17 @@ const createTerrain = () => {
     }
   }
 
-  const material = new THREE.PointsMaterial({
-    color: 0xffdb8f,
-    size: 5,
-    map: textureLoader.load(`./assets/img/light.png`),
-    blending: THREE.AdditiveBlending,
-    transparent: true
-  });
+  // const material = new THREE.PointsMaterial({
+  //   color: 0xffdb8f,
+  //   size: 5,
+  //   map: textureLoader.load(`./assets/img/light.png`),
+  //   blending: THREE.AdditiveBlending,
+  //   transparent: true
+  // });
   // Добавляем систему частиц на сцену
-  const particles = new THREE.Points(geometry, material);
+  // const particles = new THREE.Points(geometry, material);
 
-  scene.add(particles);
+  // scene.add(particles);
 };
 
 const createScene = () => {
@@ -87,34 +208,27 @@ const createScene = () => {
   //   .load([ `px.jpg`, `nx.jpg`, `py.jpg`, `ny.jpg`, `nz.jpg`, `pz.jpg` ]);
 
   //scene.background = new THREE.TextureLoader().load(`./assets/img/black.jpg`);
-  //scene.fog = new THREE.FogExp2(0xe8d1b5, 0.01);
+  // scene.fog = new THREE.FogExp2(0x0, 0.02);
 
   /* Camera
   --------------------------------------*/
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  // camera.position.x = 0;
+  // camera.position.y = 0;
+  // camera.position.z = 50;
+
   camera.position.x = 0;
-  camera.position.y = 0;
-  camera.position.z = 50;
+  camera.position.y = - 200;
+  camera.position.z = 100;
+
+
+  // x: 0, y: - 200, z: 100
 
   /* Ball
   --------------------------------------*/
-  const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
-  const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
-  const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
   //const texture = new THREE.TextureLoader().load(`./assets/img/sand.jpg`);
 
   //texture.repeat.set(0.2, 0.2);
-
-  const lambertMaterial = new THREE.MeshLambertMaterial({
-
-    // color: 0xF6318C,
-    // emissive: 0x471764, 0xccfffd,
-    color: 0xccfffd,
-    emissive: 0x333333,
-    wireframe: false,
-    //transparent: true
-
-  });
 
   // const shaderMaterial = new THREE.RawShaderMaterial({
   //   uniforms: this.uniforms,
@@ -134,90 +248,63 @@ const createScene = () => {
 
 //  const phongMaterial = new THREE.MeshPhongMaterial({color: 0xccfffd, envMap: textureCube, refractionRatio: 0.985, transparent: true, opacity: 0.3});
 
-  const lambertMaterial2 = new THREE.MeshLambertMaterial({
-    color: 0x999999,
-    emissive: 0x222222,
-    wireframe: false,
-    transparent: true,
-    opacity: 0.0,
-    //map: texture
-  });
-
-  const lambertMaterial3 = new THREE.MeshLambertMaterial({
-    color: 0x999999,
-    emissive: `white`,
-    wireframe: false,
-    transparent: true,
-    opacity: 0.1,
-    //map: texture
-  });
-
-  lambertMaterial.depthWrite = false;
-  lambertMaterial2.depthWrite = false;
-
   renderer.sortObject = false;
 
-  ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball.position.x = 0;
-  ball.position.y = 5;
-  ball.position.z = 0;
-  ball.castShadow = true;
-  //ball.receiveShadow = true;
+  ballGroup = new Egg();
+  scene.add(ballGroup.mesh);
 
-  ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
-  ball2.position.x = 0;
-  ball2.position.y = 3;
-  ball2.position.z = 0;
-  ball2.castShadow = true;
-  // ball2.scale.multiplyScalar(20);
-  scene.add(ball2);
-  scene.add(ball);
+  ballGroup2 = ballGroup.mesh.clone();
+  ballGroup2.position.x = 50;
+  ballGroup2.position.y = - 30;
+  ballGroup2.position.z = - 40;
+  scene.add(ballGroup2);
 
-  ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
-  ball3.position.x = 0;
-  ball3.position.y = 5;
-  ball3.position.z = 0;
-  ball3.castShadow = true;
-  scene.add(ball3);
+  ballGroup3 = ballGroup.mesh.clone();
+  ballGroup3.position.x = - 70;
+  ballGroup3.position.y = - 25;
+  ballGroup3.position.z = - 100;
+  scene.add(ballGroup3);
 
-  ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball4.position.x = 60;
-  ball4.position.y = - 20;
-  ball4.position.z = - 60;
-  ball4.castShadow = true;
-//  scene.add(ball4);
+  ballGroup4 = ballGroup.mesh.clone();
+  ballGroup4.position.x = - 70;
+  ballGroup4.position.y = 95;
+  ballGroup4.position.z = - 150;
+  scene.add(ballGroup4);
 
+  ballGroup5 = ballGroup.mesh.clone();
+  ballGroup5.position.x = 70;
+  ballGroup5.position.y = 112;
+  ballGroup5.position.z = - 200;
+  scene.add(ballGroup5);
 
-  ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball5.position.x = - 10;
-  ball5.position.y = 5;
-  ball5.position.z = 100;
-  ball5.castShadow = true;
-//  scene.add(ball5);
+  ballGroup6 = ballGroup.mesh.clone();
+  ballGroup6.position.x = - 150;
+  ballGroup6.position.y = 30;
+  ballGroup6.position.z = - 140;
+  scene.add(ballGroup6);
 
+  ballGroup7 = ballGroup.mesh.clone();
+  ballGroup7.position.x = - 100;
+  ballGroup7.position.y = - 50;
+  ballGroup7.position.z = - 30;
+  scene.add(ballGroup7);
 
-  ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball6.position.x = - 70;
-  ball6.position.y = 5;
-  ball6.position.z = 80;
-  ball6.castShadow = true;
-//  scene.add(ball6);
+  ballGroup8 = ballGroup.mesh.clone();
+  ballGroup8.position.x = - 50;
+  ballGroup8.position.y = - 100;
+  ballGroup8.position.z = 0;
+  scene.add(ballGroup8);
 
+  ballGroup9 = ballGroup.mesh.clone();
+  ballGroup9.position.x = - 30;
+  ballGroup9.position.y = - 180;
+  ballGroup9.position.z = 70;
+  scene.add(ballGroup9);
 
-  ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball7.position.x = - 70;
-  ball7.position.y = 5;
-  ball7.position.z = - 100;
-  ball7.castShadow = true;
-  //scene.add(ball7);
-
-
-  ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball8.position.x = - 70;
-  ball8.position.y = 5;
-  ball8.position.z = - 100;
-  ball8.castShadow = true;
-//  scene.add(ball8);
+  // ballGroup9.children.forEach(ball => {
+  //   ball.material.opacity = 0;
+  //   console.log(ball.material.opacity);
+  // });
 
   //ball.receiveShadow = true;
 
@@ -227,7 +314,7 @@ const createScene = () => {
   scene.add(ambientLight);
   camera.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(0xccfffd, 1, 100);
+  pointLight = new THREE.PointLight(0xccfffd, 1, 100);
   pointLight.position.set(10, 10, 10);
   scene.add(pointLight);
 
@@ -235,14 +322,22 @@ const createScene = () => {
   // pointLight.position.set(0, 0, 10);
   // camera.add(pointLight);
 
+
+  //
   /* SpotLight
   // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
-  spotLight.intensity = 0.1;
-  spotLight.position.set(- 10, 40, 20);
+  spotLight.intensity = 0.8;
+  spotLight.position.set(0, 1000, 20);
   spotLight.lookAt(ball);
   spotLight.castShadow = true;
   scene.add(spotLight);
+
+  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+  scene.add(spotLightHelper);
+
+  // camera.add(spotLight);
+
 
   //orbitcontrols;
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -251,23 +346,40 @@ const createScene = () => {
   controls.enablePan = true;
 
   // new TWEEN.Tween(camera.position)
-  //     .to({x: 0, y: 0, z: 400}, 10000)
+  //     .to({x: 0, y: - 200, z: 100}, 20000)
   //     .start();
+  //
+  // // new TWEEN.Tween(camera.rotation)
+  // //     .to({x: .3, y: 1, z: .3}, 10000)
+  // //     .start();
+  //
+  // const A = new TWEEN.Tween(camera.rotation).to({x: .3, y: .3, z: .3}, 5000);
+  // const B = new TWEEN.Tween(camera.rotation).to({x: .6, y: .6, z: .6}, 5000);
+  // //
+  // A.chain(B);
+  // A.start();
+  //
+  // const C = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
+  // const D = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
+  // //
+  // C.chain(D);
+  // C.start();
+
+// <<<<<<< HEAD
+//   new TWEEN.Tween(spotLight.position)
+//       .to({x: 0, y: 0, z: 400}, 10000)
+//       .start();
+
+
+  //
+  // console.log(lambertMaterial);
 
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.autoClear = false;
+
+
   //RIJPE EICEL
-
-  new TWEEN.Tween(lambertMaterial)
-      .to({opacity: .9}, 10000)
-      .start();
-
-
-  new TWEEN.Tween(lambertMaterial2)
-      .to({opacity: .3}, 10000)
-      .start();
-
 };
 
 const initPostprocessing = () => {
@@ -356,7 +468,7 @@ const initPostprocessing = () => {
 
 const createAudio = () => {
   const audio = document.querySelector(`.audio`);
-  audio.volume = 0.1;
+  audio.volume = 0.0;
 };
 
 // const createBackground = () => {
@@ -395,10 +507,10 @@ const createIce = () => {
     color: 0x007a87,
     emissice: `white`,
     transparent: true,
-    opacity: .7
+    opacity: 0.0
   });
 
-  const iceShard = new THREE.Mesh(geometry, material);
+  iceShard = new THREE.Mesh(geometry, material);
   iceShard.position.y = 5;
   scene.add(iceShard);
 };
@@ -469,8 +581,7 @@ const createParticles = () => {
   scene.add(particleCloud);
 };
 
-const animate = time => {
-  TWEEN.update(time);
+const animate = () => {
 
   requestAnimationFrame(animate);
   render();
@@ -479,16 +590,79 @@ const animate = time => {
 const render = () => {
 
   //animateLights();
-  makeRoughBall(ball);
-  makeRoughBall(ball2);
-  makeRoughBall(ball3);
   animateSpheres();
   animateParticles();
-  //updateIceMaterial();
   createLightRays();
+
+  if (blobMovement) {
+    ballGroup.animateEgg();
+  }
+
+  if (window.storyIndex >= 3) {
+    animateCamera();
+  }
+
+  if (window.storyIndex >= 4) {
+    ballGroup.fertilize();
+
+    new TWEEN.Tween(pointLight.color)
+      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+      .start();
+
+    new TWEEN.Tween(lambertMaterial.emissive)
+      .to({r: 46 / 255, g: 26 / 255, b: 53 / 255}, 2000)
+      .start();
+  }
+
+  if (window.storyIndex === 5) {
+    //console.log(pointLight);
+    new TWEEN.Tween(pointLight.color)
+      .to({r: 1, g: 0, b: 0}, 2000)
+      .start();
+
+    new TWEEN.Tween(lambertMaterial.emissive)
+      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+      .start();
+  }
+
+  if (window.storyIndex === 6 && window.innerIndex >= 2) {
+    ballGroup.freeze();
+  } else if (window.storyIndex >= 7) {
+    ballGroup.unfreeze();
+  }
+
   //const currentTime = Date.now();
 
-//  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
+  //uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
+};
+
+const animateCamera = time => {
+
+  // camera.rotation.x = 0.6;
+  // camera.rotation.y = 0.6;
+  // camera.rotation.z = 0.6;
+  // console.log(window.storyIndex);
+  // console.log(storyIndex.storyIndex);
+
+  if (startCameraAnimation) {
+    startCameraAnimation = false;
+    new TWEEN.Tween(camera.position)
+        .to({x: 0, y: 0, z: 50}, 20000)
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .start();
+
+    // new TWEEN.Tween(camera.rotation)
+    //     .to({x: .3, y: 1, z: .3}, 10000)
+    //     .start();
+
+    const A = new TWEEN.Tween(camera.rotation).to({x: .0, y: .0, z: .0}, 20000).easing(TWEEN.Easing.Cubic.InOut);
+    const B = new TWEEN.Tween(camera.rotation).to({x: 0, y: 0, z: 0}, 5000);
+    //
+    A.chain(B);
+    A.start();
+  }
+
+  TWEEN.update(time);
 };
 
 // const updateIceMaterial = () => {
