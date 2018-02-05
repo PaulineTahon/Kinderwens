@@ -39,8 +39,8 @@ body {
     display: flex;
     font-size: 2.4rem;
     justify-content: center;
-    align-items: center;
-    height: 75vh;
+    align-items: flex-end;
+    height: 55vh;
     width: 25rem;
     line-height: 3rem;
     padding-right: 30rem;
@@ -257,7 +257,10 @@ input[type=range]::-webkit-slider-thumb {
 
   0% { clip-path: inset(0 0 0 0); }
 
-  100% { clip-path: inset(100% 0 0 0); }
+  100% {
+    clip-path: inset(100% 0 0 0);
+    display: none;
+  }
 }
 
 .h1 {
@@ -281,12 +284,25 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .eicel_stage_risks {
+  display: none;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.organic-blob {
+.risks {
+  display: none;
+}
+
+.info {
+  display: none;
+}
+
+.storyIndex {
+  display: none;
+}
+
+/* .organic-blob {
   position: absolute;
   opacity: .3;
   transform: scale(.2);
@@ -307,5 +323,32 @@ input[type=range]::-webkit-slider-thumb {
   opacity: .3;
   transform: scale(.4);
   top: 0;
+  cursor: pointer;
+} */
+
+.organic-blob {
+  position: absolute;
+  top: 0;
+  z-index: 12;
+  opacity: .5;
+  cursor: pointer;
+  transform: scale(.2);
+}
+
+.organic-blob2 {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  opacity: .5;
+  transform: scale(.3);
+  cursor: pointer;
+}
+
+.organic-blob3 {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  opacity: .3;
+  transform: scale(.4);
   cursor: pointer;
 }

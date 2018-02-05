@@ -128,7 +128,31 @@
       </div>
       <div class="buttons_next">
         <div class="buttons_next_bg">
-          <svg class="organic-blob" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
+          <svg class="organic-blob" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="royalblue">
+            <defs>
+              <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+              </filter>
+            </defs>
+           <g>
+            <circle r="100" cy="145" cx="150">
+              <animateTransform  id="circle1" attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="155" cx="150">
+              <animateTransform id="circle2" attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="145">
+              <animateTransform id="circle3" attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="155">
+              <animateTransform id="circle4" attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+             </circle>
+           </g>
+          </svg>
+
+          <svg class="organic-blob2" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="royalblue">
             <defs>
               <filter id="goo">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
@@ -137,22 +161,22 @@
               </filter>
             </defs>
             <g>
-               <!-- begin="circle1.mouseover" -->
-              <circle id="circle1" r="100" cy="145" cx="150">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
-               </circle>
-              <circle r="100" cy="155" cx="150">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
-               </circle>
-              <circle r="100" cy="150" cx="145">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
-               </circle>
-              <circle r="100" cy="150" cx="155">
-                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
-               </circle>
+            <circle r="100" cy="145" cx="150">
+              <animateTransform id="circle5" attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="155" cx="150">
+              <animateTransform id="circle6" attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="145">
+              <animateTransform id="circle7" attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="155">
+              <animateTransform id="circle8" attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+             </circle>
             </g>
           </svg>
-          <svg class="organic-blob2" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
+
+          <svg class="organic-blob3" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="royalblue">
             <defs>
               <filter id="goo">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
@@ -161,41 +185,18 @@
               </filter>
             </defs>
             <g>
-              <circle r="100" cy="145" cx="150">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="155" cx="150">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="150" cx="145">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="150" cx="155">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
-              </circle>
-            </g>
-          </svg>
-          <svg class="organic-blob3" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9d6b83">
-            <defs>
-              <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
-                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-              </filter>
-            </defs>
-            <g>
-              <circle r="100" cy="145" cx="150">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="155" cx="150">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="150" cx="145">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
-              </circle>
-              <circle r="100" cy="150" cx="155">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
-              </circle>
+            <circle r="100" cy="145" cx="150">
+              <animateTransform id="circle9" attributeType="xml" attributeName="transform" type="rotate" from="0 145 150" to="360 145 150" dur="1s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="155" cx="150">
+              <animateTransform id="circle10" attributeType="xml" attributeName="transform" type="rotate" from="360 155 150" to="0 155 150" dur="2s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="145">
+              <animateTransform id="circle11" attributeType="xml" attributeName="transform" type="rotate" from="0 150 145" to="360 150 145" dur="3s" repeatCount="indefinite"/>
+             </circle>
+            <circle r="100" cy="150" cx="155">
+              <animateTransform id="circle12" attributeType="xml" attributeName="transform" type="rotate" from="360 150 155" to="0 150 155" dur="2.5s" repeatCount="indefinite"/>
+             </circle>
             </g>
           </svg>
         </div>
@@ -237,16 +238,16 @@
       </ul>
     </nav>
 
-    <div class="loading" id="loading">
+
       <!-- <h1 class="h1">
         <span class="l">l</span>
         <span class="o">o</span>
         <span class="a">a</span>
         <span class="d">d</span>
       </h1> -->
-      <div class="top"></div>
-      <div class="bottom"></div>
-    </div>
+    <div class="top"></div>
+    <div class="bottom"></div>
+
     <!-- <div class="na">
 
     </div> -->
@@ -259,7 +260,7 @@
         load_screen2.classList.add(`bottom_animation`);
       });
     </script>
-
+    <script src="js/animateBlob.js"></script>
     <script src="js/three.min.js"></script>
     <script src="js/storyScript.js"></script>
     <script src="js/script.js"></script>
