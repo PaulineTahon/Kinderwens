@@ -14,7 +14,7 @@ const circle12 = document.getElementById(`circle12`);
 console.log(blob1);
   // const transform = `rotate(0, 145, 150)`;
   //var transform = "translate("+x+","+y+") scale("+scale+")"; //same
-blob1.addEventListener(`mouseenter`, () => {
+blob1.addEventListener(`mouseleave`, () => {
   circle1.setAttribute(`from`, ``);
   circle1.setAttribute(`to`, ``);
 
@@ -53,7 +53,7 @@ blob1.addEventListener(`mouseenter`, () => {
   console.log(`hey`);
 });
 
-blob1.addEventListener(`mouseleave`, () => {
+blob1.addEventListener(`mouseenter`, () => {
   circle1.setAttribute(`from`, `0 145 150`);
   circle1.setAttribute(`to`, `360 145 150`);
 

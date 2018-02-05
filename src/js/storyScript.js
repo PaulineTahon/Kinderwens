@@ -2,31 +2,33 @@ let story;
 let storyIndex = 0;
 
 const text = document.querySelector(`.eicel_stage_text`);
-const age = document.querySelector(`.eicel_stage_stats_age`);
-const eggCount = document.querySelector(`.eicel_stage_stats_count`);
+const age = document.querySelector(`.stage__stats__value`);
+const eggCount = document.querySelector(`.stage__stats__count`);
+const ageMetric = document.querySelector(`.stage__stats__valueMetric`);
+const eggCountMetric = document.querySelector(`.stage__stats__countMetric`);
 
 const userAge = document.querySelector(`.user_age`);
 const ageInput = document.querySelector(`.user_age_input`);
 const ageValue = document.querySelector(`.user_age_input_value`);
 
-const nextButton = document.querySelector(`.buttons_next`);
+const nextButton = document.querySelector(`.buttons`);
 //const previousButton = document.querySelector(`.buttons_previous`);
-const nextButtonText = document.querySelector(`.buttons_next_text`);
+const nextButtonText = document.querySelector(`.buttons__text`);
 //const previousButtonText = document.querySelector(`.buttons_previous_text`);
 
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
 
 let currentAge;
-const stages = [
-  {age: 0, index: 3},
-  {age: 15, index: 4},
-  {age: 20, index: 5},
-  {age: 30, index: 6},
-  {age: 35, index: 7},
-  {age: 40, index: 8},
-  {age: 50, index: 9}
-];
+// const stages = [
+//   {age: 0, index: 3},
+//   {age: 15, index: 4},
+//   {age: 20, index: 5},
+//   {age: 30, index: 6},
+//   {age: 35, index: 7},
+//   {age: 40, index: 8},
+//   {age: 50, index: 9}
+// ];
 
 const indexStory = () => {
   loadJson();
@@ -95,11 +97,13 @@ const handleNext = e => {
     //}
     text.innerHTML = story[storyIndex].text;
     if (story[storyIndex].age) {
-      age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
+      age.innerHTML = `${story[storyIndex].age} `;
+      ageMetric.innerHTML = ` jaar`;
       if (story[storyIndex - 1].eggCount) {
         countEggsDown();
       } else {
-        eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
+        eggCount.innerHTML = `${story[storyIndex].eggCount} `;
+        eggCountMetric.innerHTML = ` eicellen`;
       }
     }
   }
@@ -136,7 +140,7 @@ const handleNext = e => {
 
   if (storyIndex === 1) {
     userAge.style.display = `block`;
-    ageValue.innerHTML = ageInput.value;
+    ageValue.innerHTML = `${ageInput.value} jaar`;
     ageInput.addEventListener(`change`, handleAge);
   } else {
     userAge.style.display = `none`;
@@ -193,7 +197,7 @@ const countEggsDown = () => {
     } else {
       eggsLeft -= 1000;
     }
-    eggCount.innerHTML = `aantal eicellen: ${eggsLeft}`;
+    eggCount.innerHTML = `${eggsLeft} `;
     if (eggsLeft === story[storyIndex].eggCount || eggsLeft === 0) {
       clearInterval(eggTimer);
     }
@@ -201,8 +205,9 @@ const countEggsDown = () => {
 };
 
 const handleAge = () => {
-  ageValue.innerHTML = ageInput.value;
+  ageValue.innerHTML = `${ageInput.value} jaar`;
   currentAge = ageInput.value;
+  console.log(currentAge);
 };
 
 const readJson = data => {

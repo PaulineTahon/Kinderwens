@@ -27,51 +27,74 @@ body {
   height: 100vh;
   color: white;
 
-  &_stage_stats {
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    width: 80vw;
-  }
-
   &_stage_text {
-    margin: 0 auto;
-    display: flex;
-    font-size: 2.4rem;
-    justify-content: center;
-    align-items: flex-end;
-    height: 55vh;
+    position: absolute;
+    left: 20vw;
+    top: 12rem;
+    font-size: 2rem;
     width: 25rem;
     line-height: 3rem;
-    padding-right: 30rem;
-    /*color: #9d6b83;*/
     color: #b1a8cb;
   }
 }
 
-.buttons {
+.stage__stats {
+  position: fixed;
+  bottom: 12rem;
+  left: calc(50% - 8rem);
+  display: flex;
+  justify-content: space-between;
+  width: 16rem;
+  font-size: 1.2rem;
+  font-family: 'sofia pro';
+
+  &__valueMetric, &__countMetric {
+    text-transform: capitalize;
+    color: #9d6b88;
+    letter-spacing: .1rem;
+    margin-left: .2rem;
+  }
+}
+
+/* .buttons {
   margin: 0 auto;
-  /*display: flex;*/
+  display: flex;
   justify-content: space-between;
 
   &_next {
+    position: absolute;
+    bottom: 3rem;
+    left: calc(50% - 2.5rem);
+    width: 5rem;
+    height: 5rem;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-top: -7rem;
-    cursor: pointer;
+    align-items: flex-end;
+    height: 100vh;
 
     &_text {
-      position: absolute;
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: fixed;
+      bottom: -5rem;
+       width: 5rem;
+      height: 5rem;
+      position: fixed;
+      bottom: -2.3rem;
+      left: calc(50% - 10rem);
       color: white;
+      margin: 0;
     }
 
     &_bg {
+      position: fixed;
       position: absolute;
-      margin: 0 auto;
+      bottom: 5rem;
       display: flex;
       justify-content: center;
+      align-items: center;
     }
   }
 
@@ -82,19 +105,23 @@ body {
     margin-top: -7rem;
     cursor: pointer;
   }
-}
+}  */
 
 .user_age {
+  position: fixed;
+  bottom: 6rem;
+  z-index: 10;
+  left: calc(50% - 14rem);
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  width: 450px;
+  width: 28rem;
 
   &_input {
     text-align: center;
-    width: 470px;
+    width: auto;
 
     &_value {
       text-align: center;
@@ -108,15 +135,19 @@ body {
     align-items: center;
   }
 
+  &_flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &_0 {
-    color: #000cea;
-    /* lalalal */
+    color: #b1a8cb;
+    margin-left: 1.02rem;
   }
 
   &_100 {
-    color: #000cea;
+    color: #b1a8cb;
     overflow-x: visible;
-    margin-left: 21.51rem;
   }
 }
 
@@ -326,10 +357,31 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
 } */
 
+.buttons {
+  position: absolute;
+  left: 20vw;
+  top: 40rem;
+  width: 25rem;
+  display: flex;
+  justify-content: flex-start;
+
+  &__div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-left: 2.5rem;
+  }
+
+  &__text {
+    position: absolute;
+    bottom: 7.7rem;
+  }
+}
+
 .organic-blob {
   position: absolute;
-  top: 0;
-  z-index: 12;
+  bottom: 0;
+  /* z-index: 12; */
   opacity: .5;
   cursor: pointer;
   transform: scale(.2);
@@ -337,17 +389,19 @@ input[type=range]::-webkit-slider-thumb {
 
 .organic-blob2 {
   position: absolute;
-  top: 0;
-  z-index: 10;
+  bottom: 0;
+  /* top: 0; */
+  /* z-index: 10; */
   opacity: .5;
   transform: scale(.3);
   cursor: pointer;
 }
 
 .organic-blob3 {
+  bottom: 0;
   position: absolute;
-  z-index: 10;
-  top: 0;
+  /* z-index: 10; */
+  /* top: 0; */
   opacity: .3;
   transform: scale(.4);
   cursor: pointer;
