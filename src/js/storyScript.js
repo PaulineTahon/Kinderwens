@@ -10,9 +10,9 @@ const ageInput = document.querySelector(`.user_age_input`);
 const ageValue = document.querySelector(`.user_age_input_value`);
 
 const nextButton = document.querySelector(`.buttons_next`);
-const previousButton = document.querySelector(`.buttons_previous`);
+//const previousButton = document.querySelector(`.buttons_previous`);
 const nextButtonText = document.querySelector(`.buttons_next_text`);
-const previousButtonText = document.querySelector(`.buttons_previous_text`);
+//const previousButtonText = document.querySelector(`.buttons_previous_text`);
 
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
@@ -30,10 +30,10 @@ const stages = [
 
 const indexStory = () => {
   loadJson();
-  previousButton.style.display = `none`;
+//  previousButton.style.display = `none`;
   userAge.style.display = `none`;
   nextButton.addEventListener(`click`, handleNext);
-  previousButton.addEventListener(`click`, handlePrevious);
+//  previousButton.addEventListener(`click`, handlePrevious);
 
 };
 
@@ -54,13 +54,13 @@ const handleNext = e => {
     nextButtonText.innerHTML = `volgende`;
   }
 
-  if (storyIndex >= 1) {
-    previousButtonText.innerHTML = `vorige`;
-    previousButton.style.display = `block`;
-    previousButtonText.style.display = `block`;
-  } else {
-    previousButtonText.style.display = `none`;
-  }
+  // if (storyIndex >= 1) {
+  //   previousButtonText.innerHTML = `vorige`;
+  //   previousButton.style.display = `block`;
+  //   previousButtonText.style.display = `block`;
+  // } else {
+  //   previousButtonText.style.display = `none`;
+  // }
 
   if (storyIndex === story.length - 1) {
     //EINDE STORY
@@ -77,22 +77,22 @@ const handleNext = e => {
     innerIndex ++;
   } else {
     innerIndex = 0;
-    if (storyIndex === 2) {
-      //START STORY ON CURRENT AGE
-      for (let i = 0;i < stages.length;i ++) {
-        console.log(parseInt(stages[i].age), currentAge);
-        if (parseInt(currentAge) <= stages[i].age) {
-          console.log(`ja`, stages[i].age);
-          storyIndex = stages[i - 1].index;
-          text.innerHTML = story[storyIndex].text;
-          return;
-        } else {
-          storyIndex = 9;
-        }
-      }
-    } else {
-      storyIndex ++;
-    }
+    // if (storyIndex === 2) {
+    //   //START STORY ON CURRENT AGE
+    //   for (let i = 0;i < stages.length;i ++) {
+    //     console.log(parseInt(stages[i].age), currentAge);
+    //     if (parseInt(currentAge) <= stages[i].age) {
+    //       console.log(`ja`, stages[i].age);
+    //       storyIndex = stages[i - 1].index;
+    //       text.innerHTML = story[storyIndex].text;
+    //       return;
+    //     } else {
+    //       storyIndex = 9;
+    //     }
+    //   }
+  //  } else {
+    storyIndex ++;
+    //}
     text.innerHTML = story[storyIndex].text;
     if (story[storyIndex].age) {
       age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
@@ -144,7 +144,7 @@ const handleNext = e => {
 
   if (storyIndex === 2) {
     console.log(`options`);
-    previousButtonText.innerHTML = story[storyIndex].options.start;
+  //  previousButtonText.innerHTML = story[storyIndex].options.start;
     nextButtonText.innerHTML = story[storyIndex].options.now;
   }
 
@@ -155,34 +155,34 @@ const handleNext = e => {
 
 };
 
-const handlePrevious = e => {
-  e.preventDefault();
-
-  if (innerIndex === 0 && story[storyIndex].text2) {
-    text.innerHTML = story[storyIndex].text;
-    innerIndex --;
-  } else if (innerIndex === 1 && story[storyIndex].text3) {
-    text.innerHTML = story[storyIndex].text2;
-    innerIndex --;
-  } else if (innerIndex === 2 && story[storyIndex].text4) {
-    text.innerHTML = story[storyIndex].text3;
-    innerIndex --;
-  } else {
-    innerIndex = 0;
-    if (storyIndex === 2) {
-      storyIndex ++;
-      previousButtonText.innerHTML = `vorige`;
-      nextButtonText.innerHTML = `volgende`;
-    } else {
-      storyIndex --;
-    }
-    text.innerHTML = story[storyIndex].text;
-    if (story[storyIndex].age) {
-      age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
-      eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
-    }
-  }
-};
+// const handlePrevious = e => {
+//   e.preventDefault();
+//
+//   if (innerIndex === 0 && story[storyIndex].text2) {
+//     text.innerHTML = story[storyIndex].text;
+//     innerIndex --;
+//   } else if (innerIndex === 1 && story[storyIndex].text3) {
+//     text.innerHTML = story[storyIndex].text2;
+//     innerIndex --;
+//   } else if (innerIndex === 2 && story[storyIndex].text4) {
+//     text.innerHTML = story[storyIndex].text3;
+//     innerIndex --;
+//   } else {
+//     innerIndex = 0;
+//     if (storyIndex === 2) {
+//       storyIndex ++;
+//       previousButtonText.innerHTML = `vorige`;
+//       nextButtonText.innerHTML = `volgende`;
+//     } else {
+//       storyIndex --;
+//     }
+//     text.innerHTML = story[storyIndex].text;
+//     if (story[storyIndex].age) {
+//       age.innerHTML = `leeftijd: ${story[storyIndex].age}`;
+//       eggCount.innerHTML = `aantal eicellen: ${story[storyIndex].eggCount}`;
+//     }
+//   }
+// };
 
 const countEggsDown = () => {
   console.log(story[storyIndex - 1].eggCount, story[storyIndex].eggCount);
