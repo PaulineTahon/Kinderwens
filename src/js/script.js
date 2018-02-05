@@ -1,27 +1,26 @@
 import OpenSimplexNoise from 'open-simplex-noise';
-// require (`./storyScript`);
 
-
-
-
-
-let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9, ball10, ball11;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
-let startAnimation = true;
+let startCameraAnimation = true;
 
 // scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
 
-// scene.fog = new THREE.FogExp2(0x0f0d29, 0.01);
+scene.fog = new THREE.FogExp2(0x181818, 0.008);
 
+let ball, ball2, ball3, iceShard;
+let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+let lambertMaterial, lambertMaterial2, lambertMaterial3;
+
+let pointLight;
+
+const blobSpeed = 0.0007;
+let blobMovement = true;
 
 const spheres = [];
-//
-// let uniforms;
-// let startTime;
-//const index = 0;
+
 let textureCube;
 
 let particleCloud;
@@ -33,29 +32,136 @@ let materialDepth;
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
-
 const postprocessing = {enabled: true};
 const bgColor = `black`;
 const sunColor = 0xffee00;
 
 /* vars light --------------------------------------*/
-//et bulbLight, bulbLight2;
-
+//let bulbLight, bulbLight2;
 
 const noise = new OpenSimplexNoise();
+
+class Egg {
+  constructor () {
+    this.mesh = new THREE.Object3D();
+
+    const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
+    const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
+    const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
+
+    lambertMaterial = new THREE.MeshLambertMaterial({
+      color: 0xccfffd,
+      emissive: 0x333333,
+      wireframe: false,
+      transparent: true
+    });
+
+    lambertMaterial2 = new THREE.MeshLambertMaterial({
+      color: 0x999999,
+      emissive: 0x222222,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.0,
+        //map: texture
+    });
+
+    lambertMaterial3 = new THREE.MeshLambertMaterial({
+      color: 0x999999,
+      emissive: `white`,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.1,
+        //map: texture
+    });
+
+    lambertMaterial.depthWrite = false;
+    lambertMaterial2.depthWrite = false;
+    lambertMaterial3.depthWrite = false;
+
+    ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
+    ball.position.x = 0;
+    ball.position.y = 5;
+    ball.position.z = 0;
+    ball.castShadow = true;
+    //ball.receiveShadow = true;
+    //scene.add(ball);
+
+    ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
+    ball2.position.x = 0;
+    ball2.position.y = 3;
+    ball2.position.z = 0;
+    ball2.castShadow = true;
+    // ball2.scale.multiplyScalar(20);
+    //scene.add(ball2);
+
+    ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
+    ball3.position.x = 0;
+    ball3.position.y = 5;
+    ball3.position.z = 0;
+    ball3.castShadow = true;
+
+    this.mesh.add(ball);
+    this.mesh.add(ball2);
+    this.mesh.add(ball3);
+  }
+
+  animateEgg = () => {
+    makeRoughBall(ball);
+    makeRoughBall(ball2);
+    makeRoughBall(ball3);
+  }
+
+  fertilize = () => {
+
+    new TWEEN.Tween(lambertMaterial)
+        .to({opacity: .7}, 1000)
+        .start();
+
+    new TWEEN.Tween(lambertMaterial2)
+        .to({opacity: .3}, 1000)
+        .start();
+
+  }
+
+  freeze = () => {
+
+    if (iceShard.material.opacity >= .35) {
+      blobMovement = false;
+    }
+
+    new TWEEN.Tween(iceShard.material)
+        .to({opacity: 0.7}, 5000)
+        .start();
+
+  }
+
+  unfreeze = () => {
+
+    if (iceShard.material.opacity <= .35) {
+      blobMovement = true;
+    }
+
+    new TWEEN.Tween(iceShard.material)
+        .to({opacity: 0.0}, 2000)
+        .start();
+
+  }
+}
 
 const init = () => {
   //startTime = Date.now();
   createTerrain();
   createScene();
+  createIce();
   initPostprocessing();
   // console.log(storyIndex);
-//  createLights();
+  // createLights();
   createAudio();
   createSpheres();
-//  createBackground();
+  //createBackground();
   createParticles();
   onWindowResize();
+
   camera.rotation.x = 0.6;
   camera.rotation.y = 0.6;
   camera.rotation.z = 0.6;
@@ -110,34 +216,19 @@ const createScene = () => {
   // camera.position.x = 0;
   // camera.position.y = 0;
   // camera.position.z = 50;
+
   camera.position.x = 0;
   camera.position.y = - 200;
   camera.position.z = 100;
-  camera.rotation.x = 0.6;
-  camera.rotation.y = 0.6;
-  camera.rotation.z = 0.6;
+
 
   // x: 0, y: - 200, z: 100
 
   /* Ball
   --------------------------------------*/
-  const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
-  const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
-  const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
   //const texture = new THREE.TextureLoader().load(`./assets/img/sand.jpg`);
 
   //texture.repeat.set(0.2, 0.2);
-
-  const lambertMaterial = new THREE.MeshLambertMaterial({
-
-    // color: 0xF6318C,
-    // emissive: 0x471764, 0xccfffd,
-    color: 0xccfffd,
-    emissive: 0x333333,
-    wireframe: false,
-    //transparent: true
-
-  });
 
   // const shaderMaterial = new THREE.RawShaderMaterial({
   //   uniforms: this.uniforms,
@@ -157,136 +248,79 @@ const createScene = () => {
 
 //  const phongMaterial = new THREE.MeshPhongMaterial({color: 0xccfffd, envMap: textureCube, refractionRatio: 0.985, transparent: true, opacity: 0.3});
 
-  const lambertMaterial2 = new THREE.MeshLambertMaterial({
-    color: 0x999999,
-    emissive: 0x222222,
-    wireframe: false,
-    // transparent: true,
-    // opacity: 0.0,
-    //map: texture
-  });
-
-  const lambertMaterial3 = new THREE.MeshLambertMaterial({
-    color: 0x999999,
-    emissive: `white`,
-    wireframe: false,
-    transparent: true,
-    opacity: 0.1,
-    //map: texture
-  });
-
-  lambertMaterial.depthWrite = false;
-  lambertMaterial2.depthWrite = false;
-
   renderer.sortObject = false;
 
-  ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball.position.x = 0;
-  ball.position.y = 5;
-  ball.position.z = 0;
-  ball.castShadow = true;
-  //ball.receiveShadow = true;
-  scene.add(ball);
+  ballGroup = new Egg();
+  scene.add(ballGroup.mesh);
 
-  ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
-  ball2.position.x = 0;
-  ball2.position.y = 3;
-  ball2.position.z = 0;
-  ball2.castShadow = true;
-  // ball2.scale.multiplyScalar(20);
-  scene.add(ball2);
+  ballGroup2 = ballGroup.mesh.clone();
+  ballGroup2.position.x = 50;
+  ballGroup2.position.y = - 30;
+  ballGroup2.position.z = - 40;
+  scene.add(ballGroup2);
 
-  ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
-  ball3.position.x = 0;
-  ball3.position.y = 5;
-  ball3.position.z = 0;
-  ball3.castShadow = true;
-  scene.add(ball3);
+  ballGroup3 = ballGroup.mesh.clone();
+  ballGroup3.position.x = - 70;
+  ballGroup3.position.y = - 25;
+  ballGroup3.position.z = - 100;
+  scene.add(ballGroup3);
 
-  ball4 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball4.position.x = 50;
-  ball4.position.y = - 30;
-  ball4.position.z = - 40;
-  ball4.castShadow = true;
-  scene.add(ball4);
+  ballGroup4 = ballGroup.mesh.clone();
+  ballGroup4.position.x = - 70;
+  ballGroup4.position.y = 95;
+  ballGroup4.position.z = - 150;
+  scene.add(ballGroup4);
 
+  ballGroup5 = ballGroup.mesh.clone();
+  ballGroup5.position.x = 70;
+  ballGroup5.position.y = 112;
+  ballGroup5.position.z = - 200;
+  scene.add(ballGroup5);
 
-  ball5 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball5.position.x = - 70;
-  ball5.position.y = - 25;
-  ball5.position.z = - 100;
-  ball5.castShadow = true;
-  scene.add(ball5);
+  ballGroup6 = ballGroup.mesh.clone();
+  ballGroup6.position.x = - 150;
+  ballGroup6.position.y = 30;
+  ballGroup6.position.z = - 140;
+  scene.add(ballGroup6);
 
+  ballGroup7 = ballGroup.mesh.clone();
+  ballGroup7.position.x = - 100;
+  ballGroup7.position.y = - 50;
+  ballGroup7.position.z = - 30;
+  scene.add(ballGroup7);
 
-  ball6 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball6.position.x = - 70;
-  ball6.position.y = 95;
-  ball6.position.z = - 150;
-  ball6.castShadow = true;
-  scene.add(ball6);
+  ballGroup8 = ballGroup.mesh.clone();
+  ballGroup8.position.x = - 50;
+  ballGroup8.position.y = - 100;
+  ballGroup8.position.z = 0;
+  scene.add(ballGroup8);
 
+  ballGroup9 = ballGroup.mesh.clone();
+  ballGroup9.position.x = - 30;
+  ballGroup9.position.y = - 180;
+  ballGroup9.position.z = 70;
+  scene.add(ballGroup9);
 
-  ball7 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball7.position.x = 70;
-  ball7.position.y = 112;
-  ball7.position.z = - 200;
-  ball7.castShadow = true;
-  scene.add(ball7);
-
-
-  ball8 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball8.position.x = - 150;
-  ball8.position.y = 30;
-  ball8.position.z = - 140;
-  ball8.castShadow = true;
-  scene.add(ball8);
-
-  ball9 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball9.position.x = - 100;
-  ball9.position.y = - 50;
-  ball9.position.z = - 30;
-  ball9.castShadow = true;
-  scene.add(ball9);
-
-  ball10 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball10.position.x = - 50;
-  ball10.position.y = - 100;
-  ball10.position.z = 0;
-  ball10.castShadow = true;
-  scene.add(ball10);
-
-  ball11 = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-  ball11.position.x = - 30;
-  ball11.position.y = - 180;
-  ball11.position.z = 70;
-  ball11.castShadow = true;
-  scene.add(ball11);
+  // ballGroup9.children.forEach(ball => {
+  //   ball.material.opacity = 0;
+  //   console.log(ball.material.opacity);
+  // });
 
   //ball.receiveShadow = true;
 
   /* AmbientLight
   --------------------------------------*/
-  // const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
-  // scene.add(ambientLight);
-  // camera.add(ambientLight);
+  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
+  scene.add(ambientLight);
+  camera.add(ambientLight);
 
-  const pointLight = new THREE.PointLight(`white`, 1, 100);
+  pointLight = new THREE.PointLight(0xccfffd, 1, 100);
   pointLight.position.set(10, 10, 10);
   scene.add(pointLight);
 
-  // const sphereSize = 1;
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
-  // scene.add(pointLightHelper);
-  //
   // const pointLight = new THREE.PointLight(0x999999); //0x999999
   // pointLight.position.set(0, 0, 10);
   // camera.add(pointLight);
-  //
-  // const sphereSize = 1;
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
-  // scene.add(pointLightHelper);
-
 
 
   //
@@ -324,7 +358,7 @@ const createScene = () => {
   // //
   // A.chain(B);
   // A.start();
-
+  //
   // const C = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
   // const D = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
   // //
@@ -343,18 +377,9 @@ const createScene = () => {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.autoClear = false;
+
+
   //RIJPE EICEL
-
-
-  // new TWEEN.Tween(lambertMaterial)
-  //     .to({opacity: .9}, 10000)
-  //     .start();
-  //
-  //
-  // new TWEEN.Tween(lambertMaterial2)
-  //     .to({opacity: .3}, 10000)
-  //     .start();
-
 };
 
 const initPostprocessing = () => {
@@ -410,14 +435,13 @@ const initPostprocessing = () => {
 
 // const createLights = () => {
 //
-//
 //   /* Light1
 //   --------------------------------------*/
 //   const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
-//   bulbLight = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   bulbLight = new THREE.PointLight(0x471764, 1, 100, 2);
 //   const bulbMat = new THREE.MeshStandardMaterial({
-//     emissive: 0xffffee,
-//     emissiveIntensity: 1,
+//     emissive: 0x471764,
+//     emissiveIntensity: .1,
 //     color: 0x000000
 //   });
 //
@@ -429,10 +453,10 @@ const initPostprocessing = () => {
 //   /* Light2
 //   --------------------------------------*/
 //
-//   bulbLight2 = new THREE.PointLight(0xffee88, 1, 100, 2);
+//   bulbLight2 = new THREE.PointLight(0x471764, 1, 100, 2);
 //   const bulbMat2 = new THREE.MeshStandardMaterial({
-//     emissive: 0xffffee,
-//     emissiveIntensity: 1,
+//     emissive: 0x471764,
+//     emissiveIntensity: .1,
 //     color: 0x000000
 //   });
 //   bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
@@ -470,6 +494,62 @@ const createAudio = () => {
 //
 // };
 
+const createIce = () => {
+  const geometry = new THREE.DodecahedronGeometry(12.5, 1);
+  const material = new THREE.MeshLambertMaterial({
+    // uniforms: {
+    //   time: {value: 1.0}
+    // },
+    // vertexShader: document.getElementById(`vertexShader2`).textContent,
+    // fragmentShader: document.getElementById(`fragmentShader2`).textContent,
+    // side: THREE.DoubleSide,
+    // transparent: true,
+    color: 0x007a87,
+    emissice: `white`,
+    transparent: true,
+    opacity: 0.0
+  });
+
+  iceShard = new THREE.Mesh(geometry, material);
+  iceShard.position.y = 5;
+  scene.add(iceShard);
+};
+
+// const createIce = () => {
+//   const triangles = 50;
+//   const geometry = new THREE.BufferGeometry();
+//   const positions = [];
+//   const colors = [];
+//   for (let i = 0;i < triangles;i ++) {
+//     positions.push(Math.random() - 0.5);
+//     positions.push(Math.random() - 0.5);
+//     positions.push(Math.random() - 0.5) + 100;
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//     colors.push(Math.random() * 255);
+//   }
+//   const positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
+//   const colorAttribute = new THREE.Uint8BufferAttribute(colors, 4);
+//   colorAttribute.normalized = true;
+//   geometry.addAttribute(`position`, positionAttribute);
+//   geometry.addAttribute(`color`, colorAttribute);
+// 				// material
+//   const material = new THREE.RawShaderMaterial({
+//     uniforms: {
+//       time: {value: 1.0}
+//     },
+//     vertexShader: document.getElementById(`vertexShader2`).textContent,
+//     fragmentShader: document.getElementById(`fragmentShader2`).textContent,
+//     side: THREE.DoubleSide,
+//     transparent: true
+//   });
+//   const iceShard = new THREE.Mesh(geometry, material);
+//   iceShard.scale.multiplyScalar(30);
+//
+//   scene.add(iceShard);
+// };
+
 const createParticles = () => {
   particleGeometry = new THREE.Geometry();
 
@@ -501,19 +581,74 @@ const createParticles = () => {
   scene.add(particleCloud);
 };
 
-const animate = time => {
+const animate = () => {
+
+  requestAnimationFrame(animate);
+  render();
+};
+
+const render = () => {
+
+  //animateLights();
+  animateSpheres();
+  animateParticles();
+  createLightRays();
+
+  if (blobMovement) {
+    ballGroup.animateEgg();
+  }
+
+  if (window.storyIndex >= 3) {
+    animateCamera();
+  }
+
+  if (window.storyIndex >= 4) {
+    ballGroup.fertilize();
+
+    new TWEEN.Tween(pointLight.color)
+      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+      .start();
+
+    new TWEEN.Tween(lambertMaterial.emissive)
+      .to({r: 46 / 255, g: 26 / 255, b: 53 / 255}, 2000)
+      .start();
+  }
+
+  if (window.storyIndex === 5) {
+    //console.log(pointLight);
+    new TWEEN.Tween(pointLight.color)
+      .to({r: 1, g: 0, b: 0}, 2000)
+      .start();
+
+    new TWEEN.Tween(lambertMaterial.emissive)
+      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+      .start();
+  }
+
+  if (window.storyIndex === 6 && window.innerIndex >= 2) {
+    ballGroup.freeze();
+  } else if (window.storyIndex >= 7) {
+    ballGroup.unfreeze();
+  }
+
+  //const currentTime = Date.now();
+
+  //uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
+};
+
+const animateCamera = time => {
+
   // camera.rotation.x = 0.6;
   // camera.rotation.y = 0.6;
   // camera.rotation.z = 0.6;
-  if (!window.yourGlobalVariable || window.yourGlobalVariable < 1) {
-    window.yourGlobalVariable = 0;
-  }
+  // console.log(window.storyIndex);
+  // console.log(storyIndex.storyIndex);
 
-  if (window.yourGlobalVariable && window.yourGlobalVariable > 0 && startAnimation) {
-    startAnimation = false;
+  if (startCameraAnimation) {
+    startCameraAnimation = false;
     new TWEEN.Tween(camera.position)
         .to({x: 0, y: 0, z: 50}, 20000)
-        .easing(TWEEN.Easing.Cubic.InOut)
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
         .start();
 
     // new TWEEN.Tween(camera.rotation)
@@ -526,29 +661,20 @@ const animate = time => {
     A.chain(B);
     A.start();
   }
-  // console.log(window.yourGlobalVariable);
-  // console.log(camera.rotation);
-  // console.log(camera.position);
-  // console.log(storyIndex.storyIndex);
+
   TWEEN.update(time);
-
-  requestAnimationFrame(animate);
-  render();
 };
 
-const render = () => {
-
-  //animateLights();
-  makeRoughBall(ball);
-  makeRoughBall(ball2);
-  makeRoughBall(ball3);
-  animateSpheres();
-  animateParticles();
-  createLightRays();
-  //const currentTime = Date.now();
-
-//  uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
-};
+// const updateIceMaterial = () => {
+//   //const time = Date.now();
+//   for (let i = 0;i < scene.children.length;i ++) {
+//     const object = scene.children[ i ];
+//
+//     }
+//     //  object.material.uniforms.time.value = time * 0.005;
+//   //  }
+//   }
+// };
 
 const createLightRays = () => {
   // const time = Date.now() / 4000;
@@ -646,11 +772,9 @@ const animateParticles = () => {
 //   bulbLight.position.x = Math.sin(time * 0.7) * 20;
 //   bulbLight.position.y = Math.cos(time * 0.5) * 10;
 //
-//
 //   bulbLight2.position.x = Math.sin(time * 0.5) * 20;
 //   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
 // };
-
 
 const animateSpheres = () => {
   const time = 0.00001 * Date.now();
@@ -686,13 +810,13 @@ const createSpheres = () => {
 const makeRoughBall = mesh => {
   mesh.geometry.vertices.forEach(function(vertex) {
     const offset = mesh.geometry.parameters.radius;
-    // const amp = guiControls.amp;
+
     const time = Date.now();
     vertex.normalize();
     const distance = offset + noise.noise3D(
-        vertex.x + time / 2 * 0.0007,
-        vertex.y + time / 2 * 0.0008,
-        vertex.z + time / 2 * 0.0009
+        vertex.x + time / 2 * blobSpeed,
+        vertex.y + time / 2 * (blobSpeed * 1.1),
+        vertex.z + time / 2 * (blobSpeed * 1.2)
     ) * 2;
     vertex.multiplyScalar(distance);
   });

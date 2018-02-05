@@ -20,61 +20,68 @@ body {
 }
 
 .eicel {
-  /* display: none; */
+  /*display: none;*/
   position: fixed;
   top: 0;
   width: 100vw;
   height: 100vh;
   color: white;
-}
 
-.eicel_stage_stats {
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  width: 80vw;
-}
+  &_stage_stats {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: 80vw;
+  }
 
-.eicel_stage_text {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 75vh;
-  width: 32rem;
-  line-height: 3rem;
-  padding-right: 15rem;
+  &_stage_text {
+    margin: 0 auto;
+    display: flex;
+    font-size: 2.4rem;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+    width: 25rem;
+    line-height: 3rem;
+    padding-right: 30rem;
+    /*color: #9d6b83;*/
+    color: #b1a8cb;
+  }
 }
 
 .buttons {
   margin: 0 auto;
-  display: flex;
-  width: 50vw;
+  /*display: flex;*/
   justify-content: space-between;
-}
 
-.buttons_next {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  width: 15rem;
-  padding: 1rem;
-  border-radius: 5rem;
-  font-size: 1.6rem;
-  background-color: pink;
-  font-family: futura;
-}
+  &_next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -7rem;
+    cursor: pointer;
 
-.buttons_previous {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  width: 15rem;
-  padding: 1rem;
-  border-radius: 5rem;
-  font-size: 1.6rem;
-  background-color: pink;
-  font-family: futura;
+    &_text {
+      position: absolute;
+      margin: 0 auto;
+      color: white;
+    }
+
+    &_bg {
+      position: absolute;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &_previous {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -7rem;
+    cursor: pointer;
+  }
 }
 
 .user_age {
@@ -98,6 +105,7 @@ body {
     margin: 0 auto;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   &_0 {
@@ -270,4 +278,34 @@ input[type=range]::-webkit-slider-thumb {
   50% { color: #343434; }
 
   100% { color: white; }
+}
+
+.eicel_stage_risks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.organic-blob {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.2);
+  top: 0;
+  cursor: pointer;
+}
+
+.organic-blob2 {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.3);
+  top: 0;
+  cursor: pointer;
+}
+
+.organic-blob3 {
+  position: absolute;
+  opacity: .3;
+  transform: scale(.4);
+  top: 0;
+  cursor: pointer;
 }
