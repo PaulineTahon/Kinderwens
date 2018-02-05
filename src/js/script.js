@@ -149,6 +149,11 @@ class Egg {
 }
 
 const init = () => {
+
+  if (!window.storyIndex) {
+    window.storyIndex = 0;
+    window.innerIndex = 0;
+  }
   //startTime = Date.now();
   createTerrain();
   createScene();
@@ -633,6 +638,7 @@ const createParticles = () => {
 };
 
 const animate = () => {
+  console.log(window.storyIndex);
 
   requestAnimationFrame(animate);
   render();
