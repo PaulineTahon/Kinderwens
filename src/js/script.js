@@ -2,6 +2,9 @@ import OpenSimplexNoise from 'open-simplex-noise';
 // require (`./storyScript`);
 
 
+
+
+
 let ball, ball2, ball3, ball4, ball5, ball6, ball7, ball8, ball9, ball10, ball11;
 let camera;
 const canvas = document.getElementById(`c`);
@@ -524,8 +527,8 @@ const animate = time => {
     A.start();
   }
   // console.log(window.yourGlobalVariable);
-  console.log(camera.rotation);
-  console.log(camera.position);
+  // console.log(camera.rotation);
+  // console.log(camera.position);
   // console.log(storyIndex.storyIndex);
   TWEEN.update(time);
 
