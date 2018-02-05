@@ -173,7 +173,6 @@ const init = () => {
 
   animate();
 
-  console.log(particleCloud);
   //document.addEventListener(`click`, handleClick);
   window.addEventListener(`resize`, onWindowResize, false);
 };
@@ -445,11 +444,7 @@ const initPostprocessing = () => {
   postprocessing.scene.add(postprocessing.camera);
   const pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
   postprocessing.rtTextureColors = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
-  // Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
-  // investigate further for now.
-  // pars.format = THREE.LuminanceFormat;
-  // I would have this quarter size and use it as one of the ping-pong render
-  // targets but the aliasing causes some temporal flickering
+
   postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
   // Aggressive downsize god-ray ping-pong render targets to minimize cost
   const w = window.innerWidth / 4.0;
@@ -628,7 +623,6 @@ const createParticles = () => {
   const material = new THREE.PointsMaterial({size: 7, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true, opacity: .3});
 
   particleCloud = new THREE.Points(particleGeometry, material);
-  console.log(particleCloud);
 
   particleCloud.rotation.x = Math.random() * 6;
   particleCloud.rotation.y = Math.random() * 6;
@@ -638,7 +632,6 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  console.log(window.storyIndex);
 
   requestAnimationFrame(animate);
   render();
@@ -686,10 +679,13 @@ const render = () => {
       .start();
   }
 
-  if (window.storyIndex === 6 && window.innerIndex >= 2) {
+  if (window.storyIndex === 6 && window.innerIndex !== 0) {
+    console.log(`freeze`);
     ballGroup.freeze();
-  } else if (window.storyIndex >= 7) {
+    return;
+  } else if (window.storyIndex === 7) {
     ballGroup.unfreeze();
+    return;
   }
 
   //const currentTime = Date.now();
