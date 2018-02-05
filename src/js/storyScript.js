@@ -18,15 +18,15 @@ const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
 
 let currentAge;
-const stages = [
-  {age: 0, index: 3},
-  {age: 15, index: 4},
-  {age: 20, index: 5},
-  {age: 30, index: 6},
-  {age: 35, index: 7},
-  {age: 40, index: 8},
-  {age: 50, index: 9}
-];
+// const stages = [
+//   {age: 0, index: 3},
+//   {age: 15, index: 4},
+//   {age: 20, index: 5},
+//   {age: 30, index: 6},
+//   {age: 35, index: 7},
+//   {age: 40, index: 8},
+//   {age: 50, index: 9}
+// ];
 
 const indexStory = () => {
   loadJson();
@@ -203,6 +203,7 @@ const countEggsDown = () => {
 const handleAge = () => {
   ageValue.innerHTML = ageInput.value;
   currentAge = ageInput.value;
+  console.log(currentAge);
 };
 
 const readJson = data => {

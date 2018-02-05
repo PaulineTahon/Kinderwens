@@ -34,7 +34,7 @@ const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
 const bgColor = `black`;
-const sunColor = 0xffee00;
+const sunColor = 0xff0000;
 
 /* vars light --------------------------------------*/
 //let bulbLight, bulbLight2;
