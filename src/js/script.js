@@ -6,8 +6,6 @@ const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true})
 const scene = new THREE.Scene();
 let startCameraAnimation = true;
 
-// scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
-
 scene.fog = new THREE.FogExp2(0x181818, 0.008);
 
 let ball, ball2, ball3, iceShard;
@@ -33,7 +31,7 @@ const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const bgColor = `black`;
+const bgColor = 0x5c93a8;
 const sunColor = 0xff0000;
 
 /* vars light --------------------------------------*/
@@ -53,7 +51,8 @@ class Egg {
       color: 0xccfffd,
       emissive: 0x333333,
       wireframe: false,
-      transparent: true
+      transparent: true,
+      opacity: .8
     });
 
     lambertMaterial2 = new THREE.MeshLambertMaterial({
@@ -555,8 +554,8 @@ const createIce = () => {
     // fragmentShader: document.getElementById(`fragmentShader2`).textContent,
     // side: THREE.DoubleSide,
     // transparent: true,
-    color: 0x007a87,
-    emissice: `white`,
+    color: `white`,
+    emissive: 0x007a87,
     transparent: true,
     opacity: 0.0
   });
@@ -652,11 +651,14 @@ const render = () => {
     // ballGroup8.animateEgg();
   }
 
-  if (window.storyIndex >= 3) {
+  if (window.storyIndex === 3) {
     animateCamera();
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 0, g: 0, b: 0}, 2000)
+      .start();
   }
 
-  if (window.storyIndex >= 4) {
+  if (window.storyIndex === 4) {
     ballGroup.fertilize();
 
     new TWEEN.Tween(pointLight.color)
@@ -665,6 +667,10 @@ const render = () => {
 
     new TWEEN.Tween(lambertMaterial.emissive)
       .to({r: 46 / 255, g: 26 / 255, b: 53 / 255}, 2000)
+      .start();
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 200 / 255, g: 174 / 255, b: 251 / 255}, 2000)
       .start();
   }
 
@@ -677,15 +683,49 @@ const render = () => {
     new TWEEN.Tween(lambertMaterial.emissive)
       .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
       .start();
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+      .start();
   }
 
-  if (window.storyIndex === 6 && window.innerIndex !== 0) {
-    console.log(`freeze`);
-    ballGroup.freeze();
-    return;
-  } else if (window.storyIndex === 7) {
+  if (window.storyIndex === 6) {
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 30 / 255, g: 9 / 255, b: 37 / 255}, 2000)
+      .start();
+
+    if (window.innerIndex !== 0) {
+      console.log(`freeze`);
+      ballGroup.freeze();
+      return;
+    }
+  }
+
+  if (window.storyIndex === 7) {
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 19 / 255, g: 5 / 255, b: 24 / 255}, 2000)
+      .start();
+
     ballGroup.unfreeze();
     return;
+  }
+
+  if (window.storyIndex === 8) {
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 10 / 255, g: 3 / 255, b: 13 / 255}, 2000)
+      .start();
+
+  }
+
+  if (window.storyIndex === 9) {
+
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
+      .to({r: 0, g: 0, b: 0}, 2000)
+      .start();
+
   }
 
   //const currentTime = Date.now();
