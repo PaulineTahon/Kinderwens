@@ -19,6 +19,7 @@ const nextButtonText = document.querySelector(`.buttons__text`);
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
 
+
 let currentAge;
 let interval;
 // const stages = [
@@ -51,101 +52,152 @@ const loadJson = () => {
 let innerIndex = 0;
 
 const handleNext = e => {
+  if (window.clickMe) {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  innerIndex = 0;
+    innerIndex = 0;
 
-  if (nextButtonText.innerHTML !== `volgende`) {
-    nextButtonText.innerHTML = `volgende`;
-  }
-
-  if (storyIndex === story.length - 1) {
-    //EINDE STORY
-    return;
-  }
-
-  storyIndex ++;
-
-  if (story[storyIndex].text2) {
-    console.log(`fire interval`);
-    interval = setInterval(setInnerText, 5000);
-  }
-  //}
-  text.innerHTML = story[storyIndex].text;
-  if (story[storyIndex].age) {
-
-    age.innerHTML = `${story[storyIndex].age} `;
-    ageMetric.innerHTML = ` jaar`;
-
-    if (story[storyIndex - 1].eggCount) {
-      countEggsDown();
-    } else {
-      eggCount.innerHTML = `${story[storyIndex].eggCount} `;
-      eggCountMetric.innerHTML = ` eicellen`;
+    if (nextButtonText.innerHTML !== `volgende`) {
+      nextButtonText.innerHTML = `volgende`;
     }
+
+    if (storyIndex === story.length - 1) {
+      //EINDE STORY
+      return;
+    }
+
+    storyIndex ++;
+
+    if (story[storyIndex].text2) {
+      console.log(`fire interval`);
+      interval = setInterval(setInnerText, 5000);
+    }
+    //}
+    text.innerHTML = story[storyIndex].text;
+    if (story[storyIndex].age) {
+
+      age.innerHTML = `${story[storyIndex].age} `;
+      ageMetric.innerHTML = ` jaar`;
+
+      if (story[storyIndex - 1].eggCount) {
+        countEggsDown();
+      } else {
+        eggCount.innerHTML = `${story[storyIndex].eggCount} `;
+        eggCountMetric.innerHTML = ` eicellen`;
+      }
+    }
+
+      // if (storyIndex === 2) {
+      //   //START STORY ON CURRENT AGE
+      //   for (let i = 0;i < stages.length;i ++) {
+      //     console.log(parseInt(stages[i].age), currentAge);
+      //     if (parseInt(currentAge) <= stages[i].age) {
+      //       console.log(`ja`, stages[i].age);
+      //       storyIndex = stages[i - 1].index;
+      //       text.innerHTML = story[storyIndex].text;
+      //       return;
+      //     } else {
+      //       storyIndex = 9;
+      //     }
+      //   }
+    //  } else {
+
+      // if (storyIndex >= 1) {
+      //   previousButtonText.innerHTML = `vorige`;
+      //   previousButton.style.display = `block`;
+      //   previousButtonText.style.display = `block`;
+      // } else {
+      //   previousButtonText.style.display = `none`;
+      // }
+
+    if (storyIndex === story.length - 1) {
+      //EINDE STORY
+      return;
+    }
+    if (innerIndex === 0 && story[storyIndex].text2) {
+
+      text.innerHTML = story[storyIndex].text2;
+      innerIndex ++;
+    } else if (innerIndex === 1 && story[storyIndex].text3) {
+      text.innerHTML = story[storyIndex].text3;
+      innerIndex ++;
+    } else if (innerIndex === 2 && story[storyIndex].text4) {
+      text.innerHTML = story[storyIndex].text4;
+      innerIndex ++;
+    } else {
+      innerIndex = 0;
+        // if (storyIndex === 2) {
+        //   //START STORY ON CURRENT AGE
+        //   for (let i = 0;i < stages.length;i ++) {
+        //     console.log(parseInt(stages[i].age), currentAge);
+        //     if (parseInt(currentAge) <= stages[i].age) {
+        //       console.log(`ja`, stages[i].age);
+        //       storyIndex = stages[i - 1].index;
+        //       text.innerHTML = story[storyIndex].text;
+        //       return;
+        //     } else {
+        //       storyIndex = 9;
+        //     }
+        //   }
+      //  } else {
+      storyIndex ++;
+      //}
+      text.innerHTML = story[storyIndex].text;
+      if (story[storyIndex].age) {
+        age.innerHTML = `${story[storyIndex].age} `;
+        ageMetric.innerHTML = ` jaar`;
+        if (story[storyIndex - 1].eggCount) {
+          countEggsDown();
+        } else {
+          eggCount.innerHTML = `${story[storyIndex].eggCount} `;
+          eggCountMetric.innerHTML = ` eicellen`;
+        }
+      }
+    }
+
+    if (story[storyIndex].info) {
+      risks.innerHTML = `risico's`;
+      info.innerHTML = `wat kan ik doen?`;
+    }
+
+    // const woman =  story[storyIndex].info.risks[2].woman[1];
+      // const child =  story[storyIndex].info.risks[1].child[1];
+      // console.log(woman);
+
+    // for (let i = 0;i < woman.risks.length;i ++) {
+      //   const risk = document.createElement(`li`);
+      //   risk.className = `eicel_stage_risks_risk`;
+      //   risk.innerHTML = woman.risks[i].title;
+      //   console.log(risk);
+      //   risks.appendChild(risk);
+      // }
+      //
+      // for (let i = 0;i < child.risks.length;i ++) {
+      //   const risk = document.createElement(`li`);
+      //   risk.className = `eicel_stage_risks_risk`;
+      //   risk.innerHTML = child.risks[i].title;
+      //   console.log(risk);
+      //   risks.appendChild(risk);
+      // }
+
+    if (storyIndex === 1) {
+      userAge.style.display = `block`;
+      ageValue.innerHTML = `${ageInput.value} jaar`;
+      ageInput.addEventListener(`change`, handleAge);
+    } else {
+      userAge.style.display = `none`;
+    }
+
+    if (storyIndex === 2) {
+      nextButtonText.innerHTML = story[storyIndex].options.now;
+    }
+
+    window.innerIndex = innerIndex;
+    window.storyIndex = storyIndex;
+
+    console.log(`ja`, storyIndex, innerIndex);
   }
-
-    // if (storyIndex === 2) {
-    //   //START STORY ON CURRENT AGE
-    //   for (let i = 0;i < stages.length;i ++) {
-    //     console.log(parseInt(stages[i].age), currentAge);
-    //     if (parseInt(currentAge) <= stages[i].age) {
-    //       console.log(`ja`, stages[i].age);
-    //       storyIndex = stages[i - 1].index;
-    //       text.innerHTML = story[storyIndex].text;
-    //       return;
-    //     } else {
-    //       storyIndex = 9;
-    //     }
-    //   }
-  //  } else {
-
-  while (risks.firstChild) {
-    risks.removeChild(risks.firstChild);
-  }
-
-  if (story[storyIndex].info) {
-    risks.innerHTML = `risico's`;
-    info.innerHTML = `wat kan ik doen?`;
-  }
-
-  // const woman =  story[storyIndex].info.risks[2].woman[1];
-    // const child =  story[storyIndex].info.risks[1].child[1];
-    // console.log(woman);
-
-  // for (let i = 0;i < woman.risks.length;i ++) {
-    //   const risk = document.createElement(`li`);
-    //   risk.className = `eicel_stage_risks_risk`;
-    //   risk.innerHTML = woman.risks[i].title;
-    //   console.log(risk);
-    //   risks.appendChild(risk);
-    // }
-    //
-    // for (let i = 0;i < child.risks.length;i ++) {
-    //   const risk = document.createElement(`li`);
-    //   risk.className = `eicel_stage_risks_risk`;
-    //   risk.innerHTML = child.risks[i].title;
-    //   console.log(risk);
-    //   risks.appendChild(risk);
-    // }
-
-  if (storyIndex === 1) {
-    userAge.style.display = `block`;
-    ageValue.innerHTML = `${ageInput.value} jaar`;
-    ageInput.addEventListener(`change`, handleAge);
-  } else {
-    userAge.style.display = `none`;
-  }
-
-  if (storyIndex === 2) {
-    nextButtonText.innerHTML = story[storyIndex].options.now;
-  }
-
-  window.innerIndex = innerIndex;
-  window.storyIndex = storyIndex;
-
-  console.log(`ja`, storyIndex, innerIndex);
 };
 
 const setInnerText = () => {
