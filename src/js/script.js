@@ -10,6 +10,8 @@ const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true})
 const scene = new THREE.Scene();
 let startCameraAnimation = true;
 let cameraTween;
+// let fertilize = false;
+let fertilizeTween;
 
 // scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
 
@@ -39,7 +41,7 @@ const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
 const bgColor = `black`;
-const sunColor = 0xffee00;
+const sunColor = 0xff0000;
 
 /* vars light --------------------------------------*/
 //let bulbLight, bulbLight2;
@@ -118,14 +120,16 @@ class Egg {
 
   fertilize = () => {
 
-    new TWEEN.Tween(lambertMaterial)
-        .to({opacity: .7}, 1000)
-        .start();
+    fertilizeTween = new TWEEN.Tween(lambertMaterial)
+        .to({opacity: .7}, 3000);
+        // .start();
+    fertilizeTween.start();
+    // window.clickMe = false;
 
     new TWEEN.Tween(lambertMaterial2)
-        .to({opacity: .3}, 1000)
+        .to({opacity: .3}, 3000)
         .start();
-
+    // fertilize = true;
   }
 
   freeze = () => {
@@ -180,7 +184,6 @@ const init = () => {
 
   animate();
 
-  console.log(particleCloud);
   //document.addEventListener(`click`, handleClick);
   window.addEventListener(`resize`, onWindowResize, false);
 };
@@ -452,11 +455,7 @@ const initPostprocessing = () => {
   postprocessing.scene.add(postprocessing.camera);
   const pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
   postprocessing.rtTextureColors = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
-  // Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
-  // investigate further for now.
-  // pars.format = THREE.LuminanceFormat;
-  // I would have this quarter size and use it as one of the ping-pong render
-  // targets but the aliasing causes some temporal flickering
+
   postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
   // Aggressive downsize god-ray ping-pong render targets to minimize cost
   const w = window.innerWidth / 4.0;
@@ -635,7 +634,6 @@ const createParticles = () => {
   const material = new THREE.PointsMaterial({size: 7, map: lightImg, blending: THREE.AdditiveBlending, depthTest: false, transparent: true, opacity: .3});
 
   particleCloud = new THREE.Points(particleGeometry, material);
-  console.log(particleCloud);
 
   particleCloud.rotation.x = Math.random() * 6;
   particleCloud.rotation.y = Math.random() * 6;
@@ -645,8 +643,14 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  console.log(clickMe);
-  // console.log(window.storyIndex);
+  console.log(window.clickMe);
+
+  // fertilizeTween.onComplete(() => {
+  //   // console.log(`done!`);
+  //   buttons.classList.remove(`fade`);
+  //   buttons.classList.add(`visible`);
+  //   window.clickMe = true;
+  // });
 
   requestAnimationFrame(animate);
   render();
@@ -694,10 +698,13 @@ const render = () => {
       .start();
   }
 
-  if (window.storyIndex === 6 && window.innerIndex >= 2) {
+  if (window.storyIndex === 6 && window.innerIndex !== 0) {
+    console.log(`freeze`);
     ballGroup.freeze();
-  } else if (window.storyIndex >= 7) {
+    return;
+  } else if (window.storyIndex === 7) {
     ballGroup.unfreeze();
+    return;
   }
 
   //const currentTime = Date.now();
