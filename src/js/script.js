@@ -1,10 +1,15 @@
 import OpenSimplexNoise from 'open-simplex-noise';
+const buttons = document.querySelector(`.buttons`);
+const age = document.querySelector(`.age`);
+const count = document.querySelector(`.count`);
+let clickMe = true;
 
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
 let startCameraAnimation = true;
+let cameraTween;
 
 // scene.fog = new THREE.FogExp2(0xb6bfd7, 0.005);
 
@@ -154,6 +159,8 @@ const init = () => {
     window.storyIndex = 0;
     window.innerIndex = 0;
   }
+  clickMe = true;
+  window.clickMe = clickMe;
   //startTime = Date.now();
   createTerrain();
   createScene();
@@ -638,7 +645,8 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  console.log(window.storyIndex);
+  console.log(clickMe);
+  // console.log(window.storyIndex);
 
   requestAnimationFrame(animate);
   render();
@@ -719,8 +727,7 @@ const animateCamera = time => {
   // console.log(storyIndex.storyIndex);
 
   if (startCameraAnimation) {
-    startCameraAnimation = false;
-    new TWEEN.Tween(camera.position)
+    cameraTween = new TWEEN.Tween(camera.position)
         .to({x: 0, y: 0, z: 50}, 20000)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .start();
@@ -734,7 +741,25 @@ const animateCamera = time => {
     //
     A.chain(B);
     A.start();
+    startCameraAnimation = false;
+    console.log(buttons);
+    buttons.classList.add(`fade`);
+    age.classList.add(`fade`);
+    count.classList.add(`fade`);
+    clickMe = false;
+    window.clickMe = clickMe;
   }
+
+  cameraTween.onComplete(() => {
+    console.log(`done!`);
+    buttons.classList.remove(`fade`);
+    buttons.classList.add(`visible`);
+    age.classList.remove(`fade`);
+    age.classList.add(`visible`);
+    count.classList.remove(`fade`);
+    count.classList.add(`visible`);
+    window.clickMe = true;
+  });
 
   TWEEN.update(time);
 };
