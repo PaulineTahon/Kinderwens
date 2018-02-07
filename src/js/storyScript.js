@@ -1,8 +1,9 @@
-let story;
-let storyIndex = 0;
+let story, storyIndex = 0, innerIndex = 0;
 
 const text = document.querySelector(`.eicel_stage_text`);
-const age = document.querySelector(`.stage__stats__value`);
+const age = document.querySelector(`.age`);
+const count = document.querySelector(`.count`);
+const ageCount = document.querySelector(`.stage__stats__value`);
 const eggCount = document.querySelector(`.stage__stats__count`);
 const ageMetric = document.querySelector(`.stage__stats__valueMetric`);
 const eggCountMetric = document.querySelector(`.stage__stats__countMetric`);
@@ -11,20 +12,22 @@ const userAge = document.querySelector(`.user_age`);
 const ageInput = document.querySelector(`.user_age_input`);
 const ageValue = document.querySelector(`.user_age_input_value`);
 
-const nextButton = document.querySelector(`.buttons`);
+const buttons = document.querySelector(`.buttons`);
 //const previousButton = document.querySelector(`.buttons_previous`);
-const nextButtonText = document.querySelector(`.buttons__text`);
+const buttonsText = document.querySelector(`.buttons__text`);
 //const previousButtonText = document.querySelector(`.buttons_previous_text`);
 
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
 
-
 let currentAge;
 let interval;
+
+let clickMe = true;
+
 // const stages = [
 //   {age: 0, index: 3},
-//   {age: 15, index: 4},
+//   {age: 12, index: 4},
 //   {age: 20, index: 5},
 //   {age: 30, index: 6},
 //   {age: 35, index: 7},
@@ -34,11 +37,8 @@ let interval;
 
 const indexStory = () => {
   loadJson();
-//  previousButton.style.display = `none`;
   userAge.style.display = `none`;
-  nextButton.addEventListener(`click`, handleNext);
-//  previousButton.addEventListener(`click`, handlePrevious);
-
+  buttons.addEventListener(`click`, handleNext);
 };
 
 const loadJson = () => {
@@ -49,110 +49,74 @@ const loadJson = () => {
 		.then(data => readJson(data));
 };
 
-let innerIndex = 0;
-
 const handleNext = e => {
-  if (window.clickMe) {
+
+  if (clickMe) {
 
     e.preventDefault();
 
     innerIndex = 0;
 
-    if (nextButtonText.innerHTML !== `volgende`) {
-      nextButtonText.innerHTML = `volgende`;
+    window.innerIndex = innerIndex;
+
+    if (buttonsText.innerHTML !== `volgende`) {
+      buttonsText.innerHTML = `volgende`;
     }
 
     if (storyIndex === story.length - 1) {
-      //EINDE STORY
+      //EINDE STORY --> START TESTIMONY SCRIPT
       return;
     }
 
     storyIndex ++;
 
-    if (story[storyIndex].text2) {
-      console.log(`fire interval`);
-      interval = setInterval(setInnerText, 5000);
-    }
-    //}
+    // if (storyIndex === 2) {
+    //   //START STORY ON CURRENT AGE
+    //   for (let i = 0;i < stages.length;i ++) {
+    //     console.log(parseInt(stages[i].age), currentAge);
+    //     if (parseInt(currentAge) <= stages[i].age) {
+    //       console.log(`ja`, stages[i].age);
+    //       storyIndex = stages[i - 1].index;
+    //       text.innerHTML = story[storyIndex].text;
+    //       return;
+    //     } else {
+    //       storyIndex = 9;
+    //     }
+    //   }
+    //  } else {
+
+    // if (storyIndex >= 1) {
+    //   previousButtonText.innerHTML = `vorige`;
+    //   previousButton.style.display = `block`;
+    //   previousButtonText.style.display = `block`;
+    // } else {
+    //   previousButtonText.style.display = `none`;
+    // }
+
+
+    // if (storyIndex === 2) {
+    //   //START STORY ON CURRENT AGE
+    //   for (let i = 0;i < stages.length;i ++) {
+    //     console.log(parseInt(stages[i].age), currentAge);
+    //     if (parseInt(currentAge) <= stages[i].age) {
+    //       console.log(`ja`, stages[i].age);
+    //       storyIndex = stages[i - 1].index;
+    //       text.innerHTML = story[storyIndex].text;
+    //       return;
+    //     } else {
+    //       storyIndex = 9;
+    //     }
+    //   }
+
     text.innerHTML = story[storyIndex].text;
     if (story[storyIndex].age) {
-
-      age.innerHTML = `${story[storyIndex].age} `;
+      ageCount.innerHTML = `${story[storyIndex].age} `;
       ageMetric.innerHTML = ` jaar`;
-
       if (story[storyIndex - 1].eggCount) {
         countEggsDown();
       } else {
         eggCount.innerHTML = `${story[storyIndex].eggCount} `;
         eggCountMetric.innerHTML = ` eicellen`;
-      }
-    }
-
-      // if (storyIndex === 2) {
-      //   //START STORY ON CURRENT AGE
-      //   for (let i = 0;i < stages.length;i ++) {
-      //     console.log(parseInt(stages[i].age), currentAge);
-      //     if (parseInt(currentAge) <= stages[i].age) {
-      //       console.log(`ja`, stages[i].age);
-      //       storyIndex = stages[i - 1].index;
-      //       text.innerHTML = story[storyIndex].text;
-      //       return;
-      //     } else {
-      //       storyIndex = 9;
-      //     }
-      //   }
-    //  } else {
-
-      // if (storyIndex >= 1) {
-      //   previousButtonText.innerHTML = `vorige`;
-      //   previousButton.style.display = `block`;
-      //   previousButtonText.style.display = `block`;
-      // } else {
-      //   previousButtonText.style.display = `none`;
-      // }
-
-    if (storyIndex === story.length - 1) {
-      //EINDE STORY
-      return;
-    }
-    if (innerIndex === 0 && story[storyIndex].text2) {
-
-      text.innerHTML = story[storyIndex].text2;
-      innerIndex ++;
-    } else if (innerIndex === 1 && story[storyIndex].text3) {
-      text.innerHTML = story[storyIndex].text3;
-      innerIndex ++;
-    } else if (innerIndex === 2 && story[storyIndex].text4) {
-      text.innerHTML = story[storyIndex].text4;
-      innerIndex ++;
-    } else {
-      innerIndex = 0;
-        // if (storyIndex === 2) {
-        //   //START STORY ON CURRENT AGE
-        //   for (let i = 0;i < stages.length;i ++) {
-        //     console.log(parseInt(stages[i].age), currentAge);
-        //     if (parseInt(currentAge) <= stages[i].age) {
-        //       console.log(`ja`, stages[i].age);
-        //       storyIndex = stages[i - 1].index;
-        //       text.innerHTML = story[storyIndex].text;
-        //       return;
-        //     } else {
-        //       storyIndex = 9;
-        //     }
-        //   }
-      //  } else {
-      storyIndex ++;
-      //}
-      text.innerHTML = story[storyIndex].text;
-      if (story[storyIndex].age) {
-        age.innerHTML = `${story[storyIndex].age} `;
-        ageMetric.innerHTML = ` jaar`;
-        if (story[storyIndex - 1].eggCount) {
-          countEggsDown();
-        } else {
-          eggCount.innerHTML = `${story[storyIndex].eggCount} `;
-          eggCountMetric.innerHTML = ` eicellen`;
-        }
       }
     }
 
@@ -189,22 +153,26 @@ const handleNext = e => {
       userAge.style.display = `none`;
     }
 
-    if (storyIndex === 2) {
-      nextButtonText.innerHTML = story[storyIndex].options.now;
+    if (story[storyIndex].text2) {
+      console.log(`fire interval`);
+      interval = setInterval(setInnerText, 5000);
+      clickMe = false;
+      toggleFade();
     }
 
-    window.innerIndex = innerIndex;
-    window.storyIndex = storyIndex;
-
-    console.log(`ja`, storyIndex, innerIndex);
   }
+
+  window.storyIndex = storyIndex;
+
 };
+
 
 const setInnerText = () => {
 
   window.innerIndex = innerIndex;
 
   console.log(`interval running`);
+  console.log(`ja`, storyIndex, innerIndex);
   if (innerIndex === 2 && story[storyIndex].text4) {
     text.innerHTML = story[storyIndex].text4;
     console.log(`last`);
@@ -225,8 +193,35 @@ const setInnerText = () => {
   if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
     console.log(`interval cleared`);
     clearInterval(interval);
-    return;
+    clickMe = true;
+    toggleFade();
   }
+};
+
+const toggleFade = () => {
+
+  if (!clickMe) {
+    buttons.classList.remove(`visible`);
+    buttons.classList.add(`fade`);
+
+    if (storyIndex === 2) {
+      age.classList.add(`fade`);
+      count.classList.add(`fade`);
+      age.classList.remove(`visible`);
+      count.classList.remove(`visible`);
+    }
+  } else {
+    buttons.classList.remove(`fade`);
+    buttons.classList.add(`visible`);
+
+    if (storyIndex === 2) {
+      age.classList.add(`visible`);
+      count.classList.add(`visible`);
+      age.classList.remove(`fade`);
+      count.classList.remove(`fade`);
+    }
+  }
+
 };
 
 const countEggsDown = () => {

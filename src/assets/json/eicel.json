@@ -7,13 +7,6 @@
       "text": "Voor we van start gaan zou ik graag je leeftijd weten. Hoe oud ben je nu?"
     },
     {
-      "text": "Zal ik mijn levensverhaal vertellen vanaf het begin of schets ik hoe het nu met me gaat?",
-      "options": {
-        "start": "Begin",
-        "now": "Nu"
-      }
-    },
-    {
       "text": "Wij bestaan reeds voor je geboorte. Wij zijn dus even oud als jou.",
       "text2": "We tellen dan ongeveer met 1 miljoen in aantal.",
       "text3": "Tijdens je leven sterven er eicellen af. Elk jaar zijn we met zo’n 10.000 minder.",
