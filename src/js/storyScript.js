@@ -20,6 +20,51 @@ const buttonsText = document.querySelector(`.buttons__text`);
 const risks = document.querySelector(`.eicel_stage_risks`);
 const info = document.querySelector(`.eicel_stage_actions`);
 
+const listItems = document.querySelectorAll(`.nav__list__item`);
+const stages = document.querySelectorAll(`.nav__list__stage`);
+// const nonActive = document.querySelector(`.eicel_stage_actions`);
+console.log(listItems);
+
+const clickHandler = e => {
+  e.preventDefault();
+
+  const element = e.currentTarget;
+
+  console.log(stages);
+  stages.forEach(child => {
+    console.log(child);
+    if (child.classList.contains(`nav__list__stage--active`)) {
+      console.log(`ja`);
+      child.classList.remove(`nav__list__stage--active`);
+      child.classList.add(`nav__list__stage--inactive`);
+    }
+  });
+  listItems.forEach(child => {
+    if (child.children[1].classList.contains(`nav__list--active`)) {
+      console.log(`ja`);
+      child.children[1].classList.remove(`nav__list--active`);
+      child.children[1].classList.add(`nav__list--inactive`);
+      // child.children[1].parentNode.parentNode.firstElementChild.classList.add(`testttt`);
+    }
+
+    element.parentNode.firstElementChild.classList.remove(`nav__list__stage--inactive`);
+    element.parentNode.firstElementChild.classList.add(`nav__list__stage--active`);
+  });
+
+  if (!element.classList.contains(`nav__list--active`)) {
+    element.children[1].classList.remove(`nav__list--inactive`);
+    element.children[1].classList.add(`nav__list--active`);
+    // element.children[1].parentNode.parentNode.firstElementChild.classList.remove(`testttt`);
+  }
+
+  // element.style.backgroundImage = `url('../assets/svg/cyclus.svg')`;
+  // style.backgroundImage = "url('img_tree.png')";
+};
+
+listItems.forEach(listItem => {
+  listItem.addEventListener(`click`, clickHandler);
+});
+
 let currentAge;
 let interval;
 
@@ -59,8 +104,8 @@ const handleNext = e => {
 
     window.innerIndex = innerIndex;
 
-    if (buttonsText.innerHTML !== `volgende`) {
-      buttonsText.innerHTML = `volgende`;
+    if (storyIndex !== 0) {
+      buttonsText.innerHTML = `>`;
     }
 
     if (storyIndex === story.length - 1) {
@@ -69,6 +114,7 @@ const handleNext = e => {
     }
 
     storyIndex ++;
+    progressNav();
 
     // if (storyIndex === 2) {
     //   //START STORY ON CURRENT AGE
@@ -195,6 +241,25 @@ const setInnerText = () => {
     clearInterval(interval);
     clickMe = true;
     toggleFade();
+  }
+};
+
+const progressNav = () => {
+
+  const navBgs = document.querySelectorAll(`.nav__list__bg`);
+  console.log(navBgs);
+
+  const navIndex = storyIndex - 2;
+
+  if (navBgs[navIndex - 1] && navBgs[navIndex - 1].classList.contains(`nav__list--active`)) {
+    console.log(`ja`);
+    navBgs[navIndex - 1].classList.remove(`nav__list--active`);
+    navBgs[navIndex - 1].classList.add(`nav__list--inactive`);
+  }
+
+  if (navBgs[navIndex] && !navBgs[navIndex].classList.contains(`nav__list--active`)) {
+    navBgs[navIndex].classList.remove(`nav__list--inactive`);
+    navBgs[navIndex].classList.add(`nav__list--active`);
   }
 };
 

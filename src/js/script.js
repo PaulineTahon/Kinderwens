@@ -29,8 +29,8 @@ const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const bgColor = 0x5c93a8;
-scene.fog = new THREE.FogExp2(0x5c93a8, 0.008);
+const bgColor = 0x3a3d46;
+scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
 const sunColor = 0xff0000;
 
 const colorStages = [
