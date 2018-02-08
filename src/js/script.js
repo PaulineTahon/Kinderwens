@@ -7,6 +7,7 @@ const scene = new THREE.Scene();
 let startCameraAnimation = true;
 
 let ball, ball2, ball3, iceShard;
+//let bulbLight, bulbLight2;
 let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
@@ -25,12 +26,11 @@ let particleGeometry;
 const textureLoader = new THREE.TextureLoader();
 
 let materialDepth;
+let bgColor = 0x151616;
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const bgColor = 0x5c93a8;
-scene.fog = new THREE.FogExp2(0x5c93a8, 0.008);
 const sunColor = 0xff0000;
 
 const colorStages = [
@@ -43,6 +43,8 @@ const colorStages = [
   {r: 0 / 255, g: 0 / 255, b: 0 / 255} // 50 jaar
 ];
 
+//const globalPlane = new THREE.Plane(new THREE.Vector3(- 1, 0, 0), 0.1);
+
 /* vars light --------------------------------------*/
 //let bulbLight, bulbLight2;
 
@@ -52,6 +54,8 @@ class Egg {
   constructor () {
     this.mesh = new THREE.Object3D();
 
+    //const localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 0.8);
+
     const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
     const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
     const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
@@ -60,6 +64,7 @@ class Egg {
       color: 0xccfffd,
       emissive: 0x333333,
       wireframe: false,
+      //clippingPlanes: [ localPlane ],
       transparent: true,
       opacity: .8
     });
@@ -77,6 +82,7 @@ class Egg {
       color: 0x999999,
       emissive: `white`,
       wireframe: false,
+      //clippingPlanes: [ localPlane ],
       transparent: true,
       opacity: 0.1,
         //map: texture
@@ -241,27 +247,40 @@ const init = () => {
     window.innerIndex = 0;
   }
 
-  //startTime = Date.now();
-  createTerrain();
   createScene();
-  createIce();
-  initPostprocessing();
-  // console.log(storyIndex);
-  // createLights();
-  createAudio();
-  createSpheres();
-  //createBackground();
-  createParticles();
-  onWindowResize();
 
-  camera.rotation.x = 0.6;
-  camera.rotation.y = 0.6;
-  camera.rotation.z = 0.6;
+  if (window.STATE === `eicel`) {
+
+    bgColor = 0x3a3d46;
+    scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
+    createTerrain();
+    createAudio();
+    createSpheres();
+    createParticles();
+    createIce();
+    initPostprocessing();
+
+    camera.rotation.x = 0.6;
+    camera.rotation.y = 0.6;
+    camera.rotation.z = 0.6;
+
+  } else if (window.STATE === `home`) {
+
+    //createLights();
+    createTerrain();
+    createAudio();
+    createSpheres();
+    createParticles();
+    createIce();
+    initPostprocessing();
+
+  }
 
   animate();
 
-  //document.addEventListener(`click`, handleClick);
   window.addEventListener(`resize`, onWindowResize, false);
+
+  onWindowResize();
 };
 
 const createTerrain = () => {
@@ -294,29 +313,49 @@ const createTerrain = () => {
 
 const createScene = () => {
 
-  materialDepth = new THREE.MeshDepthMaterial();
+  console.log(`[SCENE]`);
 
   /* Camera
   --------------------------------------*/
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  camera.position.x = 0;
-  camera.position.y = - 200;
-  camera.position.z = 100;
+  if (window.STATE === `eicel`) {
+    camera.position.x = 0;
+    camera.position.y = - 200;
+    camera.position.z = 100;
+  } else if (window.STATE === `home`) {
+    camera.position.x = 0;
+    camera.position.y = 0;
+    camera.position.z = 50;
+  }
 
   /* Ball
   --------------------------------------*/
-
-  textureCube = new THREE.CubeTextureLoader()
-    .setPath(`./assets/img/`)
-    .load([ `nx.jpg`, `px.jpg`, `ny.jpg`, `py.jpg`, `nz.jpg`, `pz.jpg` ]);
-
-  textureCube.mapping = THREE.CubeRefractionMapping;
-
-  renderer.sortObject = false;
-
   ballGroup = new Egg();
   scene.add(ballGroup.mesh);
+
+  /* AmbientLight
+  --------------------------------------*/
+  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
+  scene.add(ambientLight);
+  camera.add(ambientLight);
+
+  pointLight = new THREE.PointLight(0xccfffd, 1, 100);
+  pointLight.position.set(10, 10, 10);
+  scene.add(pointLight);
+
+  /* SpotLight
+  // --------------------------------------*/
+  const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
+  spotLight.intensity = 0.8;
+  spotLight.lookAt(ball);
+  spotLight.castShadow = true;
+  if (window.STATE === `eicel`) {
+    spotLight.position.set(0, 1000, 20);
+  } else if (window.STATE === `home`) {
+    spotLight.position.set(0, 1000, 20);
+  }
+  scene.add(spotLight);
 
   // ballGroup2 = new Egg();
   // ballGroup2.mesh.position.x = 50;
@@ -368,92 +407,79 @@ const createScene = () => {
   //
 
   //ALL CLONES
+  if (window.STATE === `eicel`) {
 
-  ballGroup2 = ballGroup.mesh.clone();
-  ballGroup2.position.x = 50;
-  ballGroup2.position.y = - 30;
-  ballGroup2.position.z = - 40;
-  scene.add(ballGroup2);
+    materialDepth = new THREE.MeshDepthMaterial();
 
-  ballGroup3 = ballGroup.mesh.clone();
-  ballGroup3.position.x = - 70;
-  ballGroup3.position.y = - 25;
-  ballGroup3.position.z = - 100;
-  scene.add(ballGroup3);
+    textureCube = new THREE.CubeTextureLoader()
+        .setPath(`./assets/img/`)
+        .load([ `nx.jpg`, `px.jpg`, `ny.jpg`, `py.jpg`, `nz.jpg`, `pz.jpg` ]);
 
-  ballGroup4 = ballGroup.mesh.clone();
-  ballGroup4.position.x = - 70;
-  ballGroup4.position.y = 95;
-  ballGroup4.position.z = - 150;
-  scene.add(ballGroup4);
+    textureCube.mapping = THREE.CubeRefractionMapping;
 
-  ballGroup5 = ballGroup.mesh.clone();
-  ballGroup5.position.x = 70;
-  ballGroup5.position.y = 112;
-  ballGroup5.position.z = - 200;
-  scene.add(ballGroup5);
+    renderer.sortObject = false;
 
-  ballGroup6 = ballGroup.mesh.clone();
-  ballGroup6.position.x = - 150;
-  ballGroup6.position.y = 30;
-  ballGroup6.position.z = - 140;
-  scene.add(ballGroup6);
+    ballGroup2 = ballGroup.mesh.clone();
+    ballGroup2.position.x = 50;
+    ballGroup2.position.y = - 30;
+    ballGroup2.position.z = - 40;
+    scene.add(ballGroup2);
 
-  ballGroup7 = ballGroup.mesh.clone();
-  ballGroup7.position.x = - 100;
-  ballGroup7.position.y = - 50;
-  ballGroup7.position.z = - 30;
-  scene.add(ballGroup7);
+    ballGroup3 = ballGroup.mesh.clone();
+    ballGroup3.position.x = - 70;
+    ballGroup3.position.y = - 25;
+    ballGroup3.position.z = - 100;
+    scene.add(ballGroup3);
 
-  ballGroup8 = ballGroup.mesh.clone();
-  ballGroup8.position.x = - 50;
-  ballGroup8.position.y = - 100;
-  ballGroup8.position.z = 0;
-  scene.add(ballGroup8);
+    ballGroup4 = ballGroup.mesh.clone();
+    ballGroup4.position.x = - 70;
+    ballGroup4.position.y = 95;
+    ballGroup4.position.z = - 150;
+    scene.add(ballGroup4);
 
-  ballGroup9 = ballGroup.mesh.clone();
-  ballGroup9.position.x = - 30;
-  ballGroup9.position.y = - 180;
-  ballGroup9.position.z = 70;
-  scene.add(ballGroup9);
+    ballGroup5 = ballGroup.mesh.clone();
+    ballGroup5.position.x = 70;
+    ballGroup5.position.y = 112;
+    ballGroup5.position.z = - 200;
+    scene.add(ballGroup5);
+
+    ballGroup6 = ballGroup.mesh.clone();
+    ballGroup6.position.x = - 150;
+    ballGroup6.position.y = 30;
+    ballGroup6.position.z = - 140;
+    scene.add(ballGroup6);
+
+    ballGroup7 = ballGroup.mesh.clone();
+    ballGroup7.position.x = - 100;
+    ballGroup7.position.y = - 50;
+    ballGroup7.position.z = - 30;
+    scene.add(ballGroup7);
+
+    ballGroup8 = ballGroup.mesh.clone();
+    ballGroup8.position.x = - 50;
+    ballGroup8.position.y = - 100;
+    ballGroup8.position.z = 0;
+    scene.add(ballGroup8);
+
+    ballGroup9 = ballGroup.mesh.clone();
+    ballGroup9.position.x = - 30;
+    ballGroup9.position.y = - 180;
+    ballGroup9.position.z = 70;
+    scene.add(ballGroup9);
+
+  }
+
+  // const globalPlanes = [ globalPlane ];
+  // renderer.clippingPlanes = globalPlanes; // GUI sets it to globalPlanes
+  renderer.localClippingEnabled = true;
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.autoClear = false;
 
   // ballGroup9.children.forEach(ball => {
   //   ball.material.opacity = .2;
   //   console.log(ball.material.opacity);
   // });
-
-  //ball.receiveShadow = true;
-
-  /* AmbientLight
-  --------------------------------------*/
-  const ambientLight = new THREE.AmbientLight(0x999999); //0x999999
-  scene.add(ambientLight);
-  camera.add(ambientLight);
-
-  pointLight = new THREE.PointLight(0xccfffd, 1, 100);
-  pointLight.position.set(10, 10, 10);
-  scene.add(pointLight);
-
-  // const pointLight = new THREE.PointLight(0x999999); //0x999999
-  // pointLight.position.set(0, 0, 10);
-  // camera.add(pointLight);
-
-
-  //
-  /* SpotLight
-  // --------------------------------------*/
-  const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
-  spotLight.intensity = 0.8;
-  spotLight.position.set(0, 1000, 20);
-  spotLight.lookAt(ball);
-  spotLight.castShadow = true;
-  scene.add(spotLight);
-
-  const spotLightHelper = new THREE.SpotLightHelper(spotLight);
-  scene.add(spotLightHelper);
-
-  // camera.add(spotLight);
-
 
   //orbitcontrols;
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -461,41 +487,6 @@ const createScene = () => {
   controls.maxDistance = 500;
   controls.enablePan = true;
 
-  // new TWEEN.Tween(camera.position)
-  //     .to({x: 0, y: - 200, z: 100}, 20000)
-  //     .start();
-  //
-  // // new TWEEN.Tween(camera.rotation)
-  // //     .to({x: .3, y: 1, z: .3}, 10000)
-  // //     .start();
-  //
-  // const A = new TWEEN.Tween(camera.rotation).to({x: .3, y: .3, z: .3}, 5000);
-  // const B = new TWEEN.Tween(camera.rotation).to({x: .6, y: .6, z: .6}, 5000);
-  // //
-  // A.chain(B);
-  // A.start();
-  //
-  // const C = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
-  // const D = new TWEEN.Tween(camera.position).to({x: 0, y: - 200, z: 100}, 20000);
-  // //
-  // C.chain(D);
-  // C.start();
-
-// <<<<<<< HEAD
-//   new TWEEN.Tween(spotLight.position)
-//       .to({x: 0, y: 0, z: 400}, 10000)
-//       .start();
-
-
-  //
-  // console.log(lambertMaterial);
-
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.autoClear = false;
-
-
-  //RIJPE EICEL
 };
 
 const initPostprocessing = () => {
@@ -536,7 +527,7 @@ const initPostprocessing = () => {
   });
   postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
   postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
-  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.15;
+  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0; // 0.15
   postprocessing.quad = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
     postprocessing.materialGodraysGenerate
@@ -696,21 +687,27 @@ const animate = () => {
 
   requestAnimationFrame(animate);
   render();
+
 };
 
 const render = time => {
 
-  //animateLights();
-  animateSpheres();
-  animateParticles();
-  createLightRays();
-  // animateEggs();
+  // console.log(`[RENDER]`);
+
+  if (window.STATE === `home`) {
+    animateSpheres();
+    animateParticles();
+    createLightRays();
+    //animateLights();
+  } else if (window.STATE === `eicel`) {
+    animateSpheres();
+    animateParticles();
+    createLightRays();
+
+  }
 
   if (blobMovement) {
     ballGroup.animateEgg();
-    // ballGroup2.animateEgg();
-    // ballGroup5.animateEgg();
-    // ballGroup8.animateEgg();
   }
 
   TWEEN.update(time);
@@ -756,13 +753,6 @@ const render = time => {
   }
 
   if (window.storyIndex === 7) {
-
-    ballGroup.infertilizeProgression();
-    updateSceneColor();
-
-  }
-
-  if (window.storyIndex === 8) {
 
     ballGroup.infertile();
     updateSceneColor();
@@ -916,7 +906,9 @@ const animateParticles = () => {
       object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
     }
   }
+
   particleCloud.geometry.verticesNeedUpdate = true;
+
 };
 
 // const animateLights = () => {
@@ -985,6 +977,5 @@ const onWindowResize = () => {
   // uniforms.iResolution.value.y = window.innerHeight;
   renderer.setSize(window.innerWidth, window.innerHeight);
 };
-
 
 init();

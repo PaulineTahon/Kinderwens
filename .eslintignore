@@ -1,3 +1,4 @@
 /dist/*
 /src/js/ShaderGodRays.js
 /src/js/controls/OrbitControls.js
+/src/js/storyScript.js
