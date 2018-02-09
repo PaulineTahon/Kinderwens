@@ -426,7 +426,6 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__text {
-    font-size: 'sofia pro';
     cursor: pointer;
     position: absolute;
     bottom: 7.7rem;

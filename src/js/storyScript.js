@@ -1,24 +1,23 @@
+//import './js/script';
+
 let story, storyIndex = 0, innerIndex = 0;
+
+let STATE = `eicel`;
 
 const text = document.querySelector(`.eicel_stage_text`);
 const age = document.querySelector(`.age`);
 const count = document.querySelector(`.count`);
 const ageCount = document.querySelector(`.stage__stats__value`);
 const eggCount = document.querySelector(`.stage__stats__count`);
-const ageMetric = document.querySelector(`.stage__stats__valueMetric`);
-const eggCountMetric = document.querySelector(`.stage__stats__countMetric`);
 
 const userAge = document.querySelector(`.user_age`);
 const ageInput = document.querySelector(`.user_age_input`);
 const ageValue = document.querySelector(`.user_age_input_value`);
 
 const buttons = document.querySelector(`.buttons`);
-//const previousButton = document.querySelector(`.buttons_previous`);
 const buttonsText = document.querySelector(`.buttons__text`);
-//const previousButtonText = document.querySelector(`.buttons_previous_text`);
 
-const risks = document.querySelector(`.eicel_stage_risks`);
-const info = document.querySelector(`.eicel_stage_actions`);
+const eicelStory = document.querySelector(`.info__eicel`);
 
 const listItems = document.querySelectorAll(`.nav__list__item`);
 const stages = document.querySelectorAll(`.nav__list__stage`);
@@ -34,12 +33,13 @@ const clickHandler = e => {
   stages.forEach(child => {
     console.log(child);
     if (child.classList.contains(`nav__list__stage--active`)) {
-      console.log(`ja`);
+      console.log(`active removed`);
       child.classList.remove(`nav__list__stage--active`);
       child.classList.add(`nav__list__stage--inactive`);
     }
   });
   listItems.forEach(child => {
+    console.log(child);
     if (child.children[1].classList.contains(`nav__list--active`)) {
       console.log(`ja`);
       child.children[1].classList.remove(`nav__list--active`);
@@ -65,6 +65,7 @@ listItems.forEach(listItem => {
   listItem.addEventListener(`click`, clickHandler);
 });
 
+
 let currentAge;
 let interval;
 
@@ -80,10 +81,16 @@ let clickMe = true;
 //   {age: 50, index: 9}
 // ];
 
-const indexStory = () => {
+const initStory = () => {
+  console.log(currentAge, eicelStory);
   loadJson();
   userAge.style.display = `none`;
   buttons.addEventListener(`click`, handleNext);
+  text.addEventListener(`change`, toggleVisibility);
+  document.addEventListener(`click`, startEicelStory);
+  console.log(`[STORY IS INITIATED]`);
+  window.STATE = STATE;
+
 };
 
 const loadJson = () => {
@@ -92,6 +99,20 @@ const loadJson = () => {
   fetch(url)
 		.then(result => result.json())
 		.then(data => readJson(data));
+};
+
+const startEicelStory = () => {
+  console.log(`CLICK REGISTERED`);
+  if (STATE === `home`) {
+    const home = document.querySelector(`.home`);
+    const eicel = document.querySelector(`.eicelStory`);
+    home.classList.add(`fade`);
+    setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
+    STATE = `eicel`;
+    window.STATE = STATE;
+    window.startEicelStory;
+    document.removeEventListener(`click`, startEicelStory);
+  }
 };
 
 const handleNext = e => {
@@ -155,20 +176,9 @@ const handleNext = e => {
     //   }
 
     text.innerHTML = story[storyIndex].text;
-    if (story[storyIndex].age) {
-      ageCount.innerHTML = `${story[storyIndex].age} `;
-      ageMetric.innerHTML = ` jaar`;
-      if (story[storyIndex - 1].eggCount) {
-        countEggsDown();
-      } else {
-        eggCount.innerHTML = `${story[storyIndex].eggCount} `;
-        eggCountMetric.innerHTML = ` eicellen`;
-      }
-    }
-
-    if (story[storyIndex].info) {
-      risks.innerHTML = `risico's`;
-      info.innerHTML = `wat kan ik doen?`;
+    if (storyIndex >= 3) {
+      countEggsDown();
+      countAgeDown();
     }
 
     // const woman =  story[storyIndex].info.risks[2].woman[1];
@@ -200,48 +210,17 @@ const handleNext = e => {
     }
 
     if (story[storyIndex].text2) {
-      console.log(`fire interval`);
       interval = setInterval(setInnerText, 5000);
-      clickMe = false;
-      toggleFade();
+      if (storyIndex !== story.length - 1) {
+        clickMe = false;
+        toggleFade();
+      }
     }
 
   }
 
   window.storyIndex = storyIndex;
 
-};
-
-
-const setInnerText = () => {
-
-  window.innerIndex = innerIndex;
-
-  console.log(`interval running`);
-  console.log(`ja`, storyIndex, innerIndex);
-  if (innerIndex === 2 && story[storyIndex].text4) {
-    text.innerHTML = story[storyIndex].text4;
-    console.log(`last`);
-    innerIndex ++;
-    return;
-  } else if (innerIndex === 1 && story[storyIndex].text3) {
-    text.innerHTML = story[storyIndex].text3;
-    console.log(`second`);
-    innerIndex ++;
-    return;
-  } else if (innerIndex === 0 && story[storyIndex].text2) {
-    text.innerHTML = story[storyIndex].text2;
-    console.log(`first`);
-    innerIndex ++;
-    return;
-  }
-
-  if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
-    console.log(`interval cleared`);
-    clearInterval(interval);
-    clickMe = true;
-    toggleFade();
-  }
 };
 
 const progressNav = () => {
@@ -263,34 +242,99 @@ const progressNav = () => {
   }
 };
 
+const setInnerText = () => {
+
+  window.innerIndex = innerIndex;
+
+  console.log(`interval running`);
+  console.log(`ja`, storyIndex, innerIndex);
+
+  if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4) {
+    text.classList.remove(`visibleText`);
+    text.classList.add(`fadeText`);
+
+    if (storyIndex === 2 && innerIndex === 3) {
+      eggCount.innerHTML = `${story[storyIndex].eggCount} `;
+      ageCount.innerHTML = `${story[storyIndex].age} `;
+    }
+    if (innerIndex === 2 && story[storyIndex].text4) {
+      toggleVisibility(story[storyIndex].text4);
+      innerIndex ++;
+      return;
+    } else if (innerIndex === 1 && story[storyIndex].text3) {
+      toggleVisibility(story[storyIndex].text3);
+      innerIndex ++;
+      return;
+    } else if (innerIndex === 0 && story[storyIndex].text2) {
+      toggleVisibility(story[storyIndex].text2);
+      innerIndex ++;
+      toggleFade();
+      return;
+    } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
+      clearInterval(interval);
+      clickMe = true;
+      text.classList.remove(`fadeText`);
+      text.classList.add(`visibleText`);
+      toggleFade();
+      return;
+    }
+  }
+};
+
+const toggleVisibility = textContent => {
+
+  // console.log(`SHOW TEXT`);
+  // //text.classList.remove(`fadeText`);
+  // console.log(`FADE`);
+  // text.classList.remove(`visibleText`);
+  // text.classList.add(`fadeText`);
+
+  //setTimeout(() => {
+
+  text.classList.add(`visibleText`);
+  text.innerHTML = textContent;
+  //} , 500);
+};
+
 const toggleFade = () => {
 
+
   if (!clickMe) {
+    // console.log(`FADE`);
     buttons.classList.remove(`visible`);
     buttons.classList.add(`fade`);
 
+    // if (storyIndex > 2 && innerIndex >= 1) {
+    //   age.classList.add(`fade`);
+    //   age.classList.remove(`visible`);
+    //   count.classList.add(`fade`);
+    //   count.classList.remove(`visible`);
+    // }
+
     if (storyIndex === 2) {
-      age.classList.add(`fade`);
-      count.classList.add(`fade`);
-      age.classList.remove(`visible`);
-      count.classList.remove(`visible`);
+      setTimeout(() => {age.classList.remove(`fade`);age.classList.add(`visible`);}, 2000);
     }
+
+    if (storyIndex === 2 && innerIndex === 1) {
+      setTimeout(() => {count.classList.remove(`fade`);count.classList.add(`visible`);}, 1000);
+    }
+
   } else {
+
     buttons.classList.remove(`fade`);
     buttons.classList.add(`visible`);
 
-    if (storyIndex === 2) {
-      age.classList.add(`visible`);
-      count.classList.add(`visible`);
-      age.classList.remove(`fade`);
-      count.classList.remove(`fade`);
-    }
+    // age.classList.remove(`fade`);
+    // count.classList.remove(`fade`);
+    // age.classList.add(`visible`);
+    // count.classList.add(`visible`);
+
   }
 
 };
 
 const countEggsDown = () => {
-  console.log(story[storyIndex - 1].eggCount, story[storyIndex].eggCount);
+
   let eggsLeft = story[storyIndex - 1].eggCount;
   const eggTimer = setInterval(() => {
     if (story[storyIndex].eggCount >= 50000) {
@@ -298,23 +342,35 @@ const countEggsDown = () => {
     } else {
       eggsLeft -= 1000;
     }
-    eggCount.innerHTML = `${eggsLeft} `;
+    eggCount.innerHTML = `&plusmn; ${eggsLeft} `;
     if (eggsLeft === story[storyIndex].eggCount || eggsLeft === 0) {
       clearInterval(eggTimer);
     }
   }, 10);
 };
 
+const countAgeDown = () => {
+
+  let ageNow = story[storyIndex - 1].age;
+  const ageTimer = setInterval(() => {
+    ageNow ++;
+
+    ageCount.innerHTML = `&plusmn; ${ageNow} `;
+    if (ageNow === story[storyIndex].age || ageNow === 50) {
+      clearInterval(ageTimer);
+    }
+  }, 100);
+};
+
 const handleAge = () => {
   ageValue.innerHTML = `${ageInput.value} jaar`;
   currentAge = ageInput.value;
-  console.log(currentAge);
+
 };
 
 const readJson = data => {
   story = data.eicel;
-  console.log(story);
   text.innerHTML = story[storyIndex].text;
 };
 
-indexStory();
+initStory();

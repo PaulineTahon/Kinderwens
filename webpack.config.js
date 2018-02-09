@@ -1,6 +1,7 @@
+const webpack = require(`webpack`);
 const path = require(`path`);
 
-const webpack = require(`webpack`);
+
 const {HotModuleReplacementPlugin} = webpack;
 const {UglifyJsPlugin} = webpack.optimize;
 
@@ -40,12 +41,13 @@ const config = {
       `.js`,
       `.jsx`,
       `.css`
-    ]
+    ],
+  // <-- When you build or restart dev-server, you'll get an error if the path to your utils.js file is incorrect.
   },
 
   output: {
     path: path.join(__dirname, `dist`),
-    filename: `js/[name].[hash].js`,
+    filename: `js/[name].js`,
     publicPath
   },
 
@@ -168,7 +170,9 @@ const config = {
 
     ifDevelopment(new HotModuleReplacementPlugin()),
 
-    
+    new webpack.ProvidePlugin({
+      story: `story`
+    }),
 
     ifProduction(copy),
     ifProduction(extractCSS),

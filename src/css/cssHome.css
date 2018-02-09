@@ -1,0 +1,111 @@
+
+.info__eicel {
+  font-family: futura;
+  position: fixed;
+  left: 25vw;
+  top: 12rem;
+  font-size: 3.5rem;
+  width: 16rem;
+  line-height: 4rem;
+  color: #b1a8cb;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 8.5rem;
+    top: 8.3rem;
+    background: url(../assets/svg/female.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.info__zaadcel {
+  text-align: right;
+  font-family: futura;
+  position: fixed;
+  right: 20vw;
+  bottom: 12rem;
+  font-size: 3.5rem;
+  width: 20rem;
+  line-height: 4rem;
+  color: #b1a8cb;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 15.5rem;
+    top: 8.3rem;
+    background: url(../assets/svg/male.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.extra {
+  position: fixed;
+  z-index: 500;
+  top: 0;
+  right: 5rem;
+
+  &__svg {
+
+    display: flex;
+    justify-content: center;
+    /* display: block; */
+    background-position: center;
+    margin-left: 2.7rem;
+  }
+
+  &__test {
+    padding: .5rem;
+    z-index: 999;
+    font-family: 'sofia pro';
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 970;
+}
+
+/* @keyframes dash {
+
+  to { stroke-dashoffset: 0; }
+} */
+
+.rainbow {
+  position: fixed;
+  top: -10rem;
+  left: -5rem;
+  z-index: 200;
+  opacity: .2;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../assets/img/rainbow.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* mix-blend-mode: screen; */
+}
+
+.rainbow2 {
+  position: fixed;
+  bottom: -10rem;
+  right: -5rem;
+  z-index: 200;
+  opacity: .2;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../assets/img/rainbow.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+  /* mix-blend-mode: screen; */
+}
