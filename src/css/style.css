@@ -55,8 +55,9 @@ body {
     left: 20vw;
     top: 12rem;
     font-size: 2rem;
+    letter-spacing: .02rem;
     width: 25rem;
-    line-height: 3rem;
+    line-height: 2.9rem;
     color: #b1a8cb;
     /* font-family: Roboto; */
     /* animation: fadeOut 2s forwards; */
@@ -133,6 +134,11 @@ body {
 }  */
 
 .user_age {
+  z-index: 500;
+}
+
+.user_age, .user_children_age {
+  opacity: 0;
   position: fixed;
   bottom: 6rem;
   z-index: 10;
@@ -283,7 +289,6 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__list__deco {
-    padding-top: .2rem;
     margin: .7rem 4.75rem;
     display: flex;
     align-items: center;

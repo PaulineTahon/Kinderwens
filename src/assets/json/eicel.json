@@ -3,7 +3,7 @@
     {
       "text": "Hallo, ik ben één van je eicellen. Ik ken jou al mijn hele leven. Zal ik jou ook iets over mij vertellen?"
     },
-     {
+    {
       "text": "Voor we van start gaan zou ik graag je leeftijd weten. Hoe oud ben je nu?"
     },
     {
@@ -26,6 +26,9 @@
       "text2": "daarom wordt er vaak gekozen om later aan kinderen te beginnen.",
       "age": 20,
       "eggCount": 200000
+    },
+    {
+      "text": "Op welke leeftijd wil je aan kinderen beginnen?"
     },
     {
       "text": "Wanneer we 30 zijn, begint je vruchtbaarheid begint te dalen.",

@@ -523,7 +523,7 @@ const render = time => {
 
   }
 
-  if (window.storyIndex === 5) {
+  if (window.storyIndex === 6) {
 
     updateSceneColor();
 
@@ -533,7 +533,7 @@ const render = time => {
 
   }
 
-  if (window.storyIndex === 6) {
+  if (window.storyIndex === 7) {
 
     ballGroup.unfreeze();
     ballGroup.infertilize();
@@ -541,7 +541,7 @@ const render = time => {
 
   }
 
-  if (window.storyIndex === 7) {
+  if (window.storyIndex === 8) {
 
     ballGroup.infertile();
     updateSceneColor();
