@@ -15,7 +15,7 @@ export default class Egg {
       color: 0xccfffd,
       emissive: 0x333333,
       wireframe: false,
-      clippingPlanes: [ this.localPlane ],
+      clippingPlanes: [ window.localPlane ],
       transparent: true,
       opacity: .8
     });
@@ -33,7 +33,7 @@ export default class Egg {
       color: 0x999999,
       emissive: `white`,
       wireframe: false,
-      clippingPlanes: [ this.localPlane ],
+      clippingPlanes: [ window.localPlane ],
       transparent: true,
       opacity: 0.1,
       //map: texture

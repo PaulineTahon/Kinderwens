@@ -22,7 +22,6 @@ const eicelStory = document.querySelector(`.info__eicel`);
 const listItems = document.querySelectorAll(`.nav__list__item`);
 const stages = document.querySelectorAll(`.nav__list__stage`);
 // const nonActive = document.querySelector(`.eicel_stage_actions`);
-console.log(listItems);
 
 const clickHandler = e => {
   e.preventDefault();
@@ -70,16 +69,6 @@ let interval;
 
 let clickMe = true;
 
-// const stages = [
-//   {age: 0, index: 3},
-//   {age: 12, index: 4},
-//   {age: 20, index: 5},
-//   {age: 30, index: 6},
-//   {age: 35, index: 7},
-//   {age: 40, index: 8},
-//   {age: 50, index: 9}
-// ];
-
 const initStory = () => {
   console.log(currentAge, eicelStory);
   loadJson();
@@ -89,7 +78,6 @@ const initStory = () => {
   document.addEventListener(`click`, startEicelStory);
   console.log(`[STORY IS INITIATED]`);
   window.STATE = STATE;
-
 };
 
 const loadJson = () => {
@@ -107,9 +95,10 @@ const startEicelStory = () => {
     const eicel = document.querySelector(`.eicelStory`);
     home.classList.add(`fade`);
     setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
+
     STATE = `eicel`;
     window.STATE = STATE;
-    window.startEicelStory;
+
     document.removeEventListener(`click`, startEicelStory);
   }
 };
@@ -174,7 +163,9 @@ const handleNext = e => {
     //     }
     //   }
 
-    text.innerHTML = story[storyIndex].text;
+    // text.innerHTML = story[storyIndex].text;
+    toggleVisibility(story[storyIndex].text);
+
     if (storyIndex >= 3) {
       countEggsDown();
       countAgeDown();
@@ -225,19 +216,24 @@ const handleNext = e => {
 const progressNav = () => {
 
   const navBgs = document.querySelectorAll(`.nav__list__bg`);
+  const navStages = document.querySelectorAll(`.nav__list__stage`);
   console.log(navBgs);
+  console.log(navStages);
 
   const navIndex = storyIndex - 2;
 
   if (navBgs[navIndex - 1] && navBgs[navIndex - 1].classList.contains(`nav__list--active`)) {
-    console.log(`ja`);
     navBgs[navIndex - 1].classList.remove(`nav__list--active`);
     navBgs[navIndex - 1].classList.add(`nav__list--inactive`);
+    navStages[navIndex - 1].classList.remove(`nav__list__stage--active`);
+    navStages[navIndex - 1].classList.add(`nav__list__stage--inactive`);
   }
 
-  if (navBgs[navIndex] && !navBgs[navIndex].classList.contains(`nav__list--active`)) {
+  if (navBgs[navIndex] && navBgs[navIndex].classList.contains(`nav__list--inactive`)) {
     navBgs[navIndex].classList.remove(`nav__list--inactive`);
     navBgs[navIndex].classList.add(`nav__list--active`);
+    navStages[navIndex].classList.remove(`nav__list__stage--inactive`);
+    navStages[navIndex].classList.add(`nav__list__stage--active`);
   }
 };
 
@@ -249,13 +245,12 @@ const setInnerText = () => {
   console.log(`ja`, storyIndex, innerIndex);
 
   if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4) {
-    text.classList.remove(`visibleText`);
-    text.classList.add(`fadeText`);
 
     if (storyIndex === 2 && innerIndex === 3) {
       eggCount.innerHTML = `${story[storyIndex].eggCount} `;
       ageCount.innerHTML = `${story[storyIndex].age} `;
     }
+
     if (innerIndex === 2 && story[storyIndex].text4) {
       toggleVisibility(story[storyIndex].text4);
       innerIndex ++;
@@ -272,8 +267,6 @@ const setInnerText = () => {
     } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
       clearInterval(interval);
       clickMe = true;
-      text.classList.remove(`fadeText`);
-      text.classList.add(`visibleText`);
       toggleFade();
       return;
     }
@@ -282,17 +275,20 @@ const setInnerText = () => {
 
 const toggleVisibility = textContent => {
 
-  // console.log(`SHOW TEXT`);
-  // //text.classList.remove(`fadeText`);
-  // console.log(`FADE`);
-  // text.classList.remove(`visibleText`);
-  // text.classList.add(`fadeText`);
+  text.style.opacity = 1;
 
-  //setTimeout(() => {
+  const tween = new TWEEN.Tween(text.style)
+    .to({opacity: 0}, 250)
+    .start();
 
-  text.classList.add(`visibleText`);
-  text.innerHTML = textContent;
-  //} , 500);
+  tween.onComplete(() => {
+    text.innerHTML = textContent;
+    new TWEEN.Tween(text.style)
+      .to({opacity: 1}, 300)
+      .start();
+  });
+
+
 };
 
 const toggleFade = () => {

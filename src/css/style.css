@@ -469,23 +469,23 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .fade {
-  animation: fadeOut 3s forwards;
   opacity: 1;
+  animation: fadeOut 3s forwards;
 }
 
 .visible {
-  animation: fadeIn 3s forwards;
   opacity: 0;
+  animation: fadeIn 3s forwards;
 }
 
 .fadeText {
-  animation: fadeOut 1s forwards;
   opacity: 1;
+  animation: fadeOut 1s forwards;
 }
 
 .visibleText {
-  animation: fadeIn 1s forwards;
   opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 @keyframes fadeIn {
