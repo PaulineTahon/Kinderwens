@@ -1,3 +1,5 @@
+//import './js/script';
+
 let story, storyIndex = 0, innerIndex = 0;
 
 let STATE = `eicel`;
@@ -17,6 +19,52 @@ const buttonsText = document.querySelector(`.buttons__text`);
 
 const eicelStory = document.querySelector(`.info__eicel`);
 
+const listItems = document.querySelectorAll(`.nav__list__item`);
+const stages = document.querySelectorAll(`.nav__list__stage`);
+// const nonActive = document.querySelector(`.eicel_stage_actions`);
+console.log(listItems);
+
+const clickHandler = e => {
+  e.preventDefault();
+
+  const element = e.currentTarget;
+
+  console.log(stages);
+  stages.forEach(child => {
+    console.log(child);
+    if (child.classList.contains(`nav__list__stage--active`)) {
+      console.log(`active removed`);
+      child.classList.remove(`nav__list__stage--active`);
+      child.classList.add(`nav__list__stage--inactive`);
+    }
+  });
+  listItems.forEach(child => {
+    console.log(child);
+    if (child.children[1].classList.contains(`nav__list--active`)) {
+      console.log(`ja`);
+      child.children[1].classList.remove(`nav__list--active`);
+      child.children[1].classList.add(`nav__list--inactive`);
+      // child.children[1].parentNode.parentNode.firstElementChild.classList.add(`testttt`);
+    }
+
+    element.parentNode.firstElementChild.classList.remove(`nav__list__stage--inactive`);
+    element.parentNode.firstElementChild.classList.add(`nav__list__stage--active`);
+  });
+
+  if (!element.classList.contains(`nav__list--active`)) {
+    element.children[1].classList.remove(`nav__list--inactive`);
+    element.children[1].classList.add(`nav__list--active`);
+    // element.children[1].parentNode.parentNode.firstElementChild.classList.remove(`testttt`);
+  }
+
+  // element.style.backgroundImage = `url('../assets/svg/cyclus.svg')`;
+  // style.backgroundImage = "url('img_tree.png')";
+};
+
+listItems.forEach(listItem => {
+  listItem.addEventListener(`click`, clickHandler);
+});
+
 let currentAge;
 let interval;
 
@@ -33,14 +81,15 @@ let clickMe = true;
 // ];
 
 const initStory = () => {
-
+  console.log(currentAge, eicelStory);
   loadJson();
   userAge.style.display = `none`;
   buttons.addEventListener(`click`, handleNext);
   text.addEventListener(`change`, toggleVisibility);
   document.addEventListener(`click`, startEicelStory);
-  console.log(eicelStory, `STORY IS INITIATED`);
+  console.log(`[STORY IS INITIATED]`);
   window.STATE = STATE;
+
 };
 
 const loadJson = () => {
@@ -54,14 +103,13 @@ const loadJson = () => {
 const startEicelStory = () => {
   console.log(`CLICK REGISTERED`);
   if (STATE === `home`) {
-    console.log(STATE);
     const home = document.querySelector(`.home`);
     const eicel = document.querySelector(`.eicelStory`);
     home.classList.add(`fade`);
     setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
     STATE = `eicel`;
     window.STATE = STATE;
-
+    window.startEicelStory;
     document.removeEventListener(`click`, startEicelStory);
   }
 };
@@ -86,6 +134,7 @@ const handleNext = e => {
     }
 
     storyIndex ++;
+    progressNav();
 
     // if (storyIndex === 2) {
     //   //START STORY ON CURRENT AGE
@@ -160,10 +209,11 @@ const handleNext = e => {
     }
 
     if (story[storyIndex].text2) {
-      console.log(`fire interval`);
       interval = setInterval(setInnerText, 5000);
-      clickMe = false;
-      toggleFade();
+      if (storyIndex !== story.length - 1) {
+        clickMe = false;
+        toggleFade();
+      }
     }
 
   }
@@ -172,6 +222,24 @@ const handleNext = e => {
 
 };
 
+const progressNav = () => {
+
+  const navBgs = document.querySelectorAll(`.nav__list__bg`);
+  console.log(navBgs);
+
+  const navIndex = storyIndex - 2;
+
+  if (navBgs[navIndex - 1] && navBgs[navIndex - 1].classList.contains(`nav__list--active`)) {
+    console.log(`ja`);
+    navBgs[navIndex - 1].classList.remove(`nav__list--active`);
+    navBgs[navIndex - 1].classList.add(`nav__list--inactive`);
+  }
+
+  if (navBgs[navIndex] && !navBgs[navIndex].classList.contains(`nav__list--active`)) {
+    navBgs[navIndex].classList.remove(`nav__list--inactive`);
+    navBgs[navIndex].classList.add(`nav__list--active`);
+  }
+};
 
 const setInnerText = () => {
 
@@ -190,22 +258,18 @@ const setInnerText = () => {
     }
     if (innerIndex === 2 && story[storyIndex].text4) {
       toggleVisibility(story[storyIndex].text4);
-      console.log(`last`);
       innerIndex ++;
       return;
     } else if (innerIndex === 1 && story[storyIndex].text3) {
-      console.log(`second`);
       toggleVisibility(story[storyIndex].text3);
       innerIndex ++;
       return;
     } else if (innerIndex === 0 && story[storyIndex].text2) {
-      console.log(`first`);
       toggleVisibility(story[storyIndex].text2);
       innerIndex ++;
       toggleFade();
       return;
     } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
-      console.log(`interval cleared`);
       clearInterval(interval);
       clickMe = true;
       text.classList.remove(`fadeText`);
@@ -217,7 +281,7 @@ const setInnerText = () => {
 };
 
 const toggleVisibility = textContent => {
-  console.log(textContent);
+
   // console.log(`SHOW TEXT`);
   // //text.classList.remove(`fadeText`);
   // console.log(`FADE`);
@@ -225,7 +289,7 @@ const toggleVisibility = textContent => {
   // text.classList.add(`fadeText`);
 
   //setTimeout(() => {
-  console.log(`SHOW`);text.classList.remove(`fadeText`);
+
   text.classList.add(`visibleText`);
   text.innerHTML = textContent;
   //} , 500);
@@ -233,7 +297,6 @@ const toggleVisibility = textContent => {
 
 const toggleFade = () => {
 
-  console.log(storyIndex);
 
   if (!clickMe) {
     // console.log(`FADE`);
@@ -256,7 +319,7 @@ const toggleFade = () => {
     }
 
   } else {
-    console.log(`all visible`);
+
     buttons.classList.remove(`fade`);
     buttons.classList.add(`visible`);
 
@@ -270,7 +333,7 @@ const toggleFade = () => {
 };
 
 const countEggsDown = () => {
-  console.log(story[storyIndex - 1].eggCount, story[storyIndex].eggCount);
+
   let eggsLeft = story[storyIndex - 1].eggCount;
   const eggTimer = setInterval(() => {
     if (story[storyIndex].eggCount >= 50000) {
@@ -286,7 +349,7 @@ const countEggsDown = () => {
 };
 
 const countAgeDown = () => {
-  console.log(story[storyIndex - 1].age, story[storyIndex].age);
+
   let ageNow = story[storyIndex - 1].age;
   const ageTimer = setInterval(() => {
     ageNow ++;
@@ -301,12 +364,11 @@ const countAgeDown = () => {
 const handleAge = () => {
   ageValue.innerHTML = `${ageInput.value} jaar`;
   currentAge = ageInput.value;
-  console.log(currentAge);
+
 };
 
 const readJson = data => {
   story = data.eicel;
-  console.log(story);
   text.innerHTML = story[storyIndex].text;
 };
 

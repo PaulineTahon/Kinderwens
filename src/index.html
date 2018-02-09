@@ -75,42 +75,6 @@
          gl_FragColor = vec4(r,g,b,1.0);
         }
     </script>
-    <script id="vertexShader2" type="x-shader/x-vertex">
-
-      precision mediump float;
-      precision mediump int;
-      uniform mat4 modelViewMatrix; // optional
-      uniform mat4 projectionMatrix; // optional
-      attribute vec3 position;
-      attribute vec4 color;
-      varying vec3 vPosition;
-      varying vec4 vColor;
-
-      void main()	{
-        vPosition = position;
-        vColor = color;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-      }
-
-    </script>
-    <script id="fragmentShader2" type="x-shader/x-fragment">
-
-			precision mediump float;
-			precision mediump int;
-			uniform float time;
-			varying vec3 vPosition;
-			varying vec4 vColor;
-
-			void main()	{
-
-        float r = 0.0;
-        float g = 0.5;
-        float b = 0.6;
-				//color.g += sin( vPosition.x * 10.0 + time ) * 0.05;
-				gl_FragColor = vec4(r,g,b,.2);
-			}
-
-		</script>
   </head>
   <body>
     <canvas id="c" class="c" width="1400" height="700"></canvas>
@@ -241,13 +205,44 @@
       </div>
       <nav class="nav">
         <ul class="nav__list">
-          <li class="nav__list__item_active">1</li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--active">Geboorte</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">1</p>
+              <p class="nav__list__bg nav__list--active"></p>
+            </li>
+          </div>
+
           <li class="nav__list__deco"></li>
-          <li class="nav__list__item">2</li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--inactive">Puberteit</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">2</p>
+              <p class="nav__list__bg nav__list--inactive"></p>
+            </li>
+          </div>
+
           <li class="nav__list__deco"></li>
-          <li class="nav__list__item">3</li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--inactive">Puberteit</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">3</p>
+              <p class="nav__list__bg nav__list--inactive"></p>
+            </li>
+          </div>
+
           <li class="nav__list__deco"></li>
-          <li class="nav__list__item">4</li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--inactive">Puberteit</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">4</p>
+              <p class="nav__list__bg nav__list--inactive"></p>
+            </li>
+          </div>
           <!-- <a class="nav__list__link" href="index.php?page=index">Home</a>
           <a class="nav__list__link nav__list__link--active" href="index.php?page=program">Programma</a>
           <a class="nav__list__link" href="#">Over Spekken</a>
@@ -263,9 +258,8 @@
     <script type="text/javascript" src="js/three.min.js"></script>
     <script type="text/javascript" src="js/tween.js"></script>
     <script type="text/javascript" src="js/ShaderGodRays.js"></script>
-    <script type="text/javascript" src="js/controls/OrbitControls.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-    <script type="text/javascript" src="./storyScript.js"></script>
+    <!-- <script type="text/javascript" src="js/storyScript.js"></script> -->
     <script>
       window.addEventListener("load", () => {
         console.log(`hey`);

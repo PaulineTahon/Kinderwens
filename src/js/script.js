@@ -1,24 +1,27 @@
-import OpenSimplexNoise from 'open-simplex-noise';
+//import OpenSimplexNoise from 'open-simplex-noise';
+import './storyScript.js';
+import Egg from './Egg.js';
 
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
+
+//const noise = new OpenSimplexNoise();
+
 let startCameraAnimation = true;
 
-let ball, ball2, ball3, iceShard;
+//let ball;//, ball2, ball3,
 //let bulbLight, bulbLight2;
-let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
-let lambertMaterial, lambertMaterial2, lambertMaterial3;
+let ballGroup;//, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+// let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
-let pointLight;
+// let pointLight;
 
-const blobSpeed = 0.0007;
-let blobMovement = true;
+// const blobSpeed = 0.0007;
 
-const spheres = [];
-
-let textureCube;
+//const spheres = [];
 
 let particleCloud;
 let particleGeometry;
@@ -30,7 +33,7 @@ let bgColor = 0x151616;
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
-const postprocessing = {enabled: true};
+const postprocessing = {enabled: false};
 const sunColor = 0xff0000;
 
 const colorStages = [
@@ -48,199 +51,215 @@ const colorStages = [
 /* vars light --------------------------------------*/
 //let bulbLight, bulbLight2;
 
-const noise = new OpenSimplexNoise();
+// class Egg {
+//   constructor () {
+//     this.mesh = new THREE.Object3D();
+//
+//     this.blobMovement = true;
+//
+//     //const localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 0.8);
+//
+//     this.icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
+//     this.icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
+//     this.icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
+//
+//     this.lambertMaterial = new THREE.MeshLambertMaterial({
+//       color: 0xccfffd,
+//       emissive: 0x333333,
+//       wireframe: false,
+//       //clippingPlanes: [ localPlane ],
+//       transparent: true,
+//       opacity: .8
+//     });
+//
+//     this.lambertMaterial2 = new THREE.MeshLambertMaterial({
+//       color: 0x999999,
+//       emissive: 0x222222,
+//       wireframe: false,
+//       transparent: true,
+//       opacity: 0.0,
+//         //map: texture
+//     });
+//
+//     this.lambertMaterial3 = new THREE.MeshLambertMaterial({
+//       color: 0x999999,
+//       emissive: `white`,
+//       wireframe: false,
+//       //clippingPlanes: [ localPlane ],
+//       transparent: true,
+//       opacity: 0.1,
+//         //map: texture
+//     });
+//
+//     this.lambertMaterial.depthWrite = false;
+//     this.lambertMaterial2.depthWrite = false;
+//     this.lambertMaterial3.depthWrite = false;
+//
+//     this.ball = new THREE.Mesh(this.icosahedronGeometry, this.lambertMaterial);
+//     this.ball.position.x = 0;
+//     this.ball.position.y = 5;
+//     this.ball.position.z = 0;
+//     this.ball.castShadow = true;
+//     //ball.receiveShadow = true;
+//     //scene.add(ball);
+//
+//     this.ball2 = new THREE.Mesh(this.icosahedronGeometry2, this.lambertMaterial2);
+//     this.ball2.position.x = 0;
+//     this.ball2.position.y = 3;
+//     this.ball2.position.z = 0;
+//     this.ball2.castShadow = true;
+//     // ball2.scale.multiplyScalar(20);
+//     //scene.add(ball2);
+//
+//     this.ball3 = new THREE.Mesh(this.icosahedronGeometry3, this.lambertMaterial3);
+//     this.ball3.position.x = 0;
+//     this.ball3.position.y = 5;
+//     this.ball3.position.z = 0;
+//     this.ball3.castShadow = true;
+//
+//     this.mesh.add(this.ball);
+//     this.mesh.add(this.ball2);
+//     this.mesh.add(this.ball3);
+//   }
+//
+//   animateEgg() {
+//     makeRoughBall(this.ball);
+//     makeRoughBall(this.ball2);
+//     makeRoughBall(this.ball3);
+//   }
+//
+//   fertilize() {
+//
+//     // PUBERTEIT
+//
+//     new TWEEN.Tween(this.lambertMaterial)
+//         .to({opacity: .7}, 3000)
+//         .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial2)
+//         .to({opacity: .3}, 3000)
+//         .start();
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//           .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+//           .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//           .to({r: 46 / 255, g: 26 / 255, b: 53 / 255}, 2000)
+//           .start();
+//
+//   }
+//
+//   fertile() {
+//
+//     // 20 JAAR - VRUCHTBAARSTE PERIODE
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//       .to({r: 1, g: 0, b: 0}, 2000)
+//       .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//       .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
+//       .start();
+//
+//   }
+//
+//   freeze() {
+//
+//     this.iceGeometry = new THREE.DodecahedronGeometry(12.5, 1);
+//     this.iceMaterial = new THREE.MeshLambertMaterial({
+//       color: `white`,
+//       emissive: 0x007a87,
+//       transparent: true,
+//       opacity: 0.0
+//     });
+//
+//     this.iceShard = new THREE.Mesh(this.iceGeometry, this.iceMaterial);
+//     this.iceShard.position.y = 5;
+//     scene.add(this.iceShard);
+//
+//     // 30 JAAR - START DALIG - INVRIEZEN?
+//
+//     if (this.iceShard.material.opacity >= .05) {
+//       this.blobMovement = false;
+//     }
+//
+//     new TWEEN.Tween(this.iceShard.material)
+//         .to({opacity: 0.1}, 5000)
+//         .start();
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//       .to({r: .5, g: 0, b: 0}, 2000)
+//       .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//       .to({r: 40 / 255, g: 11 / 255, b: 50 / 255}, 2000)
+//       .start();
+//
+//   }
+//
+//   unfreeze() {
+//
+//     if (this.iceShard.material.opacity <= .1) {
+//       this.blobMovement = true;
+//     }
+//
+//     new TWEEN.Tween(this.iceShard.material)
+//         .to({opacity: 0.0}, 2000)
+//         .start();
+//
+//   }
+//
+//   infertilize() {
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//       .to({r: 0, g: 0, b: 0}, 2000)
+//       .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//       .to({r: 35 / 255, g: 6 / 255, b: 45 / 255}, 2000)
+//       .start();
+//
+//     // 35 JAAR - STERKE DALING ONVRUCHTBAARHEID
+//
+//   }
+//
+//   infertilizeProgression() {
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//       .to({r: 0, g: 0, b: 0}, 2000)
+//       .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//       .to({r: 30 / 255, g: 1 / 255, b: 40 / 255}, 2000)
+//       .start();
+//
+//     // 40 JAAR - KLEINE KANS
+//
+//   }
+//
+//   infertile() {
+//
+//     new TWEEN.Tween(this.pointLight.color)
+//       .to({r: 0, g: 0, b: 0}, 2000)
+//       .start();
+//
+//     new TWEEN.Tween(this.lambertMaterial.emissive)
+//       .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
+//       .start();
+//
+//     // 50 JAAR - MENOPAUZE
+//
+//   }
+//
+//
+// }
 
-class Egg {
-  constructor () {
-    this.mesh = new THREE.Object3D();
-
-    //const localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 0.8);
-
-    const icosahedronGeometry = new THREE.IcosahedronGeometry(9.5, 4);
-    const icosahedronGeometry2 = new THREE.IcosahedronGeometry(4, 4);
-    const icosahedronGeometry3 = new THREE.IcosahedronGeometry(10, 4);
-
-    lambertMaterial = new THREE.MeshLambertMaterial({
-      color: 0xccfffd,
-      emissive: 0x333333,
-      wireframe: false,
-      //clippingPlanes: [ localPlane ],
-      transparent: true,
-      opacity: .8
-    });
-
-    lambertMaterial2 = new THREE.MeshLambertMaterial({
-      color: 0x999999,
-      emissive: 0x222222,
-      wireframe: false,
-      transparent: true,
-      opacity: 0.0,
-        //map: texture
-    });
-
-    lambertMaterial3 = new THREE.MeshLambertMaterial({
-      color: 0x999999,
-      emissive: `white`,
-      wireframe: false,
-      //clippingPlanes: [ localPlane ],
-      transparent: true,
-      opacity: 0.1,
-        //map: texture
-    });
-
-    lambertMaterial.depthWrite = false;
-    lambertMaterial2.depthWrite = false;
-    lambertMaterial3.depthWrite = false;
-
-    ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
-    ball.position.x = 0;
-    ball.position.y = 5;
-    ball.position.z = 0;
-    ball.castShadow = true;
-    //ball.receiveShadow = true;
-    //scene.add(ball);
-
-    ball2 = new THREE.Mesh(icosahedronGeometry2, lambertMaterial2);
-    ball2.position.x = 0;
-    ball2.position.y = 3;
-    ball2.position.z = 0;
-    ball2.castShadow = true;
-    // ball2.scale.multiplyScalar(20);
-    //scene.add(ball2);
-
-    ball3 = new THREE.Mesh(icosahedronGeometry3, lambertMaterial3);
-    ball3.position.x = 0;
-    ball3.position.y = 5;
-    ball3.position.z = 0;
-    ball3.castShadow = true;
-
-    this.mesh.add(ball);
-    this.mesh.add(ball2);
-    this.mesh.add(ball3);
-  }
-
-  animateEgg = () => {
-    makeRoughBall(ball);
-    makeRoughBall(ball2);
-    makeRoughBall(ball3);
-  }
-
-  fertilize = () => {
-
-    // PUBERTEIT
-
-    new TWEEN.Tween(lambertMaterial)
-        .to({opacity: .7}, 3000)
-        .start();
-
-    new TWEEN.Tween(lambertMaterial2)
-        .to({opacity: .3}, 3000)
-        .start();
-
-    new TWEEN.Tween(pointLight.color)
-          .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
-          .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-          .to({r: 46 / 255, g: 26 / 255, b: 53 / 255}, 2000)
-          .start();
-
-  }
-
-  fertile = () => {
-
-    // 20 JAAR - VRUCHTBAARSTE PERIODE
-
-    new TWEEN.Tween(pointLight.color)
-      .to({r: 1, g: 0, b: 0}, 2000)
-      .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-      .to({r: 45 / 255, g: 16 / 255, b: 55 / 255}, 2000)
-      .start();
-
-  }
-
-  freeze = () => {
-
-    // 30 JAAR - START DALIG - INVRIEZEN?
-
-    if (iceShard.material.opacity >= .05) {
-      blobMovement = false;
-    }
-
-    new TWEEN.Tween(iceShard.material)
-        .to({opacity: 0.1}, 5000)
-        .start();
-
-    new TWEEN.Tween(pointLight.color)
-      .to({r: .5, g: 0, b: 0}, 2000)
-      .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-      .to({r: 40 / 255, g: 11 / 255, b: 50 / 255}, 2000)
-      .start();
-
-  }
-
-  unfreeze = () => {
-
-    if (iceShard.material.opacity <= .1) {
-      blobMovement = true;
-    }
-
-    new TWEEN.Tween(iceShard.material)
-        .to({opacity: 0.0}, 2000)
-        .start();
-
-  }
-
-  infertilize = () => {
-
-    new TWEEN.Tween(pointLight.color)
-      .to({r: 0, g: 0, b: 0}, 2000)
-      .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-      .to({r: 35 / 255, g: 6 / 255, b: 45 / 255}, 2000)
-      .start();
-
-    // 35 JAAR - STERKE DALING ONVRUCHTBAARHEID
-
-  }
-
-  infertilizeProgression = () => {
-
-    new TWEEN.Tween(pointLight.color)
-      .to({r: 0, g: 0, b: 0}, 2000)
-      .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-      .to({r: 30 / 255, g: 1 / 255, b: 40 / 255}, 2000)
-      .start();
-
-    // 40 JAAR - KLEINE KANS
-
-  }
-
-  infertile = () => {
-
-    new TWEEN.Tween(pointLight.color)
-      .to({r: 0, g: 0, b: 0}, 2000)
-      .start();
-
-    new TWEEN.Tween(lambertMaterial.emissive)
-      .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
-      .start();
-
-    // 50 JAAR - MENOPAUZE
-
-  }
-
-
-}
 
 const init = () => {
+
+  console.log(`[SCRIPT INITIATED]`);
+  console.log(window.startEicelStory);
 
   if (!window.storyIndex) {
     window.storyIndex = 0;
@@ -251,13 +270,14 @@ const init = () => {
 
   if (window.STATE === `eicel`) {
 
+    console.log(ballGroup);
+
     bgColor = 0x3a3d46;
-    scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
     createTerrain();
     createAudio();
-    createSpheres();
+    //createSpheres();
     createParticles();
-    createIce();
+
     initPostprocessing();
 
     camera.rotation.x = 0.6;
@@ -269,9 +289,9 @@ const init = () => {
     //createLights();
     createTerrain();
     createAudio();
-    createSpheres();
+    //createSpheres();
     createParticles();
-    createIce();
+
     initPostprocessing();
 
   }
@@ -340,15 +360,15 @@ const createScene = () => {
   scene.add(ambientLight);
   camera.add(ambientLight);
 
-  pointLight = new THREE.PointLight(0xccfffd, 1, 100);
-  pointLight.position.set(10, 10, 10);
-  scene.add(pointLight);
+  // pointLight = new THREE.PointLight(0xccfffd, 1, 100);
+  // pointLight.position.set(10, 10, 10);
+  // scene.add(pointLight);
 
   /* SpotLight
   // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
   spotLight.intensity = 0.8;
-  spotLight.lookAt(ball);
+  spotLight.lookAt(ballGroup.mesh);
   spotLight.castShadow = true;
   if (window.STATE === `eicel`) {
     spotLight.position.set(0, 1000, 20);
@@ -411,61 +431,55 @@ const createScene = () => {
 
     materialDepth = new THREE.MeshDepthMaterial();
 
-    textureCube = new THREE.CubeTextureLoader()
-        .setPath(`./assets/img/`)
-        .load([ `nx.jpg`, `px.jpg`, `ny.jpg`, `py.jpg`, `nz.jpg`, `pz.jpg` ]);
-
-    textureCube.mapping = THREE.CubeRefractionMapping;
-
     renderer.sortObject = false;
 
-    ballGroup2 = ballGroup.mesh.clone();
-    ballGroup2.position.x = 50;
-    ballGroup2.position.y = - 30;
-    ballGroup2.position.z = - 40;
-    scene.add(ballGroup2);
-
-    ballGroup3 = ballGroup.mesh.clone();
-    ballGroup3.position.x = - 70;
-    ballGroup3.position.y = - 25;
-    ballGroup3.position.z = - 100;
-    scene.add(ballGroup3);
-
-    ballGroup4 = ballGroup.mesh.clone();
-    ballGroup4.position.x = - 70;
-    ballGroup4.position.y = 95;
-    ballGroup4.position.z = - 150;
-    scene.add(ballGroup4);
-
-    ballGroup5 = ballGroup.mesh.clone();
-    ballGroup5.position.x = 70;
-    ballGroup5.position.y = 112;
-    ballGroup5.position.z = - 200;
-    scene.add(ballGroup5);
-
-    ballGroup6 = ballGroup.mesh.clone();
-    ballGroup6.position.x = - 150;
-    ballGroup6.position.y = 30;
-    ballGroup6.position.z = - 140;
-    scene.add(ballGroup6);
-
-    ballGroup7 = ballGroup.mesh.clone();
-    ballGroup7.position.x = - 100;
-    ballGroup7.position.y = - 50;
-    ballGroup7.position.z = - 30;
-    scene.add(ballGroup7);
-
-    ballGroup8 = ballGroup.mesh.clone();
-    ballGroup8.position.x = - 50;
-    ballGroup8.position.y = - 100;
-    ballGroup8.position.z = 0;
-    scene.add(ballGroup8);
-
-    ballGroup9 = ballGroup.mesh.clone();
-    ballGroup9.position.x = - 30;
-    ballGroup9.position.y = - 180;
-    ballGroup9.position.z = 70;
-    scene.add(ballGroup9);
+    // ballGroup2 = ballGroup.mesh.clone();
+    // ballGroup2.position.x = 50;
+    // ballGroup2.position.y = - 30;
+    // ballGroup2.position.z = - 40;
+    // scene.add(ballGroup2);
+    //
+    // ballGroup3 = ballGroup.mesh.clone();
+    // ballGroup3.position.x = - 70;
+    // ballGroup3.position.y = - 25;
+    // ballGroup3.position.z = - 100;
+    // scene.add(ballGroup3);
+    //
+    // ballGroup4 = ballGroup.mesh.clone();
+    // ballGroup4.position.x = - 70;
+    // ballGroup4.position.y = 95;
+    // ballGroup4.position.z = - 150;
+    // scene.add(ballGroup4);
+    //
+    // ballGroup5 = ballGroup.mesh.clone();
+    // ballGroup5.position.x = 70;
+    // ballGroup5.position.y = 112;
+    // ballGroup5.position.z = - 200;
+    // scene.add(ballGroup5);
+    //
+    // ballGroup6 = ballGroup.mesh.clone();
+    // ballGroup6.position.x = - 150;
+    // ballGroup6.position.y = 30;
+    // ballGroup6.position.z = - 140;
+    // scene.add(ballGroup6);
+    //
+    // ballGroup7 = ballGroup.mesh.clone();
+    // ballGroup7.position.x = - 100;
+    // ballGroup7.position.y = - 50;
+    // ballGroup7.position.z = - 30;
+    // scene.add(ballGroup7);
+    //
+    // ballGroup8 = ballGroup.mesh.clone();
+    // ballGroup8.position.x = - 50;
+    // ballGroup8.position.y = - 100;
+    // ballGroup8.position.z = 0;
+    // scene.add(ballGroup8);
+    //
+    // ballGroup9 = ballGroup.mesh.clone();
+    // ballGroup9.position.x = - 30;
+    // ballGroup9.position.y = - 180;
+    // ballGroup9.position.z = 70;
+    // scene.add(ballGroup9);
 
   }
 
@@ -474,7 +488,7 @@ const createScene = () => {
   renderer.localClippingEnabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.autoClear = false;
+  // renderer.autoClear = false;
 
   // ballGroup9.children.forEach(ball => {
   //   ball.material.opacity = .2;
@@ -482,10 +496,10 @@ const createScene = () => {
   // });
 
   //orbitcontrols;
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.minDistance = 20;
-  controls.maxDistance = 500;
-  controls.enablePan = true;
+  // const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  // controls.minDistance = 20;
+  // controls.maxDistance = 500;
+  // controls.enablePan = true;
 
 };
 
@@ -597,27 +611,6 @@ const createAudio = () => {
 //
 // };
 
-const createIce = () => {
-  const geometry = new THREE.DodecahedronGeometry(12.5, 1);
-  const material = new THREE.MeshLambertMaterial({
-    // uniforms: {
-    //   time: {value: 1.0}
-    // },
-    // vertexShader: document.getElementById(`vertexShader2`).textContent,
-    // fragmentShader: document.getElementById(`fragmentShader2`).textContent,
-    // side: THREE.DoubleSide,
-    // transparent: true,
-    color: `white`,
-    emissive: 0x007a87,
-    transparent: true,
-    opacity: 0.0
-  });
-
-  iceShard = new THREE.Mesh(geometry, material);
-  iceShard.position.y = 5;
-  scene.add(iceShard);
-};
-
 // const createIce = () => {
 //   const triangles = 50;
 //   const geometry = new THREE.BufferGeometry();
@@ -692,25 +685,33 @@ const animate = () => {
 
 const render = time => {
 
+  TWEEN.update(time);
+
+  animateParticles();
+  createLightRays();
+
   // console.log(`[RENDER]`);
 
-  if (window.STATE === `home`) {
-    animateSpheres();
-    animateParticles();
-    createLightRays();
-    //animateLights();
-  } else if (window.STATE === `eicel`) {
-    animateSpheres();
-    animateParticles();
-    createLightRays();
+  // if (window.STATE === `home`) {
+  //   //animateSpheres();
+  //
+  //   //animateLights();
+  // } else if (window.STATE === `eicel`) {
+  //   //animateSpheres();
+  //   animateParticles();
+  //   createLightRays();
+  //
+  // }
 
-  }
-
-  if (blobMovement) {
-    ballGroup.animateEgg();
-  }
-
-  TWEEN.update(time);
+  // if (ballGroup.blobMovement) {
+  //   //ballGroup.animateEgg();
+  //   makeRoughBall(ballGroup.mesh.children[1]);
+  //   if (window.storyIndex >= 3) {
+  //     makeRoughBall(ballGroup.mesh.children[2]);
+  //   }
+  //   makeRoughBall(ballGroup.mesh.children[3]);
+  //   //makeRoughBall(ballGroup.mesh.children);
+  // }
 
   if (window.storyIndex === 2) {
 
@@ -920,55 +921,55 @@ const animateParticles = () => {
 //   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
 // };
 
-const animateSpheres = () => {
-  const time = 0.00001 * Date.now();
+// const animateSpheres = () => {
+//   const time = 0.00001 * Date.now();
+//
+//   for (let i = 0, il = spheres.length;i < il;i ++) {
+//     const sphere = spheres[ i ];
+//     // sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
+//     // sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
+//     sphere.position.x = 200 * Math.cos(time);
+//     sphere.position.z = 200 * Math.cos(time) - 100;
+//   }
+// };
+//
+// const createSpheres = () => {
+//
+//   const geometry = new THREE.SphereBufferGeometry(4, 32, 16);
+//
+//   const material = new THREE.MeshBasicMaterial({color: 0x999999, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
+//
+//   for (let i = 0;i < 30;i ++) {
+//
+//     const mesh = new THREE.Mesh(geometry, material);
+//     mesh.position.x = Math.random() * 5000 - 2500;
+//     mesh.position.y = Math.random() * 5000 - 2500;
+//     mesh.position.z = Math.random() * 0 - 100;
+//     scene.add(mesh);
+//
+//     spheres.push(mesh);
+//
+//   }
+// };
 
-  for (let i = 0, il = spheres.length;i < il;i ++) {
-    const sphere = spheres[ i ];
-    // sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
-    // sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
-    sphere.position.x = 200 * Math.cos(time);
-    sphere.position.z = 200 * Math.cos(time) - 100;
-  }
-};
-
-const createSpheres = () => {
-
-  const geometry = new THREE.SphereBufferGeometry(4, 32, 16);
-
-  const material = new THREE.MeshBasicMaterial({color: 0x999999, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
-
-  for (let i = 0;i < 30;i ++) {
-
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.x = Math.random() * 5000 - 2500;
-    mesh.position.y = Math.random() * 5000 - 2500;
-    mesh.position.z = Math.random() * 0 - 100;
-    scene.add(mesh);
-
-    spheres.push(mesh);
-
-  }
-};
-
-const makeRoughBall = mesh => {
-  mesh.geometry.vertices.forEach(function(vertex) {
-    const offset = mesh.geometry.parameters.radius;
-
-    const time = Date.now();
-    vertex.normalize();
-    const distance = offset + noise.noise3D(
-        vertex.x + time / 2 * blobSpeed,
-        vertex.y + time / 2 * (blobSpeed * 1.1),
-        vertex.z + time / 2 * (blobSpeed * 1.2)
-    ) * 2;
-    vertex.multiplyScalar(distance);
-  });
-  mesh.geometry.verticesNeedUpdate = true;
-  mesh.geometry.normalsNeedUpdate = true;
-  mesh.geometry.computeVertexNormals();
-  mesh.geometry.computeFaceNormals();
-};
+// const makeRoughBall = mesh => {
+//   mesh.geometry.vertices.forEach(function(vertex) {
+//     const offset = mesh.geometry.parameters.radius;
+//
+//     const time = Date.now();
+//     vertex.normalize();
+//     const distance = offset + noise.noise3D(
+//         vertex.x + time / 2 * blobSpeed,
+//         vertex.y + time / 2 * (blobSpeed * 1.1),
+//         vertex.z + time / 2 * (blobSpeed * 1.2)
+//     ) * 2;
+//     vertex.multiplyScalar(distance);
+//   });
+//   mesh.geometry.verticesNeedUpdate = true;
+//   mesh.geometry.normalsNeedUpdate = true;
+//   mesh.geometry.computeVertexNormals();
+//   mesh.geometry.computeFaceNormals();
+// };
 
 const onWindowResize = () => {
   camera.aspect = window.innerWidth / window.innerHeight;

@@ -30,7 +30,7 @@ body {
 
 .home {
   display: none;
-  opacity: 1;
+  opacity: 0;
   z-index: 10000;
 }
 
@@ -59,7 +59,7 @@ body {
     line-height: 3rem;
     color: #b1a8cb;
     /* font-family: Roboto; */
-    /* animation: visible 2s forwards; */
+    /* animation: fadeOut 2s forwards; */
   }
 }
 
@@ -218,36 +218,73 @@ input[type=range]::-webkit-slider-thumb {
 
   &__list {
     padding: 0;
-  }
 
-  &__list__item_active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    list-style: none;
-    background-image: url(../assets/svg/selected_cyclus.svg);
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 5rem;
-    height: 4rem;
-    cursor: pointer;
+    &__flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 10rem;
+    }
+
+    &__stage {
+
+      font-family: 'sofia pro';
+
+      &--active {
+        opacity: 1;
+        animation: fadeIn 1s forwards ease;
+      }
+
+      &--inactive {
+        opacity: 0;
+        animation: fadeOut 1s forwards ease;
+      }
+    }
+
   }
 
   &__list__item {
     display: flex;
     align-items: center;
     justify-content: center;
-    list-style: none;
     background-image: url(../assets/svg/cyclus.svg);
-    background-repeat: no-repeat;
+    background-size: 5rem 2.7rem;
     background-position: center;
+    background-repeat: no-repeat;
+    list-style: none;
     width: 5rem;
-    height: 2.9rem;
+    height: 4rem;
     cursor: pointer;
   }
 
+  &__list--inactive {
+    position: absolute;
+    margin-top: 0;
+    opacity: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(../assets/svg/selected_cyclus.svg);
+    /* background-size: 5rem 4rem; */
+    width: 5rem;
+    height: 4rem;
+    animation: fadeOut 1s forwards ease;
+  }
+
+  &__list--active {
+    position: absolute;
+    margin-top: 0;
+    opacity: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(../assets/svg/selected_cyclus.svg);
+    width: 5rem;
+    height: 4rem;
+    animation: fadeIn 1s forwards ease;
+  }
+
   &__list__deco {
-    margin: .7rem 0;
+    padding-top: .2rem;
+    margin: .7rem 4.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -327,10 +364,10 @@ input[type=range]::-webkit-slider-thumb {
 /*.l {
   color: white;
   margin-right: -5px;
-  animation: fade 5s infinite ease;
+  animation: fadeIn 5s infinite ease;
 }
 
-@keyframes fade {
+@keyframes fadeIn {
 
   0% { color: white; }
 
@@ -390,8 +427,11 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__text {
+    cursor: pointer;
     position: absolute;
     bottom: 7.7rem;
+    padding: 1rem;
+    margin: 0;
   }
 }
 
@@ -429,33 +469,33 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .fade {
-  animation: fade 3s forwards;
+  animation: fadeOut 3s forwards;
   opacity: 1;
 }
 
 .visible {
-  animation: visible 3s forwards;
+  animation: fadeIn 3s forwards;
   opacity: 0;
 }
 
 .fadeText {
-  animation: fade 1s forwards;
+  animation: fadeOut 1s forwards;
   opacity: 1;
 }
 
 .visibleText {
-  animation: visible 1s forwards;
+  animation: fadeIn 1s forwards;
   opacity: 0;
 }
 
-@keyframes visible {
+@keyframes fadeIn {
 
   0% { opacity: 0; }
 
   100% { opacity: 1; }
 }
 
-@keyframes fade {
+@keyframes fadeOut {
 
   0% { opacity: 1; }
 
