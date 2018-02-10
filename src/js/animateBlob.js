@@ -50,7 +50,6 @@ blob1.addEventListener(`mouseleave`, () => {
 
   circle12.setAttribute(`from`, ``);
   circle12.setAttribute(`to`, ``);
-  console.log(`hey`);
 });
 
 blob1.addEventListener(`mouseenter`, () => {
@@ -89,5 +88,4 @@ blob1.addEventListener(`mouseenter`, () => {
 
   circle12.setAttribute(`from`, `360 150 155`);
   circle12.setAttribute(`to`, `0 150 155`);
-  console.log(`hey`);
 });

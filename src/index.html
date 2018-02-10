@@ -107,16 +107,18 @@
           <ul class="eicel_stage_risks"></ul>
           <ul class="eicel_stage_actions"></ul>
         </div>
+        <div class="user_children_age">
+          <p class="user_children_age_input_value"></p>
+          <input class="user_children_age_input" type="range" min="12" value="29" max="50"/>
+        </div>
         <div class="user_age">
-          <p class="user_age_input_value">jaar</p>
-          <input class="user_age_input" type="range" min="0" max="100" oninput="handleAge(this.value)" onchange="handleAge(this.value)"/>
+          <p class="user_age_input_value"></p>
+          <input class="user_age_input" type="range" min="0" max="100"/>
           <div class="user_age_flex">
             <span class="user_age_0">0</span>
             <span class="user_age_100">100</span>
           </div>
         </div>
-        <!-- <div class="buttons_next"> -->
-
           <div class="buttons">
             <div class="buttons__div">
               <svg class="organic-blob" width="300" height="300" xmlns="http://www.w3.org/2000/svg" filter="url(#goo)" fill="#9D6B88">
@@ -227,7 +229,7 @@
           <li class="nav__list__deco"></li>
 
           <div class="nav__list__flex">
-            <div class="nav__list__stage nav__list__stage--inactive">Puberteit</div>
+            <div class="nav__list__stage nav__list__stage--inactive">fertiel</div>
             <li class="nav__list__item">
               <p class="nav__list__text">3</p>
               <p class="nav__list__bg nav__list--inactive"></p>
@@ -237,16 +239,33 @@
           <li class="nav__list__deco"></li>
 
           <div class="nav__list__flex">
-            <div class="nav__list__stage nav__list__stage--inactive">Puberteit</div>
+            <div class="nav__list__stage nav__list__stage--inactive">fertiel</div>
             <li class="nav__list__item">
               <p class="nav__list__text">4</p>
               <p class="nav__list__bg nav__list--inactive"></p>
             </li>
           </div>
-          <!-- <a class="nav__list__link" href="index.php?page=index">Home</a>
-          <a class="nav__list__link nav__list__link--active" href="index.php?page=program">Programma</a>
-          <a class="nav__list__link" href="#">Over Spekken</a>
-          <a class="nav__list__link" href="#">Tickets</a> -->
+
+          <li class="nav__list__deco"></li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--inactive">subfertiel</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">5</p>
+              <p class="nav__list__bg nav__list--inactive"></p>
+            </li>
+          </div>
+
+          <li class="nav__list__deco"></li>
+
+          <div class="nav__list__flex">
+            <div class="nav__list__stage nav__list__stage--inactive">Menopauze</div>
+            <li class="nav__list__item">
+              <p class="nav__list__text">6</p>
+              <p class="nav__list__bg nav__list--inactive"></p>
+            </li>
+          </div>
+
         </ul>
       </nav>
     </div>

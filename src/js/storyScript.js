@@ -13,6 +13,9 @@ const eggCount = document.querySelector(`.stage__stats__count`);
 const userAge = document.querySelector(`.user_age`);
 const ageInput = document.querySelector(`.user_age_input`);
 const ageValue = document.querySelector(`.user_age_input_value`);
+const userChildrenAge = document.querySelector(`.user_children_age`);
+const ageChildrenInput = document.querySelector(`.user_children_age_input`);
+const ageChildrenValue = document.querySelector(`.user_children_age_input_value`);
 
 const buttons = document.querySelector(`.buttons`);
 const buttonsText = document.querySelector(`.buttons__text`);
@@ -22,75 +25,24 @@ const eicelStory = document.querySelector(`.info__eicel`);
 const listItems = document.querySelectorAll(`.nav__list__item`);
 const stages = document.querySelectorAll(`.nav__list__stage`);
 // const nonActive = document.querySelector(`.eicel_stage_actions`);
-console.log(listItems);
-
-const clickHandler = e => {
-  e.preventDefault();
-
-  const element = e.currentTarget;
-
-  console.log(stages);
-  stages.forEach(child => {
-    console.log(child);
-    if (child.classList.contains(`nav__list__stage--active`)) {
-      console.log(`active removed`);
-      child.classList.remove(`nav__list__stage--active`);
-      child.classList.add(`nav__list__stage--inactive`);
-    }
-  });
-  listItems.forEach(child => {
-    console.log(child);
-    if (child.children[1].classList.contains(`nav__list--active`)) {
-      console.log(`ja`);
-      child.children[1].classList.remove(`nav__list--active`);
-      child.children[1].classList.add(`nav__list--inactive`);
-      // child.children[1].parentNode.parentNode.firstElementChild.classList.add(`testttt`);
-    }
-
-    element.parentNode.firstElementChild.classList.remove(`nav__list__stage--inactive`);
-    element.parentNode.firstElementChild.classList.add(`nav__list__stage--active`);
-  });
-
-  if (!element.classList.contains(`nav__list--active`)) {
-    element.children[1].classList.remove(`nav__list--inactive`);
-    element.children[1].classList.add(`nav__list--active`);
-    // element.children[1].parentNode.parentNode.firstElementChild.classList.remove(`testttt`);
-  }
-
-  // element.style.backgroundImage = `url('../assets/svg/cyclus.svg')`;
-  // style.backgroundImage = "url('img_tree.png')";
-};
-
-listItems.forEach(listItem => {
-  listItem.addEventListener(`click`, clickHandler);
-});
-
 
 let currentAge;
+let childrenAge;
+
 let interval;
 
 let clickMe = true;
 
-// const stages = [
-//   {age: 0, index: 3},
-//   {age: 12, index: 4},
-//   {age: 20, index: 5},
-//   {age: 30, index: 6},
-//   {age: 35, index: 7},
-//   {age: 40, index: 8},
-//   {age: 50, index: 9}
-// ];
-
 const initStory = () => {
   console.log(currentAge, eicelStory);
   loadJson();
-  userAge.style.display = `none`;
   buttons.addEventListener(`click`, handleNext);
   text.addEventListener(`change`, toggleVisibility);
-  document.addEventListener(`click`, startEicelStory);
+  if (STATE === `home`) {
+    document.addEventListener(`click`, startEicelStory);
+  }
   console.log(`[STORY IS INITIATED]`);
   window.STATE = STATE;
-
 };
 
 const loadJson = () => {
@@ -108,9 +60,10 @@ const startEicelStory = () => {
     const eicel = document.querySelector(`.eicelStory`);
     home.classList.add(`fade`);
     setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
+
     STATE = `eicel`;
     window.STATE = STATE;
-    window.startEicelStory;
+
     document.removeEventListener(`click`, startEicelStory);
   }
 };
@@ -125,7 +78,7 @@ const handleNext = e => {
 
     window.innerIndex = innerIndex;
 
-    if (storyIndex !== 0) {
+    if (storyIndex === 0) {
       buttonsText.innerHTML = `>`;
     }
 
@@ -175,10 +128,17 @@ const handleNext = e => {
     //     }
     //   }
 
-    text.innerHTML = story[storyIndex].text;
-    if (storyIndex >= 3) {
+    // text.innerHTML = story[storyIndex].text;
+    toggleVisibility(story[storyIndex].text);
+
+    if (storyIndex >= 3 && storyIndex !== 5) {
+      console.log(story[storyIndex].age, story[storyIndex].eggCount);
       countEggsDown();
       countAgeDown();
+    }
+
+    if (storyIndex === 4) {
+      userAge.style.display = `none`;
     }
 
     // const woman =  story[storyIndex].info.risks[2].woman[1];
@@ -202,16 +162,46 @@ const handleNext = e => {
       // }
 
     if (storyIndex === 1) {
-      userAge.style.display = `block`;
+      console.log(`class added`);
+      userAge.classList.remove(`fadeText`);
+      userAge.classList.add(`visibleText`);
       ageValue.innerHTML = `${ageInput.value} jaar`;
       ageInput.addEventListener(`change`, handleAge);
-    } else {
-      userAge.style.display = `none`;
+      ageInput.addEventListener(`input`, handleAge);
+    } else if (storyIndex > 1) {
+      userAge.classList.remove(`visibleText`);
+      userAge.classList.add(`fadeText`);
+      ageInput.removeEventListener(`change`, handleAge);
+      ageInput.removeEventListener(`input`, handleAge);
+    }
+
+    if (storyIndex === 5) {
+      toggleFade();
+      userChildrenAge.classList.add(`visibleText`);
+      age.classList.remove(`visibleText`);
+      count.classList.remove(`visibleText`);
+      age.classList.add(`fadeText`);
+      count.classList.add(`fadeText`);
+      console.log(userChildrenAge);
+      ageChildrenValue.innerHTML = `${ageChildrenInput.value} jaar`;
+      ageChildrenInput.addEventListener(`change`, handleChildrenAge);
+      ageChildrenInput.addEventListener(`input`, handleChildrenAge);
+    } else if (storyIndex > 5) {
+      userChildrenAge.classList.remove(`visibleText`);
+      age.classList.remove(`fadeText`);
+      count.classList.remove(`fadeText`);
+      userChildrenAge.classList.add(`fadeText`);
+      age.classList.add(`visibleText`);
+      count.classList.add(`visibleText`);
+      ageChildrenInput.removeEventListener(`change`, handleChildrenAge);
+      ageChildrenInput.removeEventListener(`input`, handleChildrenAge);
     }
 
     if (story[storyIndex].text2) {
       interval = setInterval(setInnerText, 5000);
-      if (storyIndex !== story.length - 1) {
+    }
+    if (storyIndex !== story.length - 1) {
+      if (storyIndex !== 1 && storyIndex !== 5) {
         clickMe = false;
         toggleFade();
       }
@@ -223,22 +213,68 @@ const handleNext = e => {
 
 };
 
+const clickHandler = e => {
+  e.preventDefault();
+
+  const element = e.currentTarget;
+
+  console.log(stages);
+  stages.forEach(child => {
+    console.log(child);
+    if (child.classList.contains(`nav__list__stage--active`)) {
+      console.log(`active removed`);
+      child.classList.remove(`nav__list__stage--active`);
+      child.classList.add(`nav__list__stage--inactive`);
+    }
+  });
+  listItems.forEach(child => {
+    console.log(child);
+    if (child.children[1].classList.contains(`nav__list--active`)) {
+      console.log(`ja`);
+      child.children[1].classList.remove(`nav__list--active`);
+      child.children[1].classList.add(`nav__list--inactive`);
+      // child.children[1].parentNode.parentNode.firstElementChild.classList.add(`testttt`);
+    }
+
+    element.parentNode.firstElementChild.classList.remove(`nav__list__stage--inactive`);
+    element.parentNode.firstElementChild.classList.add(`nav__list__stage--active`);
+  });
+
+  if (!element.classList.contains(`nav__list--active`)) {
+    element.children[1].classList.remove(`nav__list--inactive`);
+    element.children[1].classList.add(`nav__list--active`);
+    // element.children[1].parentNode.parentNode.firstElementChild.classList.remove(`testttt`);
+  }
+
+  // element.style.backgroundImage = `url('../assets/svg/cyclus.svg')`;
+  // style.backgroundImage = "url('img_tree.png')";
+};
+
+listItems.forEach(listItem => {
+  listItem.addEventListener(`click`, clickHandler);
+});
+
 const progressNav = () => {
 
   const navBgs = document.querySelectorAll(`.nav__list__bg`);
+  const navStages = document.querySelectorAll(`.nav__list__stage`);
   console.log(navBgs);
+  console.log(navStages);
 
   const navIndex = storyIndex - 2;
 
   if (navBgs[navIndex - 1] && navBgs[navIndex - 1].classList.contains(`nav__list--active`)) {
-    console.log(`ja`);
     navBgs[navIndex - 1].classList.remove(`nav__list--active`);
     navBgs[navIndex - 1].classList.add(`nav__list--inactive`);
+    navStages[navIndex - 1].classList.remove(`nav__list__stage--active`);
+    navStages[navIndex - 1].classList.add(`nav__list__stage--inactive`);
   }
 
-  if (navBgs[navIndex] && !navBgs[navIndex].classList.contains(`nav__list--active`)) {
+  if (navBgs[navIndex] && navBgs[navIndex].classList.contains(`nav__list--inactive`)) {
     navBgs[navIndex].classList.remove(`nav__list--inactive`);
     navBgs[navIndex].classList.add(`nav__list--active`);
+    navStages[navIndex].classList.remove(`nav__list__stage--inactive`);
+    navStages[navIndex].classList.add(`nav__list__stage--active`);
   }
 };
 
@@ -250,13 +286,12 @@ const setInnerText = () => {
   console.log(`ja`, storyIndex, innerIndex);
 
   if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4) {
-    text.classList.remove(`visibleText`);
-    text.classList.add(`fadeText`);
 
     if (storyIndex === 2 && innerIndex === 3) {
       eggCount.innerHTML = `${story[storyIndex].eggCount} `;
       ageCount.innerHTML = `${story[storyIndex].age} `;
     }
+
     if (innerIndex === 2 && story[storyIndex].text4) {
       toggleVisibility(story[storyIndex].text4);
       innerIndex ++;
@@ -273,8 +308,6 @@ const setInnerText = () => {
     } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
       clearInterval(interval);
       clickMe = true;
-      text.classList.remove(`fadeText`);
-      text.classList.add(`visibleText`);
       toggleFade();
       return;
     }
@@ -283,21 +316,23 @@ const setInnerText = () => {
 
 const toggleVisibility = textContent => {
 
-  // console.log(`SHOW TEXT`);
-  // //text.classList.remove(`fadeText`);
-  // console.log(`FADE`);
-  // text.classList.remove(`visibleText`);
-  // text.classList.add(`fadeText`);
+  text.style.opacity = 1;
 
-  //setTimeout(() => {
+  const tween = new TWEEN.Tween(text.style)
+    .to({opacity: 0}, 500)
+    .start();
 
-  text.classList.add(`visibleText`);
-  text.innerHTML = textContent;
-  //} , 500);
+  tween.onComplete(() => {
+    text.innerHTML = textContent;
+    new TWEEN.Tween(text.style)
+      .to({opacity: 1}, 500)
+      .start();
+  });
+
+
 };
 
 const toggleFade = () => {
-
 
   if (!clickMe) {
     // console.log(`FADE`);
@@ -323,19 +358,27 @@ const toggleFade = () => {
 
     buttons.classList.remove(`fade`);
     buttons.classList.add(`visible`);
+    console.log(storyIndex);
 
-    // age.classList.remove(`fade`);
-    // count.classList.remove(`fade`);
-    // age.classList.add(`visible`);
-    // count.classList.add(`visible`);
+    // if (age.classList.contains(`visible`)) {
+    //   age.classList.remove(`fade`);
+    //   count.classList.remove(`fade`);
+    //   age.classList.add(`visible`);
+    //   count.classList.add(`visible`);
+    // }
 
   }
 
 };
 
 const countEggsDown = () => {
+  let eggsLeft;
+  if (storyIndex === 6) {
+    eggsLeft = story[storyIndex - 2].eggCount;
+  } else {
+    eggsLeft = story[storyIndex - 1].eggCount;
+  }
 
-  let eggsLeft = story[storyIndex - 1].eggCount;
   const eggTimer = setInterval(() => {
     if (story[storyIndex].eggCount >= 50000) {
       eggsLeft -= 10000;
@@ -350,8 +393,13 @@ const countEggsDown = () => {
 };
 
 const countAgeDown = () => {
+  let ageNow;
+  if (storyIndex === 6) {
+    ageNow = story[storyIndex - 2].age;
+  } else {
+    ageNow = story[storyIndex - 1].age;
+  }
 
-  let ageNow = story[storyIndex - 1].age;
   const ageTimer = setInterval(() => {
     ageNow ++;
 
@@ -365,7 +413,13 @@ const countAgeDown = () => {
 const handleAge = () => {
   ageValue.innerHTML = `${ageInput.value} jaar`;
   currentAge = ageInput.value;
+  console.log(currentAge);
+};
 
+const handleChildrenAge = () => {
+  ageChildrenValue.innerHTML = `${ageChildrenInput.value} jaar`;
+  childrenAge = ageChildrenInput.value;
+  console.log(childrenAge);
 };
 
 const readJson = data => {

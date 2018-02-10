@@ -32,8 +32,9 @@ body {
     left: 20vw;
     top: 12rem;
     font-size: 2rem;
+    letter-spacing: .02rem;
     width: 25rem;
-    line-height: 3rem;
+    line-height: 2.9rem;
     color: #b1a8cb;
     /* font-family: Roboto; */
     /* animation: visible 2s forwards; */
@@ -110,6 +111,11 @@ body {
 }  */
 
 .user_age {
+  z-index: 500;
+}
+
+.user_age, .user_children_age {
+  opacity: 0;
   position: fixed;
   bottom: 6rem;
   z-index: 10;
@@ -206,6 +212,7 @@ input[type=range]::-webkit-slider-thumb {
     &__stage {
 
       font-family: 'sofia pro';
+      width: 5rem;
 
       &--active {
         opacity: 1;
@@ -260,17 +267,16 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__list__deco {
-    padding-top: .2rem;
-    margin: .7rem 4.75rem;
+    margin: .7rem 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     list-style: none;
-    background-image: url(../assets/svg/nav_deco.svg);
+    background-image: url(../assets/svg/nav_deco2.svg);
     background-repeat: no-repeat;
     background-position: center;
     width: 5rem;
-    height: 2.5rem;
+    height: 1.5rem;
     margin-right: 0;
   }
 
@@ -464,20 +470,23 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .fade {
-  animation: fade 2s forwards;
   opacity: 1;
-}
-
-@keyframes fade {
-
-  0% { opacity: 1; }
-
-  100% { opacity: 0; }
+  animation: fadeOut 3s forwards;
 }
 
 .visible {
-  animation: visible 2s forwards;
   opacity: 0;
+  animation: fadeIn 3s forwards;
+}
+
+.fadeText {
+  opacity: 1;
+  animation: fadeOut 1s forwards;
+}
+
+.visibleText {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 @keyframes visible {
