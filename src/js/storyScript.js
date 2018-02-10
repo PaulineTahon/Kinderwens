@@ -2,7 +2,7 @@
 
 let story, storyIndex = 0, innerIndex = 0;
 
-let STATE = `eicel`;
+let STATE = `home`;
 
 const text = document.querySelector(`.eicel_stage_text`);
 const age = document.querySelector(`.age`);
