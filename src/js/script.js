@@ -14,7 +14,7 @@ let startCameraAnimation = true;
 
 //let ball;//, ball2, ball3,
 //let bulbLight, bulbLight2;
-let ballGroup;//, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 // let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
@@ -222,53 +222,53 @@ const createScene = () => {
 
     renderer.sortObject = false;
 
-    // ballGroup2 = ballGroup.mesh.clone();
-    // ballGroup2.position.x = 50;
-    // ballGroup2.position.y = - 30;
-    // ballGroup2.position.z = - 40;
-    // scene.add(ballGroup2);
-    //
-    // ballGroup3 = ballGroup.mesh.clone();
-    // ballGroup3.position.x = - 70;
-    // ballGroup3.position.y = - 25;
-    // ballGroup3.position.z = - 100;
-    // scene.add(ballGroup3);
-    //
-    // ballGroup4 = ballGroup.mesh.clone();
-    // ballGroup4.position.x = - 70;
-    // ballGroup4.position.y = 95;
-    // ballGroup4.position.z = - 150;
-    // scene.add(ballGroup4);
-    //
-    // ballGroup5 = ballGroup.mesh.clone();
-    // ballGroup5.position.x = 70;
-    // ballGroup5.position.y = 112;
-    // ballGroup5.position.z = - 200;
-    // scene.add(ballGroup5);
-    //
-    // ballGroup6 = ballGroup.mesh.clone();
-    // ballGroup6.position.x = - 150;
-    // ballGroup6.position.y = 30;
-    // ballGroup6.position.z = - 140;
-    // scene.add(ballGroup6);
-    //
-    // ballGroup7 = ballGroup.mesh.clone();
-    // ballGroup7.position.x = - 100;
-    // ballGroup7.position.y = - 50;
-    // ballGroup7.position.z = - 30;
-    // scene.add(ballGroup7);
-    //
-    // ballGroup8 = ballGroup.mesh.clone();
-    // ballGroup8.position.x = - 50;
-    // ballGroup8.position.y = - 100;
-    // ballGroup8.position.z = 0;
-    // scene.add(ballGroup8);
-    //
-    // ballGroup9 = ballGroup.mesh.clone();
-    // ballGroup9.position.x = - 30;
-    // ballGroup9.position.y = - 180;
-    // ballGroup9.position.z = 70;
-    // scene.add(ballGroup9);
+    ballGroup2 = ballGroup.mesh.clone();
+    ballGroup2.position.x = 50;
+    ballGroup2.position.y = - 30;
+    ballGroup2.position.z = - 40;
+    scene.add(ballGroup2);
+
+    ballGroup3 = ballGroup.mesh.clone();
+    ballGroup3.position.x = - 70;
+    ballGroup3.position.y = - 25;
+    ballGroup3.position.z = - 100;
+    scene.add(ballGroup3);
+
+    ballGroup4 = ballGroup.mesh.clone();
+    ballGroup4.position.x = - 70;
+    ballGroup4.position.y = 95;
+    ballGroup4.position.z = - 150;
+    scene.add(ballGroup4);
+
+    ballGroup5 = ballGroup.mesh.clone();
+    ballGroup5.position.x = 70;
+    ballGroup5.position.y = 112;
+    ballGroup5.position.z = - 200;
+    scene.add(ballGroup5);
+
+    ballGroup6 = ballGroup.mesh.clone();
+    ballGroup6.position.x = - 150;
+    ballGroup6.position.y = 30;
+    ballGroup6.position.z = - 140;
+    scene.add(ballGroup6);
+
+    ballGroup7 = ballGroup.mesh.clone();
+    ballGroup7.position.x = - 100;
+    ballGroup7.position.y = - 50;
+    ballGroup7.position.z = - 30;
+    scene.add(ballGroup7);
+
+    ballGroup8 = ballGroup.mesh.clone();
+    ballGroup8.position.x = - 50;
+    ballGroup8.position.y = - 100;
+    ballGroup8.position.z = 0;
+    scene.add(ballGroup8);
+
+    ballGroup9 = ballGroup.mesh.clone();
+    ballGroup9.position.x = - 30;
+    ballGroup9.position.y = - 180;
+    ballGroup9.position.z = 70;
+    scene.add(ballGroup9);
 
   }
 
