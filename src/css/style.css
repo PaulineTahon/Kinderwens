@@ -204,15 +204,16 @@ input[type=range]::-webkit-slider-thumb {
 
     &__flex {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
-      width: 10rem;
+      width: 11rem;
     }
 
     &__stage {
 
       font-family: 'sofia pro';
-      width: 5rem;
+      /* width: 4rem; */
+      text-align: center;
 
       &--active {
         opacity: 1;
@@ -267,7 +268,7 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__list__deco {
-    margin: .7rem 5rem;
+    margin: .7rem 6.05rem;
     display: flex;
     align-items: center;
     justify-content: center;
