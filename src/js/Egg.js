@@ -1,3 +1,7 @@
+import OpenSimplexNoise from 'open-simplex-noise';
+const noise = new OpenSimplexNoise();
+const blobSpeed = 0.0007;
+
 export default class Egg {
   constructor () {
     this.mesh = new THREE.Object3D();
@@ -84,6 +88,12 @@ export default class Egg {
     this.iceShard = new THREE.Mesh(this.iceGeometry, this.iceMaterial);
     this.iceShard.position.y = 5;
     this.mesh.add(this.iceShard);
+  }
+
+  roughBall() {
+    makeRoughBall(this.ball);
+    makeRoughBall(this.ball2);
+    makeRoughBall(this.ball3);
   }
 
   fertilize() {
@@ -200,3 +210,22 @@ export default class Egg {
 
 
 }
+
+const makeRoughBall = mesh => {
+  mesh.geometry.vertices.forEach(function(vertex) {
+    const offset = mesh.geometry.parameters.radius;
+
+    const time = Date.now();
+    vertex.normalize();
+    const distance = offset + noise.noise3D(
+        vertex.x + time / 2 * blobSpeed,
+        vertex.y + time / 2 * (blobSpeed * 1.1),
+        vertex.z + time / 2 * (blobSpeed * 1.2)
+    ) * 2;
+    vertex.multiplyScalar(distance);
+  });
+  mesh.geometry.verticesNeedUpdate = true;
+  mesh.geometry.normalsNeedUpdate = true;
+  mesh.geometry.computeVertexNormals();
+  mesh.geometry.computeFaceNormals();
+};

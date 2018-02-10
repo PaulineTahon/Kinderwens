@@ -1,5 +1,5 @@
-//import OpenSimplexNoise from 'open-simplex-noise';
-import './storyScript.js';
+
+// import './storyScript.js';
 import Egg from './Egg.js';
 
 let camera;
@@ -8,18 +8,15 @@ const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true})
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
 
-//const noise = new OpenSimplexNoise();
-
 let startCameraAnimation = true;
 
 //let ball;//, ball2, ball3,
 //let bulbLight, bulbLight2;
-let ballGroup;//, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+let ballGroup;//, ballGroup2, ballGroup3;//, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 // let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
 
-// const blobSpeed = 0.0007;
 
 //const spheres = [];
 
@@ -29,11 +26,12 @@ let particleGeometry;
 const textureLoader = new THREE.TextureLoader();
 
 let materialDepth;
+console.log(materialDepth);
 let bgColor = 0x151616;
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
-const postprocessing = {enabled: false};
+const postprocessing = {enabled: true};
 const sunColor = 0xff0000;
 
 const colorStages = [
@@ -64,7 +62,7 @@ const init = () => {
 
   if (window.STATE === `eicel`) {
 
-    console.log(ballGroup);
+    console.log(ballGroup.mesh);
 
     bgColor = 0x3a3d46;
     createTerrain();
@@ -177,7 +175,7 @@ const createScene = () => {
   // ballGroup3.position.y = - 25;
   // ballGroup3.position.z = - 100;
   // scene.add(ballGroup3);
-  //
+
   // ballGroup4 = ballGroup2.mesh.clone();
   // ballGroup4.position.x = - 70;
   // ballGroup4.position.y = 95;
@@ -221,7 +219,7 @@ const createScene = () => {
     materialDepth = new THREE.MeshDepthMaterial();
 
     renderer.sortObject = false;
-
+    //
     // ballGroup2 = ballGroup.mesh.clone();
     // ballGroup2.position.x = 50;
     // ballGroup2.position.y = - 30;
@@ -234,6 +232,10 @@ const createScene = () => {
     // ballGroup3.position.z = - 100;
     // scene.add(ballGroup3);
     //
+    //
+    // console.log(ballGroup, ballGroup2, ballGroup3);
+
+
     // ballGroup4 = ballGroup.mesh.clone();
     // ballGroup4.position.x = - 70;
     // ballGroup4.position.y = 95;
@@ -299,7 +301,11 @@ const initPostprocessing = () => {
   postprocessing.scene.add(postprocessing.camera);
   const pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
   postprocessing.rtTextureColors = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
-
+  // Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
+  // investigate further for now.
+  // pars.format = THREE.LuminanceFormat;
+  // I would have this quarter size and use it as one of the ping-pong render
+  // targets but the aliasing causes some temporal flickering
   postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
   // Aggressive downsize god-ray ping-pong render targets to minimize cost
   const w = window.innerWidth / 4.0;
@@ -330,7 +336,7 @@ const initPostprocessing = () => {
   });
   postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
   postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
-  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0; // 0.15
+  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.15;
   postprocessing.quad = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
     postprocessing.materialGodraysGenerate
@@ -476,7 +482,7 @@ const render = time => {
 
   TWEEN.update(time);
 
-  animateParticles();
+  //animateParticles();
   createLightRays();
 
   // console.log(`[RENDER]`);
@@ -492,15 +498,16 @@ const render = time => {
   //
   // }
 
-  // if (ballGroup.blobMovement) {
-  //   //ballGroup.animateEgg();
-  //   makeRoughBall(ballGroup.mesh.children[1]);
-  //   if (window.storyIndex >= 3) {
-  //     makeRoughBall(ballGroup.mesh.children[2]);
-  //   }
-  //   makeRoughBall(ballGroup.mesh.children[3]);
-  //   //makeRoughBall(ballGroup.mesh.children);
-  // }
+  if (ballGroup.blobMovement) {
+    ballGroup.roughBall();
+    // //ballGroup.animateEgg();
+    // makeRoughBall(ballGroup.mesh.children[1]);
+    // if (window.storyIndex >= 3) {
+    //   makeRoughBall(ballGroup.mesh.children[2]);
+    // }
+    // makeRoughBall(ballGroup.mesh.children[3]);
+    // //makeRoughBall(ballGroup.mesh.children);
+  }
 
   if (window.storyIndex === 2) {
     animateCamera();
@@ -685,20 +692,20 @@ const createLightRays = () => {
   }
 };
 
-const animateParticles = () => {
-
-  const time = Date.now() * 0.0000007;
-
-  for (let i = 0;i < scene.children.length;i ++) {
-    const object = scene.children[ i ];
-    if (object instanceof THREE.Points) {
-      object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
-    }
-  }
-
-  particleCloud.geometry.verticesNeedUpdate = true;
-
-};
+// const animateParticles = () => {
+//
+//   const time = Date.now() * 0.0000007;
+//
+//   for (let i = 0;i < scene.children.length;i ++) {
+//     const object = scene.children[ i ];
+//     if (object instanceof THREE.Points) {
+//       object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+//     }
+//   }
+//
+//   particleCloud.geometry.verticesNeedUpdate = true;
+//
+// };
 
 // const animateLights = () => {
 //   const time = Date.now() * 0.0005;
@@ -738,25 +745,6 @@ const animateParticles = () => {
 //     spheres.push(mesh);
 //
 //   }
-// };
-
-// const makeRoughBall = mesh => {
-//   mesh.geometry.vertices.forEach(function(vertex) {
-//     const offset = mesh.geometry.parameters.radius;
-//
-//     const time = Date.now();
-//     vertex.normalize();
-//     const distance = offset + noise.noise3D(
-//         vertex.x + time / 2 * blobSpeed,
-//         vertex.y + time / 2 * (blobSpeed * 1.1),
-//         vertex.z + time / 2 * (blobSpeed * 1.2)
-//     ) * 2;
-//     vertex.multiplyScalar(distance);
-//   });
-//   mesh.geometry.verticesNeedUpdate = true;
-//   mesh.geometry.normalsNeedUpdate = true;
-//   mesh.geometry.computeVertexNormals();
-//   mesh.geometry.computeFaceNormals();
 // };
 
 const onWindowResize = () => {
