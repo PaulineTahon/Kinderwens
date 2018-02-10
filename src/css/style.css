@@ -1,3 +1,5 @@
+@import 'cssHome.css';
+
 html {
   margin: 0;
   padding: 0;
@@ -19,8 +21,18 @@ body {
   padding: 0;
 }
 
+.home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+}
+
+.eicelStory {
+  opacity: 0;
+}
+
 .eicel {
-  /*display: none;*/
   position: fixed;
   top: 0;
   width: 100vw;
@@ -39,6 +51,10 @@ body {
     /* font-family: Roboto; */
     /* animation: visible 2s forwards; */
   }
+}
+
+.age, .count {
+  opacity: 0;
 }
 
 .stage__stats {
@@ -384,9 +400,9 @@ input[type=range]::-webkit-slider-thumb {
   display: none;
 }
 
-.info {
+/* .info {
   display: none;
-}
+} */
 
 .storyIndex {
   display: none;

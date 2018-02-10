@@ -1,40 +1,46 @@
 {
   "eicel": [
     {
-      "text": "Hallo, ik ben één van je eicellen. Ik ken jou al mijn hele leven. Zal ik jou ook iets over mij vertellen?"
+      "text": "Hallo, mag ik me even voorstellen ? Ik ben één van jouw eicellen.",
+      "text2": "Ik ken je al mijn hele leven lang.",
+      "text3": "Ik heb enkele weetjes over ons die ik met jou wil delen.",
+      "text4": "Informatie die voor jou heel belangrijk kan zijn..."
     },
     {
-      "text": "Voor we van start gaan zou ik graag je leeftijd weten. Hoe oud ben je nu?"
+      "text": "Voor we van start gaan, wil ik graag weten hoe oud je bent."
     },
     {
-      "text": "Wij bestaan reeds voor je geboorte. Wij zijn dus even oud als jou.",
-      "text2": "We tellen dan ongeveer met 1 miljoen in aantal.",
-      "text3": "Tijdens je leven sterven er eicellen af. Elk jaar zijn we met zo’n 10.000 minder.",
-      "text4": "We zijn echter nog lang niet rijp, daarvoor missen we een hormoon dat je pas in je pubertijd zal aanmaken.",
+      "text": "Ik of beter gezegd wij eicellen, bestaan reeds voor je geboorte.",
+      "text2": "Wij zijn dus even oud als jij. Bij jouw geboorte zijn we met zo’n één miljoen eicellen.",
+      "text3": "Vanaf dan sterven er elk jaar zo’n tien duizend van ons af.",
+      "text4": "We zijn nog lang niet rijp. Daarvoor missen we een hormoon die je in je pubertijd zal aanmaken.",
       "age": 0,
       "eggCount": 1000000
     },
     {
-      "text": "Nu ben je in de puberteit. Dat is de overgang naar volwassenheid. Vanaf nu ben je vruchtbaar.",
-      "text2": "Ook wij worden dan volwassen. Iedere maand wordt één van ons rijp.",
-      "text3": "De eicelletjes die niet bevrucht worden, sterven af. Dan is het de beurt aan iemand anders.",
+      "text": "Rond je twaalf jaar groeien zowel jij als wij naar de volwassenheid.",
+      "text2": "Jij begint te puberen en wij rijpen. Jouw vruchtbare periode start nu.",
+      "text3": "Dat merk je wanneer je voor het eerst je maandstonden krijgt.",
       "age": 12,
       "eggCount": 400000
     },
     {
-      "text": "Je bent in je vruchtbaarste periode. In dit stadium ben je meestal aan het studeren en op zoek naar de liefde van je leven",
-      "text2": "daarom wordt er vaak gekozen om later aan kinderen te beginnen.",
+      "text": "Op je twintigste ben je reeds volwassen.",
+      "text2": "Dit is het begin van je vruchtbaarste periode.",
+      "text3": "Het is meestal ook het moment waarop je verder studeert en op zoek bent naar de ware.",
+      "text4": "De kinderwens is er niet of wordt uitgesteld tot later.",
       "age": 20,
       "eggCount": 200000
     },
     {
-      "text": "Op welke leeftijd wil je aan kinderen beginnen?"
+      "text": "Vanaf welke leeftijd zou jij graag kinderen willen krijgen?"
     },
     {
-      "text": "Wanneer we 30 zijn, begint je vruchtbaarheid begint te dalen.",
-      "text2": "Dat is geen probleem, toch breng ik je graag op de hoogte van enkele zaken.",
-      "text3": "Als je nog niet van plan bent kinderen te krijgen, raden we je aan enkelen van ons in te vriezen.",
-      "text4": "Zo worden we niet meer ouder en blijven we van goede kwaliteit.",
+      "text": "Vanaf je dertigste begint je vruchtbaarheid te dalen.",
+      "text2": "Je hoeft je nog geen zorgen te maken, wij zijn nog met genoeg om je kinderwens in vervulling te laten gaan.",
+      "text3": "Als je je kinderwens nog even wil uitstellen, hou je er best rekening mee dat onze kwaliteit begint te dalen.",
+      "text4": "Om ongewenste kinderloosheid te vermijden raden we je daarom aan enkelen van ons in te vriezen.",
+      "text5": "Zo worden we niet ouder en blijven we gezond.",
       "age": 30,
       "eggCount": 100000,
       "info": {
@@ -59,8 +65,11 @@
       }
     },
     {
-      "text": "Je 35ste verjaardag is een bepalend moment voor ons. Je vruchtbaarheid daalt veel sneller.",
-      "text2": "Ook de goede eicellen worden schaarser. Jij bent nog lang niet onvruchtbaar, maar je kans op een natuurlijke zwangerschap is kleiner.",
+      "text": "Je 35ste verjaardag is een bepalend moment voor ons.",
+      "text2": "Je vruchtbaarheid begint nu sneller te dalen. We zijn immers ook een dagje ouder.",
+      "text3": "We dalen nu sneller in aantal en ook onze kwaliteit neemt af.",
+      "text4": "Wil je nog een baby? Dat kan maar we raden je toch aan eerst een bezoekje aan je dokter te brengen.",
+      "text5": "Die kan je helpen om makkelijker zwanger te worden.",
       "age": 35,
       "eggCount": 50000,
       "info": {
@@ -127,10 +136,11 @@
       }
     },
     {
-      "text": "Het einde van ons bestaan is nabij. De kans op een zwangerschap is zeer klein.",
-      "text2": "Op 50 jarige leeftijd zitten de meeste vrouwen reeds in hun menopauze.",
-      "text3": "Ben je dat nog niet, dan ben je in principe nog vruchtbaar.",
-      "text4": "Wij zijn echter nog maar klein in aantal en onze kwaliteit is erg gedaald.",
+      "text": "Rond je vijftigste start je menopauze.",
+      "text2": "Het einde van ons leven is aangebroken.",
+      "text3": "Ons aantal is herleid naar zo goed als nul.",
+      "text4": "Op dat moment stopt de werking van je eierstokken.",
+      "text5": "Vanaf nu ben je dus onvruchtbaar.",
       "age": 50,
       "eggCount": 0,
       "info": {

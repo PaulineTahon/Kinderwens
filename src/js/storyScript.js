@@ -2,7 +2,7 @@
 
 let story, storyIndex = 0, innerIndex = 0;
 
-let STATE = `eicel`;
+let STATE = `home`;
 
 const text = document.querySelector(`.eicel_stage_text`);
 const age = document.querySelector(`.age`);
@@ -285,14 +285,18 @@ const setInnerText = () => {
   console.log(`interval running`);
   console.log(`ja`, storyIndex, innerIndex);
 
-  if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4) {
+  if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4 || story[storyIndex].text5) {
 
     if (storyIndex === 2 && innerIndex === 3) {
       eggCount.innerHTML = `${story[storyIndex].eggCount} `;
       ageCount.innerHTML = `${story[storyIndex].age} `;
     }
 
-    if (innerIndex === 2 && story[storyIndex].text4) {
+    if (innerIndex === 3 && story[storyIndex].text5) {
+      toggleVisibility(story[storyIndex].text5);
+      innerIndex ++;
+      return;
+    } else if (innerIndex === 2 && story[storyIndex].text4) {
       toggleVisibility(story[storyIndex].text4);
       innerIndex ++;
       return;
@@ -305,7 +309,7 @@ const setInnerText = () => {
       innerIndex ++;
       toggleFade();
       return;
-    } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
+    } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5 || !story[storyIndex].text6) {
       clearInterval(interval);
       clickMe = true;
       toggleFade();
