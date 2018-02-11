@@ -24,6 +24,8 @@ const eicelStory = document.querySelector(`.info__eicel`);
 
 const listItems = document.querySelectorAll(`.nav__list__item`);
 const stages = document.querySelectorAll(`.nav__list__stage`);
+
+const eicelButton = document.querySelector(`.info__eicel__button__text`);
 // const nonActive = document.querySelector(`.eicel_stage_actions`);
 
 let currentAge;
@@ -39,7 +41,7 @@ const initStory = () => {
   buttons.addEventListener(`click`, handleNext);
   text.addEventListener(`change`, toggleVisibility);
   if (STATE === `home`) {
-    document.addEventListener(`click`, startEicelStory);
+    eicelButton.addEventListener(`click`, startEicelStory);
   }
   console.log(`[STORY IS INITIATED]`);
   window.STATE = STATE;
@@ -285,14 +287,18 @@ const setInnerText = () => {
   console.log(`interval running`);
   console.log(`ja`, storyIndex, innerIndex);
 
-  if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4) {
+  if (story[storyIndex].text2 || story[storyIndex].text3 || story[storyIndex].text4 || story[storyIndex].text5) {
 
     if (storyIndex === 2 && innerIndex === 3) {
       eggCount.innerHTML = `${story[storyIndex].eggCount} `;
       ageCount.innerHTML = `${story[storyIndex].age} `;
     }
 
-    if (innerIndex === 2 && story[storyIndex].text4) {
+    if (innerIndex === 3 && story[storyIndex].text5) {
+      toggleVisibility(story[storyIndex].text5);
+      innerIndex ++;
+      return;
+    } else if (innerIndex === 2 && story[storyIndex].text4) {
       toggleVisibility(story[storyIndex].text4);
       innerIndex ++;
       return;
@@ -305,7 +311,7 @@ const setInnerText = () => {
       innerIndex ++;
       toggleFade();
       return;
-    } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5) {
+    } else if (!story[storyIndex].text3 || !story[storyIndex].text4 || !story[storyIndex].text5 || !story[storyIndex].text6) {
       clearInterval(interval);
       clickMe = true;
       toggleFade();

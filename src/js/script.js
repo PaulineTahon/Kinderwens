@@ -1,4 +1,3 @@
-
 import './storyScript.js';
 import Egg from './Egg.js';
 
@@ -12,7 +11,8 @@ let startCameraAnimation = true;
 
 //let ball;//, ball2, ball3,
 //let bulbLight, bulbLight2;
-let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
+let ballGroup; //ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7;
+//let ballGroup8, ballGroup9;
 // let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
@@ -60,29 +60,28 @@ const init = () => {
 
   createScene();
 
-  if (window.STATE === `eicel`) {
+  //if (window.STATE === `eicel`) {
 
-    console.log(ballGroup.mesh);
+  console.log(ballGroup.mesh);
 
-    bgColor = 0x3a3d46;
-    createTerrain();
-    createAudio();
-    createParticles();
-    initPostprocessing();
+  bgColor = 0x3a3d46;
+  createTerrain();
+  createAudio();
+  createParticles();
+  initPostprocessing();
 
-    camera.rotation.x = 0.6;
-    camera.rotation.y = 0.6;
-    camera.rotation.z = 0.6;
+  camera.rotation.x = 0.6;
+  camera.rotation.y = 0.6;
+  camera.rotation.z = 0.6;
 
-  } else if (window.STATE === `home`) {
-
-    // bgColor = 0x3a3d46;
-    createTerrain();
-    createAudio();
-    createParticles();
-    initPostprocessing();
-
-  }
+  // } else if (window.STATE === `home`) {
+  //
+  //   createTerrain();
+  //   createAudio();
+  //   createParticles();
+  //   initPostprocessing();
+  //
+  // }
 
   animate();
 
@@ -165,54 +164,55 @@ const createScene = () => {
   }
   scene.add(spotLight);
 
-  ballGroup2 = new Egg();
-  ballGroup2.mesh.position.x = 50;
-  ballGroup2.mesh.position.y = - 30;
-  ballGroup2.mesh.position.z = - 40;
-  scene.add(ballGroup2.mesh);
-
-  ballGroup3 = ballGroup2.mesh.clone();
-  ballGroup3.position.x = - 70;
-  ballGroup3.position.y = - 25;
-  ballGroup3.position.z = - 100;
-  scene.add(ballGroup3);
-
-  ballGroup4 = ballGroup2.mesh.clone();
-  ballGroup4.position.x = - 70;
-  ballGroup4.position.y = 95;
-  ballGroup4.position.z = - 150;
-  scene.add(ballGroup4);
-
-  ballGroup5 = new Egg();
-  ballGroup5.mesh.position.x = 70;
-  ballGroup5.mesh.position.y = 112;
-  ballGroup5.mesh.position.z = - 200;
-  scene.add(ballGroup5.mesh);
-
-  ballGroup6 = ballGroup5.mesh.clone();
-  ballGroup6.position.x = - 150;
-  ballGroup6.position.y = 30;
-  ballGroup6.position.z = - 140;
-  scene.add(ballGroup6);
-
-  ballGroup7 = ballGroup5.mesh.clone();
-  ballGroup7.position.x = - 100;
-  ballGroup7.position.y = - 50;
-  ballGroup7.position.z = - 30;
-  scene.add(ballGroup7);
-
-  ballGroup8 = new Egg();
-  ballGroup8.mesh.position.x = - 50;
-  ballGroup8.mesh.position.y = - 100;
-  ballGroup8.mesh.position.z = 0;
-  scene.add(ballGroup8.mesh);
-
-  ballGroup9 = ballGroup.mesh.clone();
-  ballGroup9.position.x = - 30;
-  ballGroup9.position.y = - 180;
-  ballGroup9.position.z = 70;
-  scene.add(ballGroup9);
-
+  // ballGroup2 = new Egg();
+  // ballGroup2.mesh.position.x = 50;
+  // ballGroup2.mesh.position.y = - 30;
+  // ballGroup2.mesh.position.z = - 40;
+  // scene.add(ballGroup2.mesh);
+  //
+  // ballGroup3 = new Egg();
+  // ballGroup3.mesh.position.x = - 70;
+  // ballGroup3.mesh.position.y = - 25;
+  // ballGroup3.mesh.position.z = - 100;
+  // scene.add(ballGroup3.mesh);
+  //
+  // ballGroup4 = new Egg();
+  // ballGroup4.mesh.position.x = - 70;
+  // ballGroup4.mesh.position.y = 95;
+  // ballGroup4.mesh.position.z = - 150;
+  // scene.add(ballGroup4.mesh);
+  //
+  // ballGroup5 = new Egg();
+  // ballGroup5.mesh.position.x = 70;
+  // ballGroup5.mesh.position.y = 112;
+  // ballGroup5.mesh.position.z = - 200;
+  // scene.add(ballGroup5.mesh);
+  //
+  // ballGroup6 = new Egg();
+  // ballGroup6.mesh.position.x = - 150;
+  // ballGroup6.mesh.position.y = 30;
+  // ballGroup6.mesh.position.z = - 140;
+  // scene.add(ballGroup6.mesh);
+  //
+  // ballGroup7 = new Egg();
+  // ballGroup7.mesh.position.x = - 100;
+  // ballGroup7.mesh.position.y = - 50;
+  // ballGroup7.mesh.position.z = - 30;
+  // scene.add(ballGroup7.mesh);
+  // //
+  // ballGroup8 = new Egg();
+  // ballGroup8.mesh.position.x = - 50;
+  // ballGroup8.mesh.position.y = - 100;
+  // ballGroup8.mesh.position.z = 0;
+  // scene.add(ballGroup8.mesh);
+  //
+  // //
+  // ballGroup9 = new Egg();
+  // ballGroup9.mesh.position.x = - 30;
+  // ballGroup9.mesh.position.y = - 180;
+  // ballGroup9.mesh.position.z = 70;
+  // scene.add(ballGroup9.mesh);
+  //
 
   //ALL CLONES
   if (window.STATE === `eicel`) {
@@ -473,7 +473,6 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  console.log(window.STATE);
 
   requestAnimationFrame(animate);
   render();
@@ -484,8 +483,10 @@ const render = time => {
 
   TWEEN.update(time);
 
-  //animateParticles();
+  animateParticles();
+  // if (window.STATE === `eicel`) {
   createLightRays();
+  // }
 
   // console.log(`[RENDER]`);
 
@@ -694,20 +695,20 @@ const createLightRays = () => {
   }
 };
 
-// const animateParticles = () => {
-//
-//   const time = Date.now() * 0.0000007;
-//
-//   for (let i = 0;i < scene.children.length;i ++) {
-//     const object = scene.children[ i ];
-//     if (object instanceof THREE.Points) {
-//       object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
-//     }
-//   }
-//
-//   particleCloud.geometry.verticesNeedUpdate = true;
-//
-// };
+const animateParticles = () => {
+
+  const time = Date.now() * 0.0000007;
+
+  for (let i = 0;i < scene.children.length;i ++) {
+    const object = scene.children[ i ];
+    if (object instanceof THREE.Points) {
+      object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+    }
+  }
+
+  particleCloud.geometry.verticesNeedUpdate = true;
+
+};
 
 // const animateLights = () => {
 //   const time = Date.now() * 0.0005;

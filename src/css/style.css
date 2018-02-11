@@ -1,3 +1,5 @@
+@import 'cssHome.css';
+
 html {
   margin: 0;
   padding: 0;
@@ -19,8 +21,18 @@ body {
   padding: 0;
 }
 
+.home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+}
+
+.eicelStory {
+  opacity: 0;
+}
+
 .eicel {
-  /*display: none;*/
   position: fixed;
   top: 0;
   width: 100vw;
@@ -39,6 +51,10 @@ body {
     /* font-family: Roboto; */
     /* animation: visible 2s forwards; */
   }
+}
+
+.age, .count {
+  opacity: 0;
 }
 
 .stage__stats {
@@ -204,16 +220,16 @@ input[type=range]::-webkit-slider-thumb {
 
     &__flex {
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
-      width: 11rem;
+      width: 10rem;
     }
 
     &__stage {
 
       font-family: 'sofia pro';
-      /* width: 4rem; */
-      text-align: center;
+      width: 5rem;
+      text-align: right;
 
       &--active {
         opacity: 1;
@@ -268,7 +284,7 @@ input[type=range]::-webkit-slider-thumb {
   }
 
   &__list__deco {
-    margin: .7rem 6.05rem;
+    margin: .7rem 5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -299,7 +315,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .top {
   position: fixed;
-  z-index: 10;
+  z-index: 2001;
   top: 0;
   height: 50vh;
   width: 100vw;
@@ -308,7 +324,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .top_animation {
   position: fixed;
-  z-index: 10;
+  /* z-index: 2001; */
   top: 0;
   height: 50vh;
   width: 100vw;
@@ -319,7 +335,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .bottom_animation {
   position: fixed;
-  z-index: 10;
+  /* z-index: 2001; */
   bottom: 0;
   height: 50vh;
   width: 100vw;
@@ -330,7 +346,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .bottom {
   position: fixed;
-  z-index: 10;
+  z-index: 2001;
   bottom: 0;
   height: 50vh;
   width: 100vw;
@@ -385,9 +401,9 @@ input[type=range]::-webkit-slider-thumb {
   display: none;
 }
 
-.info {
+/* .info {
   display: none;
-}
+} */
 
 .storyIndex {
   display: none;
