@@ -2,7 +2,7 @@ import OpenSimplexNoise from 'open-simplex-noise';
 const noise = new OpenSimplexNoise();
 const blobSpeed = 0.0007;
 
-export default class Egg {
+export default class EggsMin {
   constructor () {
     this.mesh = new THREE.Object3D();
 
@@ -21,7 +21,7 @@ export default class Egg {
       wireframe: false,
       clippingPlanes: [ window.localPlane ],
       transparent: true,
-      opacity: .8
+      opacity: 0.0
     });
 
     this.lambertMaterial2 = new THREE.MeshLambertMaterial({
@@ -63,11 +63,7 @@ export default class Egg {
     // ball2.scale.multiplyScalar(20);
     // scene.add(ball2);
     //
-    // this.ball3 = new THREE.Mesh(this.icosahedronGeometry3, this.lambertMaterial3);
-    // this.ball3.position.x = 0;
-    // this.ball3.position.y = 5;
-    // this.ball3.position.z = 0;
-    // this.ball3.castShadow = true;
+
 
     this.pointLight = new THREE.PointLight(0xccfffd, 1, 100);
     this.pointLight.position.set(10, 10, 10);
@@ -75,7 +71,7 @@ export default class Egg {
 
     this.mesh.add(this.ball);
     this.mesh.add(this.ball2);
-  //  this.mesh.add(this.ball3);
+
 
     this.iceGeometry = new THREE.DodecahedronGeometry(12.5, 1);
     this.iceMaterial = new THREE.MeshLambertMaterial({
@@ -91,8 +87,15 @@ export default class Egg {
   }
 
   roughBall() {
-    makeRoughBall(this.ball, this.ball2);
-    // makeRoughBall(this.ball, this.ball2, this.ball3);
+    makeRoughBall(this.ball, this.ball2, this.ball3);
+  }
+
+  show() {
+
+    new TWEEN.Tween(this.lambertMaterial)
+        .to({opacity: .7}, 3000)
+        .start();
+
   }
 
   fertilize() {
@@ -234,29 +237,3 @@ const makeRoughBall = (mesh1, mesh2) => {
     meshes[i].geometry.computeFaceNormals();
   }
 };
-
-// const makeRoughBall = (mesh1, mesh2, mesh3) => {
-//   const meshes = [mesh1, mesh2, mesh3];
-//   const time = Date.now();
-//   const halfTime = time * .5;
-//   const xOffset = halfTime * blobSpeed;
-//   const yOffset = halfTime * blobSpeed * 1.1;
-//   const zOffset = halfTime * blobSpeed * 1.2;
-//
-//   for (let i = 0;i < meshes.length;i ++) {
-//     meshes[i].geometry.vertices.forEach(function(vertex) {
-//       const offset = meshes[i].geometry.parameters.radius;
-//       vertex.normalize();
-//       const distance = offset + noise.noise3D(
-//           vertex.x + xOffset,
-//           vertex.y + yOffset,
-//           vertex.z + zOffset
-//       ) * 2;
-//       vertex.multiplyScalar(distance);
-//     });
-//     meshes[i].geometry.verticesNeedUpdate = true;
-//     meshes[i].geometry.normalsNeedUpdate = true;
-//     meshes[i].geometry.computeVertexNormals();
-//     meshes[i].geometry.computeFaceNormals();
-//   }
-// };
