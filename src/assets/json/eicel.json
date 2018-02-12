@@ -1,7 +1,7 @@
 {
   "eicel": [
     {
-      "text": "Hallo, mag ik me even voorstellen ? Ik ben één van jouw eicellen.",
+      "text": "Hallo, mag ik me even voorstellen ? Ik ben één van <mark class='highlight'>jouw eicellen</mark>.",
       "text2": "Ik ken je al mijn hele leven lang.",
       "text3": "Ik heb enkele weetjes over ons die ik met jou wil delen.",
       "text4": "Informatie die voor jou heel belangrijk kan zijn..."
@@ -10,25 +10,25 @@
       "text": "Voor we van start gaan, wil ik graag weten hoe oud je bent."
     },
     {
-      "text": "Ik of beter gezegd wij eicellen, bestaan reeds voor je geboorte.",
-      "text2": "Wij zijn dus even oud als jij. Bij jouw geboorte zijn we met zo’n één miljoen eicellen.",
-      "text3": "Vanaf dan sterven er elk jaar zo’n tien duizend van ons af.",
-      "text4": "We zijn nog lang niet rijp. Daarvoor missen we een hormoon die je in je pubertijd zal aanmaken.",
+      "text": "Ik of beter gezegd wij eicellen, bestaan reeds <mark class='highlight'>voor je geboorte</mark>.",
+      "text2": "Wij zijn dus <mark class='highlight'>even oud</mark> als jij. Bij jouw geboorte zijn we met zo’n één miljoen eicellen.",
+      "text3": "Vanaf dan sterven er elk jaar zo’n tien duizend <br />van ons af.",
+      "text4": "We zijn nog lang niet rijp. Daarvoor missen we een hormoon die je in je <mark class='highlight'>pubertijd</mark> zal aanmaken.",
       "age": 0,
       "eggCount": 1000000
     },
     {
-      "text": "Rond je twaalf jaar groeien zowel jij als wij naar de volwassenheid.",
-      "text2": "Jij begint te puberen en wij rijpen. Jouw vruchtbare periode start nu.",
-      "text3": "Dat merk je wanneer je voor het eerst je maandstonden krijgt.",
+      "text": "Rond je twaalf jaar groeien zowel jij als wij naar de <mark class='highlight'>volwassenheid</mark>.",
+      "text2": "Jij begint te puberen en wij rijpen. Je vruchtbare periode start nu.",
+      "text3": "Dat merk je wanneer <br />je voor het eerst je maandstonden krijgt.",
       "age": 12,
       "eggCount": 400000
     },
     {
-      "text": "Op je twintigste ben je reeds volwassen.",
-      "text2": "Dit is het begin van je vruchtbaarste periode.",
+      "text": "Op je twintigste ben <br />je reeds volwassen.",
+      "text2": "Dit is het begin van je <mark class='highlight'>vruchtbaarste periode</mark>.",
       "text3": "Het is meestal ook het moment waarop je verder studeert en op zoek bent naar de ware.",
-      "text4": "De kinderwens is er niet of wordt uitgesteld tot later.",
+      "text4": "De kinderwens is er <br />niet of wordt uitgesteld <br />tot later.",
       "age": 20,
       "eggCount": 200000
     },
@@ -39,7 +39,7 @@
       "text": "Vanaf je dertigste begint je vruchtbaarheid te dalen.",
       "text2": "Je hoeft je nog geen zorgen te maken, wij zijn nog met genoeg om je kinderwens in vervulling te laten gaan.",
       "text3": "Als je je kinderwens nog even wil uitstellen, hou je er best rekening mee dat onze kwaliteit begint te dalen.",
-      "text4": "Om ongewenste kinderloosheid te vermijden raden we je daarom aan enkelen van ons in te vriezen.",
+      "text4": "Om ongewenste kinderloosheid te vermijden raden we je daarom aan enkelen van ons <mark class='highlight'>in te vriezen</mark>.",
       "text5": "Zo worden we niet ouder en blijven we gezond.",
       "age": 30,
       "eggCount": 100000,
@@ -57,7 +57,7 @@
       }
     },
     {
-      "text": "Je 35ste verjaardag is een bepalend moment voor ons.",
+      "text": "Je 35ste verjaardag is een <mark class='highlight'>bepalend moment</mark> voor ons.",
       "text2": "Je vruchtbaarheid begint nu sneller te dalen. We zijn immers ook een dagje ouder.",
       "text3": "We dalen nu sneller in aantal en ook onze kwaliteit neemt af.",
       "text4": "Wil je nog een baby? Dat kan maar we raden je toch aan eerst een bezoekje aan je dokter te brengen.",
@@ -102,7 +102,7 @@
       }
     },
     {
-      "text": "Rond je vijftigste start je menopauze.",
+      "text": "Rond je vijftigste start je <mark class='highlight'>menopauze</mark>.",
       "text2": "Het einde van ons leven is aangebroken.",
       "text3": "Ons aantal is herleid naar zo goed als nul.",
       "text4": "Op dat moment stopt de werking van je eierstokken.",

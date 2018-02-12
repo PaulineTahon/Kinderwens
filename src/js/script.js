@@ -33,25 +33,25 @@ const textureLoader = new THREE.TextureLoader();
 let materialDepth;
 console.log(materialDepth);
 
-scene.fog = new THREE.FogExp2(0x000000, 0.008);
 //const bgColor = 0x0;
 
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const bgColor = 0x000000;
-const sunColor = 0x000000;
 
 const colorStages = [
-  {r: 0 / 255, g: 0 / 255, b: 0 / 255}, // 0 jaar
-  {r: 25 / 255, g: 0 / 255, b: 35 / 255}, // 12 jaar
-  {r: 45 / 255, g: 16 / 255, b: 55 / 255}, // 20 jaar
-  {r: 25 / 255, g: 0 / 255, b: 35 / 255}, // 30 jaar
-  {r: 10 / 255, g: 0 / 255, b: 25 / 255}, // 35 jaar
-  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 40 jaar
-  {r: 0 / 255, g: 0 / 255, b: 0 / 255} // 50 jaar
+  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 0 jaar
+  {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
+  {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
+  {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
+  {r: 10 / 255, g: 0 / 255, b: 15 / 255}, // 35 jaar
+  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 50 jaar
 ];
+
+const bgColor = colorStages[0];
+const sunColor = colorStages[0];
+scene.fog = new THREE.FogExp2(0x05000a, 0.008);
 
 //const globalPlane = new THREE.Plane(new THREE.Vector3(- 1, 0, 0), 0.1);
 
@@ -81,34 +81,6 @@ const init = () => {
   onWindowResize();
 
 };
-
-// const createTerrain = () => {
-//   const terrainSize = 150;
-//
-//   const geometry = new THREE.Geometry();
-//   let vertex;
-//   for (let i = 0;i < terrainSize;i ++) {
-//     for (let j = 0;j < terrainSize;j ++) {
-//       vertex = new THREE.Vector3();
-//       vertex.x = (i - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
-//       vertex.y = - 155 + Math.random() * 100;
-//       vertex.z = (j - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
-//       geometry.vertices.push(vertex);
-//     }
-//   }
-
-  // const material = new THREE.PointsMaterial({
-  //   color: 0xffdb8f,
-  //   size: 5,
-  //   map: textureLoader.load(`./assets/img/light.png`),
-  //   blending: THREE.AdditiveBlending,
-  //   transparent: true
-  // });
-  // Добавляем систему частиц на сцену
-  // const particles = new THREE.Points(geometry, material);
-
-  // scene.add(particles);
-//};
 
 const createScene = () => {
 
@@ -230,18 +202,14 @@ const initPostprocessing = () => {
   postprocessing.scene.add(postprocessing.camera);
   const pars = {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat};
   postprocessing.rtTextureColors = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
-  // Switching the depth formats to luminance from rgb doesn't seem to work. I didn't
-  // investigate further for now.
-  // pars.format = THREE.LuminanceFormat;
-  // I would have this quarter size and use it as one of the ping-pong render
-  // targets but the aliasing causes some temporal flickering
+
   postprocessing.rtTextureDepth = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, pars);
-  // Aggressive downsize god-ray ping-pong render targets to minimize cost
+
   const w = window.innerWidth / 4.0;
   const h = window.innerHeight / 4.0;
   postprocessing.rtTextureGodRays1 = new THREE.WebGLRenderTarget(w, h, pars);
   postprocessing.rtTextureGodRays2 = new THREE.WebGLRenderTarget(w, h, pars);
-  // god-ray shaders
+
   const godraysGenShader = THREE.ShaderGodRays[ `godrays_generate` ];
   postprocessing.godrayGenUniforms = THREE.UniformsUtils.clone(godraysGenShader.uniforms);
   postprocessing.materialGodraysGenerate = new THREE.ShaderMaterial({
@@ -263,8 +231,8 @@ const initPostprocessing = () => {
     vertexShader: godraysFakeSunShader.vertexShader,
     fragmentShader: godraysFakeSunShader.fragmentShader
   });
-  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
-  postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
+  postprocessing.godraysFakeSunUniforms.bgColor.value = bgColor;
+  postprocessing.godraysFakeSunUniforms.sunColor.value = sunColor;
   postprocessing.godrayCombineUniforms.fGodRayIntensity.value = intensity;
   postprocessing.quad = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
@@ -441,19 +409,14 @@ const render = time => {
     // //makeRoughBall(ballGroup.mesh.children);
   }
 
-  // if (window.storyIndex === 1) {
-  //   createEggs();
-  //
-  //   new TWEEN.Tween(lambertMaterial)
-  //     .to({opacity: 1}, 2000)
-  //     .start();
-  // }
-
   if (window.storyIndex === 2) {
     animateCamera();
     updateSceneColor();
-    renderer.localClippingEnabled = false;
-    scene.remove(ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8);
+    new TWEEN.Tween(postprocessing.godrayCombineUniforms.fGodRayIntensity)
+      .to({value: 0.15}, 2000)
+      .start();
+    // renderer.localClippingEnabled = false;
+    // scene.remove(ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8);
 
   }
 
@@ -474,15 +437,16 @@ const render = time => {
   if (window.storyIndex === 6) {
 
     updateSceneColor();
-    if (window.innerIndex > 2) {
+    if (window.innerIndex > 1) {
       ballGroup.freeze();
+      ballGroup.infertilize();
     }
   }
 
   if (window.storyIndex === 7) {
 
     ballGroup.unfreeze();
-    ballGroup.infertilize();
+    ballGroup.infertilizeProgression();
     updateSceneColor();
 
 
@@ -635,7 +599,7 @@ const createLightRays = () => {
 
 const animateParticles = () => {
 
-  const time = Date.now() * 0.000007;
+  const time = Date.now() * 0.000003;
 
   for (let i = 0;i < scene.children.length;i ++) {
     const object = scene.children[ i ];

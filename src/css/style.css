@@ -1,9 +1,10 @@
 @import 'cssHome.css';
 
 /* @font-face {
-  font-family: roboto2;
-  src: url("../assets/fonts/roboto/roboto-thin.woff2") format("woff2"),
-       url("../assets/fonts/roboto/roboto-thin.woff") format("woff");
+  font-family: roboto;
+  src:
+    url(../assets/fonts/roboto/roboto-thin.woff2) format('woff2'),
+    url(../assets/fonts/roboto/roboto-thin.woff) format('woff');
 } */
 
 html {
@@ -518,6 +519,11 @@ input[type=range]::-webkit-slider-thumb {
   animation: fadeIn 3s forwards;
 }
 
+.highlight {
+  color: #825871;
+  background: none;
+}
+
 .fadeText {
   opacity: 1;
   will-change: opacity;
@@ -535,20 +541,4 @@ input[type=range]::-webkit-slider-thumb {
   0% { opacity: 0; }
 
   100% { opacity: 1; }
-}
-
-.circle1 {
-  opacity: 0;
-}
-
-.circle2 {
-  opacity: 0;
-}
-
-.testttt {
-  opacity: 1;
-}
-
-.testttt2 {
-  opacity: 0;
 }
