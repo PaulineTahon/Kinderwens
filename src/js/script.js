@@ -7,7 +7,7 @@ import Egg from './Egg.js';
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild(stats.dom);
-const intensity = 0;
+const intensity = 0.15;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
@@ -33,18 +33,16 @@ const textureLoader = new THREE.TextureLoader();
 let materialDepth;
 console.log(materialDepth);
 
-scene.fog = new THREE.FogExp2(0x000000, 0.008);
 //const bgColor = 0x0;
 
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const bgColor = 0x000000;
-const sunColor = 0x000000;
+
 
 const colorStages = [
-  {r: 0 / 255, g: 0 / 255, b: 0 / 255}, // 0 jaar
+  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 0 jaar
   {r: 25 / 255, g: 0 / 255, b: 35 / 255}, // 12 jaar
   {r: 45 / 255, g: 16 / 255, b: 55 / 255}, // 20 jaar
   {r: 25 / 255, g: 0 / 255, b: 35 / 255}, // 30 jaar
@@ -52,6 +50,10 @@ const colorStages = [
   {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 40 jaar
   {r: 0 / 255, g: 0 / 255, b: 0 / 255} // 50 jaar
 ];
+
+scene.fog = new THREE.FogExp2(0x040d76, 0.008);
+const bgColor = colorStages[0];
+const sunColor = colorStages[0];
 
 //const globalPlane = new THREE.Plane(new THREE.Vector3(- 1, 0, 0), 0.1);
 
@@ -263,8 +265,8 @@ const initPostprocessing = () => {
     vertexShader: godraysFakeSunShader.vertexShader,
     fragmentShader: godraysFakeSunShader.fragmentShader
   });
-  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
-  postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
+  postprocessing.godraysFakeSunUniforms.bgColor.value = bgColor;
+  postprocessing.godraysFakeSunUniforms.sunColor.value = sunColor;
   postprocessing.godrayCombineUniforms.fGodRayIntensity.value = intensity;
   postprocessing.quad = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
