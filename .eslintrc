@@ -2,6 +2,7 @@
   "extends": "devine",
   "globals": {
     "THREE": true,
-    "TWEEN": true
+    "TWEEN": true,
+    "Stats": true
   }
 }

@@ -61,13 +61,13 @@ export default class Egg {
     this.ball2.position.z = 0;
     this.ball2.castShadow = true;
     // ball2.scale.multiplyScalar(20);
-    //scene.add(ball2);
-
-    this.ball3 = new THREE.Mesh(this.icosahedronGeometry3, this.lambertMaterial3);
-    this.ball3.position.x = 0;
-    this.ball3.position.y = 5;
-    this.ball3.position.z = 0;
-    this.ball3.castShadow = true;
+    // scene.add(ball2);
+    //
+    // this.ball3 = new THREE.Mesh(this.icosahedronGeometry3, this.lambertMaterial3);
+    // this.ball3.position.x = 0;
+    // this.ball3.position.y = 5;
+    // this.ball3.position.z = 0;
+    // this.ball3.castShadow = true;
 
     this.pointLight = new THREE.PointLight(0xccfffd, 1, 100);
     this.pointLight.position.set(10, 10, 10);
@@ -75,7 +75,7 @@ export default class Egg {
 
     this.mesh.add(this.ball);
     this.mesh.add(this.ball2);
-    this.mesh.add(this.ball3);
+    //this.mesh.add(this.ball3);
 
     this.iceGeometry = new THREE.DodecahedronGeometry(12.5, 1);
     this.iceMaterial = new THREE.MeshLambertMaterial({
@@ -93,7 +93,7 @@ export default class Egg {
   roughBall() {
     makeRoughBall(this.ball);
     makeRoughBall(this.ball2);
-    makeRoughBall(this.ball3);
+  //  makeRoughBall(this.ball3);
   }
 
   fertilize() {
@@ -141,7 +141,7 @@ export default class Egg {
     }
 
     new TWEEN.Tween(this.iceShard.material)
-        .to({opacity: 0.1}, 5000)
+        .to({opacity: 0.1}, 3000)
         .start();
 
     new TWEEN.Tween(this.pointLight.color)
@@ -208,19 +208,21 @@ export default class Egg {
 
   }
 
-
 }
 
 const makeRoughBall = mesh => {
+  const time = Date.now();
+  const halfTime = time * .5;
+  const xOffset = halfTime * blobSpeed;
+  const yOffset = halfTime * blobSpeed * 1.1;
+  const zOffset = halfTime * blobSpeed * 1.2;
+  const offset = mesh.geometry.parameters.radius;
   mesh.geometry.vertices.forEach(function(vertex) {
-    const offset = mesh.geometry.parameters.radius;
-
-    const time = Date.now();
     vertex.normalize();
     const distance = offset + noise.noise3D(
-        vertex.x + time / 2 * blobSpeed,
-        vertex.y + time / 2 * (blobSpeed * 1.1),
-        vertex.z + time / 2 * (blobSpeed * 1.2)
+        vertex.x + xOffset,
+        vertex.y + yOffset,
+        vertex.z + zOffset
     ) * 2;
     vertex.multiplyScalar(distance);
   });

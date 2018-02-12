@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  background-color: #3a3d46;
+  background-color: red;
   font-family: futura;
   width: 100%;
   height: 100%;
@@ -54,6 +54,7 @@ body {
     width: 25rem;
     line-height: 2.9rem;
     color: #b1a8cb;
+
     /* font-family: Roboto; */
     /* animation: visible 2s forwards; */
   }
@@ -239,11 +240,13 @@ input[type=range]::-webkit-slider-thumb {
 
       &--active {
         opacity: 1;
+        will-change: opacity;
         animation: fadeIn 1s forwards ease;
       }
 
       &--inactive {
         opacity: 0;
+        will-change: opacity;
         animation: fadeOut 1s forwards ease;
       }
     }
@@ -274,6 +277,7 @@ input[type=range]::-webkit-slider-thumb {
     /* background-size: 5rem 4rem; */
     width: 5rem;
     height: 4rem;
+    will-change: opacity;
     animation: fadeIn 1s forwards ease;
   }
 
@@ -286,6 +290,7 @@ input[type=range]::-webkit-slider-thumb {
     background-image: url(../assets/svg/selected_cyclus.svg);
     width: 5rem;
     height: 4rem;
+    will-change: opacity;
     animation: fadeOut 1s forwards ease;
   }
 
@@ -363,7 +368,10 @@ input[type=range]::-webkit-slider-thumb {
 
   0% { clip-path: inset(0 0 0 0); }
 
-  100% { clip-path: inset(0 0 100% 0); }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    display: none;
+  }
 }
 
 @keyframes startExperience2 {
@@ -374,17 +382,6 @@ input[type=range]::-webkit-slider-thumb {
     clip-path: inset(100% 0 0 0);
     display: none;
   }
-}
-
-.h1 {
-  text-align: center;
-  font-size: 48px;
-}
-
-.l {
-  color: white;
-  margin-right: -5px;
-  animation: fade 5s infinite ease;
 }
 
 @keyframes fade {
@@ -410,10 +407,6 @@ input[type=range]::-webkit-slider-thumb {
 /* .info {
   display: none;
 } */
-
-.storyIndex {
-  display: none;
-}
 
 /* .organic-blob {
   position: absolute;
@@ -470,6 +463,7 @@ input[type=range]::-webkit-slider-thumb {
   opacity: .5;
   cursor: pointer;
   transform: scale(.2);
+  will-change: transform;
 }
 
 .organic-blob2 {
@@ -480,6 +474,7 @@ input[type=range]::-webkit-slider-thumb {
   opacity: .5;
   transform: scale(.3);
   cursor: pointer;
+  will-change: transform;
 }
 
 .organic-blob3 {
@@ -492,23 +487,31 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
+.dontdisplay {
+  display: none;
+}
+
 .fade {
   opacity: 1;
+  will-change: opacity;
   animation: fadeOut 3s forwards;
 }
 
 .visible {
   opacity: 0;
+  will-change: opacity;
   animation: fadeIn 3s forwards;
 }
 
 .fadeText {
   opacity: 1;
+  will-change: opacity;
   animation: fadeOut 1s forwards;
 }
 
 .visibleText {
   opacity: 0;
+  will-change: opacity;
   animation: fadeIn 1s forwards;
 }
 
