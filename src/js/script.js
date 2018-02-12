@@ -19,7 +19,7 @@ let startCameraAnimation = true;
 //let bulbLight, bulbLight2;
 let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 //let ballGroup8, ballGroup9;
-let lambertMaterial;//, lambertMaterial2, lambertMaterial3;
+//let lambertMaterial;//, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
 
@@ -177,15 +177,6 @@ const createScene = () => {
 };
 
 const createEggs = () => {
-
-  lambertMaterial = new THREE.MeshLambertMaterial({
-    color: 0xccfffd,
-    emissive: 0x333333,
-    wireframe: false,
-    clippingPlanes: [ window.localPlane ],
-    transparent: true,
-    opacity: 0
-  });
 
   ballGroup2 = ballGroup.mesh.clone();
   ballGroup2.position.x = 50;
@@ -450,17 +441,19 @@ const render = time => {
     // //makeRoughBall(ballGroup.mesh.children);
   }
 
-  if (window.storyIndex === 1) {
-
-    new TWEEN.Tween(lambertMaterial)
-      .to({opacity: 1}, 2000)
-      .start();
-  }
+  // if (window.storyIndex === 1) {
+  //   createEggs();
+  //
+  //   new TWEEN.Tween(lambertMaterial)
+  //     .to({opacity: 1}, 2000)
+  //     .start();
+  // }
 
   if (window.storyIndex === 2) {
     animateCamera();
     updateSceneColor();
     renderer.localClippingEnabled = false;
+    scene.remove(ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8);
 
   }
 
