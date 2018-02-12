@@ -1,3 +1,22 @@
+.title {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+
+  &__text {
+    color: white;
+    font-family: 'sofia pro';
+  }
+
+  &__line {
+    margin-left: 1rem;
+    border-bottom: .1rem solid white;
+    width: 3rem;
+  }
+}
+
 .info {
   position: fixed;
   z-index: 2000;
@@ -95,9 +114,13 @@
 
   &__text {
     position: absolute;
-    top: 1.5rem;
-    left: .5rem;
+    top: 1.9rem;
+    left: 1rem;
     padding: 1.5rem;
+    background-image: url(../assets/svg/right-arrow.svg);
+    background-size: .9rem;
+    background-repeat: no-repeat;
+    background-position: center;
     color: #b1a8cb;
     font-family: 'sofia pro';
     cursor: pointer;
@@ -114,7 +137,8 @@
 
 .info2__zaadcel {
   text-align: right;
-  font-family: 'futura';
+  font-family: roboto;
+  /* font-weight: 0; */
   font-size: 3.5rem;
   line-height: 4rem;
   color: #b1a8cb;
@@ -140,8 +164,12 @@
 
   &__text {
     position: absolute;
-    top: 0.4rem;
-    left: 15.6rem;
+    top: 0.8rem;
+    left: 15.9rem;
+    background-image: url(../assets/svg/right-arrow.svg);
+    background-size: .9rem;
+    background-repeat: no-repeat;
+    background-position: center;
     padding: 1.5rem;
     color: #b1a8cb;
     font-family: 'sofia pro';

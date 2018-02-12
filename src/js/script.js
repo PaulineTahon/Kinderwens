@@ -1,9 +1,12 @@
+// import Velocity from 'velocity-animate';
+// import 'velocity-animate/velocity.ui';
+// console.log(Velocity);
 import './storyScript.js';
 import Egg from './Egg.js';
 
 let camera;
 const canvas = document.getElementById(`c`);
-const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
+const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
 

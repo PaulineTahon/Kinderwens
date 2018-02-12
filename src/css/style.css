@@ -1,5 +1,11 @@
 @import 'cssHome.css';
 
+/* @font-face {
+  font-family: roboto2;
+  src: url("../assets/fonts/roboto/roboto-thin.woff2") format("woff2"),
+       url("../assets/fonts/roboto/roboto-thin.woff") format("woff");
+} */
+
 html {
   margin: 0;
   padding: 0;
