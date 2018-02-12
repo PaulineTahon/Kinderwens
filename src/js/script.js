@@ -1,4 +1,3 @@
-
 import './storyScript.js';
 import Egg from './Egg.js';
 

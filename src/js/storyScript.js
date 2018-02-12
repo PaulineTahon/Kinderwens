@@ -9,6 +9,7 @@
   const count = document.querySelector(`.count`);
   const ageCount = document.querySelector(`.stage__stats__value`);
   const eggCount = document.querySelector(`.stage__stats__count`);
+  const eicelButton = document.querySelector(`.info__eicel__button__text`);
 
   const userAge = document.querySelector(`.user_age`);
   const ageInput = document.querySelector(`.user_age_input`);
@@ -44,7 +45,7 @@
     buttons.addEventListener(`click`, handleNext);
     text.addEventListener(`change`, toggleVisibility);
     if (STATE === `home`) {
-      document.addEventListener(`click`, startEicelStory);
+      eicelButton.addEventListener(`click`, startEicelStory);
     }
     console.log(`[STORY IS INITIATED]`);
     window.STATE = STATE;

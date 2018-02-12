@@ -1,9 +1,13 @@
+.info {
+  position: fixed;
+  z-index: 2000;
+  left: 25vw;
+  top: 12rem;
+  width: 16rem;
+}
 
 .info__eicel {
   font-family: futura;
-  position: fixed;
-  left: 25vw;
-  top: 12rem;
   font-size: 3.5rem;
   width: 16rem;
   line-height: 4rem;
@@ -22,29 +26,161 @@
   }
 }
 
-.info__zaadcel {
-  text-align: right;
-  font-family: futura;
+.rainbow {
   position: fixed;
+  top: -10rem;
+  left: -5rem;
+  z-index: 1;
+  opacity: .2;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../assets/img/rainbow.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* mix-blend-mode: screen; */
+}
+
+.rainbow2 {
+  position: fixed;
+  bottom: -10rem;
+  right: -5rem;
+  z-index: 1;
+  opacity: .2;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../assets/img/rainbow.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+  /* mix-blend-mode: screen; */
+}
+
+.organic-blob-home {
+  position: absolute;
+  left: -7rem;
+  top: -5rem;
+  /* z-index: 12; */
+  opacity: .5;
+  cursor: pointer;
+  transform: scale(.2);
+}
+
+.organic-blob2-home {
+  position: absolute;
+  left: -7rem;
+  top: -5rem;
+  /* top: 0; */
+  /* z-index: 10; */
+  opacity: .5;
+  transform: scale(.3);
+  cursor: pointer;
+}
+
+.organic-blob3-home {
+  position: absolute;
+  left: -7rem;
+  top: -5rem;
+  /* z-index: 10; */
+  /* top: 0; */
+  opacity: .3;
+  transform: scale(.4);
+  cursor: pointer;
+}
+
+.info__eicel__button {
+  position: relative;
+  z-index: 10000;
+  width: 10rem;
+  height: 10rem;
+
+  &__text {
+    position: absolute;
+    top: 1.5rem;
+    left: .5rem;
+    padding: 1.5rem;
+    color: #b1a8cb;
+    font-family: 'sofia pro';
+    cursor: pointer;
+  }
+}
+
+.info2 {
+  position: fixed;
+  z-index: 1000;
   right: 20vw;
-  bottom: 12rem;
-  font-size: 3.5rem;
+  bottom: 5rem;
   width: 20rem;
+}
+
+.info2__zaadcel {
+  text-align: right;
+  font-family: 'futura';
+  font-size: 3.5rem;
   line-height: 4rem;
   color: #b1a8cb;
 
   &::after {
     content: '';
     position: absolute;
-    right: 15.5rem;
-    top: 8.3rem;
+    right: 14.1rem;
+    top: 7.5rem;
     background: url(../assets/svg/male.svg);
     background-repeat: no-repeat;
     background-position: center;
-    width: 5rem;
-    height: 5rem;
+    width: 4.3rem;
+    height: 4.3rem;
   }
 }
+
+.info2__zaadcel__button {
+  position: relative;
+  z-index: 10000;
+  width: 10rem;
+  height: 10rem;
+
+  &__text {
+    position: absolute;
+    top: 0.4rem;
+    left: 15.6rem;
+    padding: 1.5rem;
+    color: #b1a8cb;
+    font-family: 'sofia pro';
+    cursor: pointer;
+  }
+}
+
+.organic-blob-home2 {
+  position: absolute;
+  left: 8rem;
+  top: -6rem;
+  /* z-index: 12; */
+  opacity: .5;
+  cursor: pointer;
+  transform: scale(.2);
+}
+
+.organic-blob2-home2 {
+  position: absolute;
+  left: 8rem;
+  top: -6rem;
+  /* top: 0; */
+  /* z-index: 10; */
+  opacity: .5;
+  transform: scale(.3);
+  cursor: pointer;
+}
+
+.organic-blob3-home2 {
+  position: absolute;
+  left: 8rem;
+  top: -6rem;
+  /* z-index: 10; */
+  /* top: 0; */
+  opacity: .3;
+  transform: scale(.4);
+  cursor: pointer;
+}
+
 
 .extra {
   position: fixed;
@@ -68,6 +204,7 @@
     color: white;
     display: flex;
     justify-content: center;
+    cursor: pointer;
   }
 }
 
@@ -76,36 +213,24 @@
   stroke-dashoffset: 970;
 }
 
-/* @keyframes dash {
-
-  to { stroke-dashoffset: 0; }
-} */
-
-.rainbow {
-  position: fixed;
-  top: -10rem;
-  left: -5rem;
-  z-index: 200;
-  opacity: .2;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(../assets/img/rainbow.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  /* mix-blend-mode: screen; */
+.path__lineOut {
+  animation: dash 2s ease-in-out forwards;
 }
 
-.rainbow2 {
-  position: fixed;
-  bottom: -10rem;
-  right: -5rem;
-  z-index: 200;
-  opacity: .2;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(../assets/img/rainbow.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform: rotate(180deg);
-  /* mix-blend-mode: screen; */
+@keyframes dash {
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.path__lineIn {
+  animation: dashIn 2s ease-in-out forwards;
+}
+
+@keyframes dashIn {
+
+  to {
+    stroke-dashoffset: 970;
+  }
 }
