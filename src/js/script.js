@@ -7,10 +7,8 @@ document.body.appendChild(stats.dom);
 
 let camera;
 const canvas = document.getElementById(`c`);
-const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: true});
+const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
-
 
 let startCameraAnimation = true;
 
@@ -18,7 +16,7 @@ let startCameraAnimation = true;
 //let bulbLight, bulbLight2;
 let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 //let ballGroup8, ballGroup9;
-// let lambertMaterial, lambertMaterial2, lambertMaterial3;
+let lambertMaterial;//, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
 
@@ -39,6 +37,7 @@ const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
+const bgColor = 0x000000;
 const sunColor = 0x000000;
 
 const colorStages = [
@@ -66,50 +65,34 @@ const init = () => {
   }
 
   createScene();
-
-  //if (window.STATE === `eicel`) {
-
-  console.log(ballGroup.mesh);
-
-  createTerrain();
   createAudio();
   createParticles();
   initPostprocessing();
+  animate();
 
   camera.rotation.x = 0.6;
   camera.rotation.y = 0.6;
   camera.rotation.z = 0.6;
 
-  // } else if (window.STATE === `home`) {
-  //
-  //   createTerrain();
-  //   createAudio();
-  //   createParticles();
-  //   initPostprocessing();
-  //
-  // }
-
-  animate();
-
   window.addEventListener(`resize`, onWindowResize, false);
-
   onWindowResize();
+
 };
 
-const createTerrain = () => {
-  const terrainSize = 150;
-
-  const geometry = new THREE.Geometry();
-  let vertex;
-  for (let i = 0;i < terrainSize;i ++) {
-    for (let j = 0;j < terrainSize;j ++) {
-      vertex = new THREE.Vector3();
-      vertex.x = (i - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
-      vertex.y = - 155 + Math.random() * 100;
-      vertex.z = (j - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
-      geometry.vertices.push(vertex);
-    }
-  }
+// const createTerrain = () => {
+//   const terrainSize = 150;
+//
+//   const geometry = new THREE.Geometry();
+//   let vertex;
+//   for (let i = 0;i < terrainSize;i ++) {
+//     for (let j = 0;j < terrainSize;j ++) {
+//       vertex = new THREE.Vector3();
+//       vertex.x = (i - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+//       vertex.y = - 155 + Math.random() * 100;
+//       vertex.z = (j - terrainSize / 2) * 8 + (Math.random() - 0.5) * 8;
+//       geometry.vertices.push(vertex);
+//     }
+//   }
 
   // const material = new THREE.PointsMaterial({
   //   color: 0xffdb8f,
@@ -122,30 +105,33 @@ const createTerrain = () => {
   // const particles = new THREE.Points(geometry, material);
 
   // scene.add(particles);
-};
+//};
 
 const createScene = () => {
 
-  console.log(`[SCENE]`);
+  materialDepth = new THREE.MeshDepthMaterial();
 
   /* Camera
   --------------------------------------*/
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.x = 0;
+  camera.position.y = - 200;
+  camera.position.z = 100;
 
-  if (window.STATE === `eicel`) {
-    camera.position.x = 0;
-    camera.position.y = - 200;
-    camera.position.z = 100;
-  } else if (window.STATE === `home`) {
-    camera.position.x = 0;
-    camera.position.y = 0;
-    camera.position.z = 50;
-  }
+  renderer.sortObject = false;
 
   /* Ball
   --------------------------------------*/
   ballGroup = new Egg();
   scene.add(ballGroup.mesh);
+
+  ballGroup9 = ballGroup.mesh.clone();
+  ballGroup9.position.x = - 30;
+  ballGroup9.position.y = - 180;
+  ballGroup9.position.z = 70;
+  scene.add(ballGroup9);
+
+  createEggs();
 
   /* AmbientLight
   --------------------------------------*/
@@ -166,119 +152,13 @@ const createScene = () => {
   }
   scene.add(spotLight);
 
-  // ballGroup2 = new Egg();
-  // ballGroup2.mesh.position.x = 50;
-  // ballGroup2.mesh.position.y = - 30;
-  // ballGroup2.mesh.position.z = - 40;
-  // scene.add(ballGroup2.mesh);
-  //
-  // ballGroup3 = new Egg();
-  // ballGroup3.mesh.position.x = - 70;
-  // ballGroup3.mesh.position.y = - 25;
-  // ballGroup3.mesh.position.z = - 100;
-  // scene.add(ballGroup3.mesh);
-  //
-  // ballGroup4 = new Egg();
-  // ballGroup4.mesh.position.x = - 70;
-  // ballGroup4.mesh.position.y = 95;
-  // ballGroup4.mesh.position.z = - 150;
-  // scene.add(ballGroup4.mesh);
-  //
-  // ballGroup5 = new Egg();
-  // ballGroup5.mesh.position.x = 70;
-  // ballGroup5.mesh.position.y = 112;
-  // ballGroup5.mesh.position.z = - 200;
-  // scene.add(ballGroup5.mesh);
-  //
-  // ballGroup6 = new Egg();
-  // ballGroup6.mesh.position.x = - 150;
-  // ballGroup6.mesh.position.y = 30;
-  // ballGroup6.mesh.position.z = - 140;
-  // scene.add(ballGroup6.mesh);
-  //
-  // ballGroup7 = new Egg();
-  // ballGroup7.mesh.position.x = - 100;
-  // ballGroup7.mesh.position.y = - 50;
-  // ballGroup7.mesh.position.z = - 30;
-  // scene.add(ballGroup7.mesh);
-  // //
-  // ballGroup8 = new Egg();
-  // ballGroup8.mesh.position.x = - 50;
-  // ballGroup8.mesh.position.y = - 100;
-  // ballGroup8.mesh.position.z = 0;
-  // scene.add(ballGroup8.mesh);
-  //
-  // //
-  // ballGroup9 = new Egg();
-  // ballGroup9.mesh.position.x = - 30;
-  // ballGroup9.mesh.position.y = - 180;
-  // ballGroup9.mesh.position.z = 70;
-  // scene.add(ballGroup9.mesh);
-
-
-  //ALL CLONES
-  if (window.STATE === `eicel`) {
-
-    materialDepth = new THREE.MeshDepthMaterial();
-
-    renderer.sortObject = false;
-
-    ballGroup2 = ballGroup.mesh.clone();
-    ballGroup2.position.x = 50;
-    ballGroup2.position.y = - 30;
-    ballGroup2.position.z = - 40;
-    scene.add(ballGroup2);
-
-    ballGroup3 = ballGroup.mesh.clone();
-    ballGroup3.position.x = - 70;
-    ballGroup3.position.y = - 25;
-    ballGroup3.position.z = - 100;
-    scene.add(ballGroup3);
-
-    ballGroup4 = ballGroup.mesh.clone();
-    ballGroup4.position.x = - 70;
-    ballGroup4.position.y = 95;
-    ballGroup4.position.z = - 150;
-    scene.add(ballGroup4);
-
-    ballGroup5 = ballGroup.mesh.clone();
-    ballGroup5.position.x = 70;
-    ballGroup5.position.y = 112;
-    ballGroup5.position.z = - 200;
-    scene.add(ballGroup5);
-
-    ballGroup6 = ballGroup.mesh.clone();
-    ballGroup6.position.x = - 150;
-    ballGroup6.position.y = 30;
-    ballGroup6.position.z = - 140;
-    scene.add(ballGroup6);
-
-    ballGroup7 = ballGroup.mesh.clone();
-    ballGroup7.position.x = - 100;
-    ballGroup7.position.y = - 50;
-    ballGroup7.position.z = - 30;
-    scene.add(ballGroup7);
-
-    ballGroup8 = ballGroup.mesh.clone();
-    ballGroup8.position.x = - 50;
-    ballGroup8.position.y = - 100;
-    ballGroup8.position.z = 0;
-    scene.add(ballGroup8);
-
-    ballGroup9 = ballGroup.mesh.clone();
-    ballGroup9.position.x = - 30;
-    ballGroup9.position.y = - 180;
-    ballGroup9.position.z = 70;
-    scene.add(ballGroup9);
-
-  }
-
   // const globalPlanes = [ globalPlane ];
   // renderer.clippingPlanes = globalPlanes; // GUI sets it to globalPlanes
-  renderer.localClippingEnabled = true;
+
+  // renderer.localClippingEnabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  // renderer.autoClear = false;
+  renderer.autoClear = false;
 
   // ballGroup9.children.forEach(ball => {
   //   ball.material.opacity = .2;
@@ -290,6 +170,61 @@ const createScene = () => {
   // controls.minDistance = 20;
   // controls.maxDistance = 500;
   // controls.enablePan = true;
+
+};
+
+const createEggs = () => {
+
+  lambertMaterial = new THREE.MeshLambertMaterial({
+    color: 0xccfffd,
+    emissive: 0x333333,
+    wireframe: false,
+    clippingPlanes: [ window.localPlane ],
+    transparent: true,
+    opacity: 0
+  });
+
+  ballGroup2 = ballGroup.mesh.clone();
+  ballGroup2.position.x = 50;
+  ballGroup2.position.y = - 30;
+  ballGroup2.position.z = - 40;
+  scene.add(ballGroup2);
+
+  ballGroup3 = ballGroup.mesh.clone();
+  ballGroup3.position.x = - 70;
+  ballGroup3.position.y = - 25;
+  ballGroup3.position.z = - 100;
+  scene.add(ballGroup3);
+
+  ballGroup4 = ballGroup.mesh.clone();
+  ballGroup4.position.x = - 70;
+  ballGroup4.position.y = 95;
+  ballGroup4.position.z = - 150;
+  scene.add(ballGroup4);
+
+  ballGroup5 = ballGroup.mesh.clone();
+  ballGroup5.position.x = 70;
+  ballGroup5.position.y = 112;
+  ballGroup5.position.z = - 200;
+  scene.add(ballGroup5);
+
+  ballGroup6 = ballGroup.mesh.clone();
+  ballGroup6.position.x = - 150;
+  ballGroup6.position.y = 30;
+  ballGroup6.position.z = - 140;
+  scene.add(ballGroup6);
+
+  ballGroup7 = ballGroup.mesh.clone();
+  ballGroup7.position.x = - 100;
+  ballGroup7.position.y = - 50;
+  ballGroup7.position.z = - 30;
+  scene.add(ballGroup7);
+
+  ballGroup8 = ballGroup.mesh.clone();
+  ballGroup8.position.x = - 50;
+  ballGroup8.position.y = - 100;
+  ballGroup8.position.z = 0;
+  scene.add(ballGroup8);
 
 };
 
@@ -334,7 +269,7 @@ const initPostprocessing = () => {
     vertexShader: godraysFakeSunShader.vertexShader,
     fragmentShader: godraysFakeSunShader.fragmentShader
   });
-  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(0xff0000);
+  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
   postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
   postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.15;
   postprocessing.quad = new THREE.Mesh(
@@ -512,6 +447,13 @@ const render = time => {
     // //makeRoughBall(ballGroup.mesh.children);
   }
 
+  if (window.storyIndex === 1) {
+
+    new TWEEN.Tween(lambertMaterial)
+      .to({opacity: 1}, 2000)
+      .start();
+  }
+
   if (window.storyIndex === 2) {
     animateCamera();
     updateSceneColor();
@@ -577,8 +519,8 @@ const render = time => {
 
 const updateSceneColor = () => {
 
-  if (scene.background !== colorStages[window.storyIndex - 2]) {
-    new TWEEN.Tween(scene.background)
+  if (postprocessing.godraysFakeSunUniforms.bgColor.value !== colorStages[window.storyIndex - 2]) {
+    new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
       .to(colorStages[window.storyIndex - 2], 2000)
       .start();
 
