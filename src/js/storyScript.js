@@ -19,12 +19,12 @@
   const ageChildrenValue = document.querySelector(`.user_children_age_input_value`);
 
   const buttons = document.querySelector(`.buttons`);
-  const buttonsText = document.querySelector(`.buttons__text`);
 
   const info = document.querySelector(`.eicel_stage_info`);
 
   const listItems = document.querySelectorAll(`.nav__list__item`);
   const stages = document.querySelectorAll(`.nav__list__stage`);
+  const canvas = document.getElementById(`c`);
 
   let currentAge;
   let childrenAge;
@@ -60,10 +60,12 @@
   };
 
   const startEicelStory = () => {
+    canvas.classList.add(`canvasAnimation`);
     console.log(`CLICK REGISTERED`);
     if (STATE === `home`) {
       const home = document.querySelector(`.home`);
       const eicel = document.querySelector(`.eicelStory`);
+
       home.classList.add(`fade`);
       setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
 
@@ -83,10 +85,6 @@
       innerIndex = 0;
 
       window.innerIndex = innerIndex;
-
-      if (storyIndex === 0) {
-        buttonsText.innerHTML = `>`;
-      }
 
       if (storyIndex === story.length - 1) {
         //EINDE STORY --> START TESTIMONY SCRIPT

@@ -40,6 +40,7 @@
     background: url(../assets/svg/female.svg);
     background-repeat: no-repeat;
     background-position: center;
+    /* background-size: 3.7rem; */
     width: 5rem;
     height: 5rem;
   }
@@ -151,8 +152,8 @@
     background: url(../assets/svg/male.svg);
     background-repeat: no-repeat;
     background-position: center;
-    width: 4.3rem;
-    height: 4.3rem;
+    width: 4.5rem;
+    height: 4.5rem;
   }
 }
 

@@ -7,7 +7,7 @@ import Egg from './Egg.js';
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild(stats.dom);
-
+const intensity = 0;
 let camera;
 const canvas = document.getElementById(`c`);
 const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
@@ -274,7 +274,7 @@ const initPostprocessing = () => {
   });
   postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
   postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
-  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.15;
+  postprocessing.godrayCombineUniforms.fGodRayIntensity.value = intensity;
   postprocessing.quad = new THREE.Mesh(
     new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight),
     postprocessing.materialGodraysGenerate

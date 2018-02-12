@@ -17,6 +17,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: #161216;
 }
 
 .c {
@@ -24,6 +25,19 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  clip-path: polygon(0 0, 81% 0, 5% 100%, 0 100%);
+}
+
+.canvasAnimation {
+  will-change: animation;
+  animation: clipPath 4s ease-in-out forwards;
+}
+
+@keyframes clipPath {
+
+  0% { clip-path: polygon(0 0, 81% 0, 5% 100%, 0 100%); }
+
+  100% { clip-path: polygon(0 0, 200% 0, 100% 100%, 0 200%); }
 }
 
 .home {
