@@ -103,9 +103,8 @@
       <audio class="audio" src="assets/audio/main_ambiance.mp3" loop></audio>
       <div class="eicel">
         <h1 class="eicel_stage_text" onChange="toggleVisibility"></h1>
-        <div>
-          <ul class="eicel_stage_risks"></ul>
-          <ul class="eicel_stage_actions"></ul>
+        <div class="info">
+          <ul class="eicel_stage_info"></ul>
         </div>
         <div class="user_children_age">
           <p class="user_children_age_input_value"></p>
@@ -196,10 +195,6 @@
             </div>
           </div>
 
-        <!-- </div> -->
-        <!-- <div class="buttons_previous">
-          <p class="buttons_previous_text"></p>
-        </div> -->
         <div class="stage__stats">
           <p class="age"><span class="stage__stats__value">0 </span><span class="stage__stats__valueMetric"> Jaar</span></p>
           <p class="count"><span class="stage__stats__count">1000000 </span><span class="stage__stats__countMetric"> Eicellen</span></p>
@@ -273,12 +268,12 @@
     <div class="top"></div>
     <div class="bottom"></div>
 
+    <script type="text/javascript" src="js/stats.min.js"></script>
     <script type="text/javascript" src="js/animateBlob.js"></script>
     <script type="text/javascript" src="js/three.min.js"></script>
     <script type="text/javascript" src="js/tween.js"></script>
     <script type="text/javascript" src="js/ShaderGodRays.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-    <!-- <script type="text/javascript" src="js/storyScript.js"></script> -->
     <script>
       window.addEventListener("load", () => {
         console.log(`hey`);

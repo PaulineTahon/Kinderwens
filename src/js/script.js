@@ -2,22 +2,26 @@
 import './storyScript.js';
 import Egg from './Egg.js';
 
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
+
 let camera;
 const canvas = document.getElementById(`c`);
-const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
+const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: true});
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x3a3d46, 0.008);
+scene.background = new THREE.Color(0x000000);
+
 
 let startCameraAnimation = true;
 
 //let ball;//, ball2, ball3,
 //let bulbLight, bulbLight2;
-let ballGroup; //ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7;
+let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
 //let ballGroup8, ballGroup9;
 // let lambertMaterial, lambertMaterial2, lambertMaterial3;
 
 // let pointLight;
-
 
 //const spheres = [];
 
@@ -28,12 +32,15 @@ const textureLoader = new THREE.TextureLoader();
 
 let materialDepth;
 console.log(materialDepth);
-let bgColor = 0x151616;
+
+scene.fog = new THREE.FogExp2(0x000000, 0.008);
+//const bgColor = 0x0;
+
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
-const sunColor = 0xff0000;
+const sunColor = 0x000000;
 
 const colorStages = [
   {r: 0 / 255, g: 0 / 255, b: 0 / 255}, // 0 jaar
@@ -65,7 +72,6 @@ const init = () => {
 
   console.log(ballGroup.mesh);
 
-  bgColor = 0x3a3d46;
   createTerrain();
   createAudio();
   createParticles();
@@ -148,10 +154,6 @@ const createScene = () => {
   scene.add(ambientLight);
   camera.add(ambientLight);
 
-  // pointLight = new THREE.PointLight(0xccfffd, 1, 100);
-  // pointLight.position.set(10, 10, 10);
-  // scene.add(pointLight);
-
   /* SpotLight
   // --------------------------------------*/
   const spotLight = new THREE.SpotLight(0xaaaaaaa); //0xaaaaaaa
@@ -213,7 +215,7 @@ const createScene = () => {
   // ballGroup9.mesh.position.y = - 180;
   // ballGroup9.mesh.position.z = 70;
   // scene.add(ballGroup9.mesh);
-  //
+
 
   //ALL CLONES
   if (window.STATE === `eicel`) {
@@ -221,58 +223,54 @@ const createScene = () => {
     materialDepth = new THREE.MeshDepthMaterial();
 
     renderer.sortObject = false;
-    //
-    // ballGroup2 = ballGroup.mesh.clone();
-    // ballGroup2.position.x = 50;
-    // ballGroup2.position.y = - 30;
-    // ballGroup2.position.z = - 40;
-    // scene.add(ballGroup2);
-    //
-    // ballGroup3 = ballGroup.mesh.clone();
-    // ballGroup3.position.x = - 70;
-    // ballGroup3.position.y = - 25;
-    // ballGroup3.position.z = - 100;
-    // scene.add(ballGroup3);
-    //
-    //
-    // console.log(ballGroup, ballGroup2, ballGroup3);
 
+    ballGroup2 = ballGroup.mesh.clone();
+    ballGroup2.position.x = 50;
+    ballGroup2.position.y = - 30;
+    ballGroup2.position.z = - 40;
+    scene.add(ballGroup2);
 
-    // ballGroup4 = ballGroup.mesh.clone();
-    // ballGroup4.position.x = - 70;
-    // ballGroup4.position.y = 95;
-    // ballGroup4.position.z = - 150;
-    // scene.add(ballGroup4);
-    //
-    // ballGroup5 = ballGroup.mesh.clone();
-    // ballGroup5.position.x = 70;
-    // ballGroup5.position.y = 112;
-    // ballGroup5.position.z = - 200;
-    // scene.add(ballGroup5);
-    //
-    // ballGroup6 = ballGroup.mesh.clone();
-    // ballGroup6.position.x = - 150;
-    // ballGroup6.position.y = 30;
-    // ballGroup6.position.z = - 140;
-    // scene.add(ballGroup6);
-    //
-    // ballGroup7 = ballGroup.mesh.clone();
-    // ballGroup7.position.x = - 100;
-    // ballGroup7.position.y = - 50;
-    // ballGroup7.position.z = - 30;
-    // scene.add(ballGroup7);
-    //
-    // ballGroup8 = ballGroup.mesh.clone();
-    // ballGroup8.position.x = - 50;
-    // ballGroup8.position.y = - 100;
-    // ballGroup8.position.z = 0;
-    // scene.add(ballGroup8);
-    //
-    // ballGroup9 = ballGroup.mesh.clone();
-    // ballGroup9.position.x = - 30;
-    // ballGroup9.position.y = - 180;
-    // ballGroup9.position.z = 70;
-    // scene.add(ballGroup9);
+    ballGroup3 = ballGroup.mesh.clone();
+    ballGroup3.position.x = - 70;
+    ballGroup3.position.y = - 25;
+    ballGroup3.position.z = - 100;
+    scene.add(ballGroup3);
+
+    ballGroup4 = ballGroup.mesh.clone();
+    ballGroup4.position.x = - 70;
+    ballGroup4.position.y = 95;
+    ballGroup4.position.z = - 150;
+    scene.add(ballGroup4);
+
+    ballGroup5 = ballGroup.mesh.clone();
+    ballGroup5.position.x = 70;
+    ballGroup5.position.y = 112;
+    ballGroup5.position.z = - 200;
+    scene.add(ballGroup5);
+
+    ballGroup6 = ballGroup.mesh.clone();
+    ballGroup6.position.x = - 150;
+    ballGroup6.position.y = 30;
+    ballGroup6.position.z = - 140;
+    scene.add(ballGroup6);
+
+    ballGroup7 = ballGroup.mesh.clone();
+    ballGroup7.position.x = - 100;
+    ballGroup7.position.y = - 50;
+    ballGroup7.position.z = - 30;
+    scene.add(ballGroup7);
+
+    ballGroup8 = ballGroup.mesh.clone();
+    ballGroup8.position.x = - 50;
+    ballGroup8.position.y = - 100;
+    ballGroup8.position.z = 0;
+    scene.add(ballGroup8);
+
+    ballGroup9 = ballGroup.mesh.clone();
+    ballGroup9.position.x = - 30;
+    ballGroup9.position.y = - 180;
+    ballGroup9.position.z = 70;
+    scene.add(ballGroup9);
 
   }
 
@@ -297,6 +295,7 @@ const createScene = () => {
 };
 
 const initPostprocessing = () => {
+
   postprocessing.scene = new THREE.Scene();
   postprocessing.camera = new THREE.OrthographicCamera(window.innerWidth / - 2, window.innerWidth / 2,  window.innerHeight / 2, window.innerHeight / - 2, - 10000, 10000);
   postprocessing.camera.position.z = 100;
@@ -336,7 +335,7 @@ const initPostprocessing = () => {
     vertexShader: godraysFakeSunShader.vertexShader,
     fragmentShader: godraysFakeSunShader.fragmentShader
   });
-  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(bgColor);
+  postprocessing.godraysFakeSunUniforms.bgColor.value.setHex(0xff0000);
   postprocessing.godraysFakeSunUniforms.sunColor.value.setHex(sunColor);
   postprocessing.godrayCombineUniforms.fGodRayIntensity.value = 0.15;
   postprocessing.quad = new THREE.Mesh(
@@ -474,10 +473,10 @@ const createParticles = () => {
 };
 
 const animate = () => {
-
-  requestAnimationFrame(animate);
+  stats.begin();
   render();
-
+  stats.end();
+  requestAnimationFrame(animate);
 };
 
 const render = time => {
@@ -504,6 +503,7 @@ const render = time => {
 
   if (ballGroup.blobMovement) {
     ballGroup.roughBall();
+
     // //ballGroup.animateEgg();
     // makeRoughBall(ballGroup.mesh.children[1]);
     // if (window.storyIndex >= 3) {
@@ -537,11 +537,9 @@ const render = time => {
   if (window.storyIndex === 6) {
 
     updateSceneColor();
-
-    if (window.innerIndex !== 0) {
+    if (window.innerIndex > 2) {
       ballGroup.freeze();
     }
-
   }
 
   if (window.storyIndex === 7) {
@@ -549,6 +547,7 @@ const render = time => {
     ballGroup.unfreeze();
     ballGroup.infertilize();
     updateSceneColor();
+
 
   }
 
@@ -579,14 +578,15 @@ const render = time => {
 
 const updateSceneColor = () => {
 
-  new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
-    .to(colorStages[window.storyIndex - 2], 2000)
-    .start();
+  if (scene.background !== colorStages[window.storyIndex - 2]) {
+    new TWEEN.Tween(scene.background)
+      .to(colorStages[window.storyIndex - 2], 2000)
+      .start();
 
-  new TWEEN.Tween(scene.fog.color)
-    .to(colorStages[window.storyIndex - 2], 2000)
-    .start();
-
+    new TWEEN.Tween(scene.fog.color)
+      .to(colorStages[window.storyIndex - 2], 2000)
+      .start();
+  }
 };
 
 const animateCamera = () => {
@@ -698,7 +698,7 @@ const createLightRays = () => {
 
 const animateParticles = () => {
 
-  const time = Date.now() * 0.0000007;
+  const time = Date.now() * 0.000007;
 
   for (let i = 0;i < scene.children.length;i ++) {
     const object = scene.children[ i ];
