@@ -9,8 +9,8 @@
 
       WebFontConfig = {
         custom: {
-          families: ['futura'],
-          urls: ['/assets/fonts/futura/futura.css']
+          families: ['futura', 'roboto'],
+          urls: ['/assets/fonts/futura/futura.css', '/assets/fonts/roboto/roboto.css']
         }
       };
 
@@ -77,6 +77,7 @@
     </script>
   </head>
   <body>
+    <div class="overlay"></div>
     <canvas id="c" class="c" width="1400" height="700"></canvas>
     <div class="home">
       <div class="title">
@@ -345,7 +346,7 @@
                  </circle>
                 </g>
               </svg>
-              <p class="buttons__text">Ja</p>
+              <p class="buttons__text"></p>
             </div>
           </div>
         <div class="stage__stats">
@@ -418,8 +419,8 @@
       </nav>
     </div>
     <audio id="myAudio"><source src="assets/audio/1.wav" type="audio/ogg"></audio>
-    <div class="top"></div>
-    <div class="bottom"></div>
+
+    <!-- <div class="bottom"></div> -->
 
     <script type="text/javascript" src="js/stats.min.js"></script>
     <script type="text/javascript" src="js/animateBlob.js"></script>
@@ -428,14 +429,12 @@
     <script type="text/javascript" src="js/ShaderGodRays.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js/animateLine.js"></script>
-    <script type="text/javascript" src="js/storyScript.js"></script>
+    <!-- <script type="text/javascript" src="js/storyScript.js"></script> -->
     <script>
       window.addEventListener("load", () => {
         console.log(`hey`);
-        const load_screen = document.querySelector(`.top`);
-        load_screen.classList.add(`top_animation`);
-        const load_screen2 = document.querySelector(`.bottom`);
-        load_screen2.classList.add(`bottom_animation`);
+        const load_screen = document.querySelector(`.overlay`);
+        load_screen.classList.add(`overlay_animation`);
       });
     </script>
   </body>

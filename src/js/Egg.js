@@ -17,7 +17,7 @@ export default class Egg {
 
     this.lambertMaterial = new THREE.MeshLambertMaterial({
       color: 0xccfffd,
-      emissive: 0x333333,
+      emissive: 0x3f334b,
       wireframe: false,
       clippingPlanes: [ window.localPlane ],
       transparent: true,
@@ -25,8 +25,8 @@ export default class Egg {
     });
 
     this.lambertMaterial2 = new THREE.MeshLambertMaterial({
-      color: 0x999999,
-      emissive: 0x222222,
+      color: 0xccfffd,
+      emissive: 0x3f334b,
       wireframe: false,
       transparent: true,
       opacity: 0.0,
@@ -72,6 +72,7 @@ export default class Egg {
     this.pointLight = new THREE.PointLight(0xccfffd, 1, 100);
     this.pointLight.position.set(10, 10, 10);
     this.mesh.add(this.pointLight);
+
 
     this.mesh.add(this.ball);
     this.mesh.add(this.ball2);
@@ -140,7 +141,7 @@ export default class Egg {
     }
 
     new TWEEN.Tween(this.iceShard.material)
-        .to({opacity: 0.1}, 3000)
+        .to({opacity: 0.1}, 1000)
         .start();
 
     new TWEEN.Tween(this.pointLight.color)
@@ -160,7 +161,7 @@ export default class Egg {
     }
 
     new TWEEN.Tween(this.iceShard.material)
-        .to({opacity: 0.0}, 2000)
+        .to({opacity: 0.0}, 1000)
         .start();
 
   }
@@ -172,7 +173,7 @@ export default class Egg {
       .start();
 
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 35 / 255, g: 6 / 255, b: 45 / 255}, 2000)
+      .to({r: 10 / 255, g: 0 / 255, b: 15 / 255}, 2000)
       .start();
 
     // 35 JAAR - STERKE DALING ONVRUCHTBAARHEID
@@ -199,9 +200,11 @@ export default class Egg {
       .to({r: 0, g: 0, b: 0}, 2000)
       .start();
 
+
     new TWEEN.Tween(this.lambertMaterial.emissive)
       .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
       .start();
+
 
     // 50 JAAR - MENOPAUZE
 

@@ -4,6 +4,7 @@
 
   let STATE = `home`;
 
+  const canvas = document.getElementById(`c`);
   const text = document.querySelector(`.eicel_stage_text`);
   const age = document.querySelector(`.age`);
   const count = document.querySelector(`.count`);
@@ -24,7 +25,6 @@
 
   const listItems = document.querySelectorAll(`.nav__list__item`);
   const stages = document.querySelectorAll(`.nav__list__stage`);
-  const canvas = document.getElementById(`c`);
 
   let currentAge;
   let childrenAge;
@@ -65,7 +65,6 @@
     if (STATE === `home`) {
       const home = document.querySelector(`.home`);
       const eicel = document.querySelector(`.eicelStory`);
-
       home.classList.add(`fade`);
       setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
 
@@ -228,7 +227,6 @@
     listItems.forEach(child => {
       console.log(child);
       if (child.children[1].classList.contains(`nav__list--active`)) {
-        console.log(`ja`);
         child.children[1].classList.remove(`nav__list--active`);
         child.children[1].classList.add(`nav__list--inactive`);
         // child.children[1].parentNode.parentNode.firstElementChild.classList.add(`testttt`);
