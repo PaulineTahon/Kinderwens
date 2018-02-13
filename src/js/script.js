@@ -369,7 +369,17 @@ const render = time => {
 
   }
 
+  // if (window.storyIndex === 9) {
+  //
+  //   deleteScene();
+  //
+  // }
+
 };
+
+// const deleteScene() {
+//
+// }
 
 const updateSceneColor = () => {
 

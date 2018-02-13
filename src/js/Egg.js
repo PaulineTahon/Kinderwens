@@ -156,7 +156,7 @@ export default class Egg {
 
   unfreeze() {
 
-    if (this.iceShard.material.opacity <= .1) {
+    if (this.iceShard.material.opacity <= .05) {
       this.blobMovement = true;
     }
 
