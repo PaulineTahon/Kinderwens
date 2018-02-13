@@ -10,7 +10,7 @@ document.body.appendChild(stats.dom);
 const intensity = 0;
 let camera;
 const canvas = document.getElementById(`c`);
-const renderer = new THREE.WebGLRenderer({canvas, antialias: false, alpha: false});
+const renderer = new THREE.WebGLRenderer({canvas, antialias: false});
 const scene = new THREE.Scene();
 
 let startCameraAnimation = true;
@@ -29,18 +29,37 @@ const screenSpacePosition = new THREE.Vector3();
 
 const postprocessing = {enabled: true};
 
+// const colorStages = [
+//   {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 0 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
+//   {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
+//   {r: 10 / 255, g: 0 / 255, b: 15 / 255}, // 35 jaar
+//   {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 50 jaar
+// ];
+
+// const colorStages = [
+//   {r: 22 / 255, g: 18 / 255, b: 22 / 255}, // 0 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
+//   {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
+//   {r: 40 / 255, g: 49 / 255, b: 121 / 255}, // 35 jaar
+//   {r: 13 / 255, g: 19 / 255, b: 61 / 255}, // 50 jaar
+// ];
+
+
 const colorStages = [
-  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 0 jaar
+  {r: 22 / 255, g: 18 / 255, b: 22 / 255}, // 0 jaar
   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
   {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
-  {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
-  {r: 10 / 255, g: 0 / 255, b: 15 / 255}, // 35 jaar
-  {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 50 jaar
+  {r: 40 / 255, g: 49 / 255, b: 120 / 255}, // 30 jaar
+  {r: 13 / 255, g: 19 / 255, b: 61 / 255}, // 35 jaar
+  {r: 23 / 255, g: 18 / 255, b: 24 / 255}, // 50 jaar
 ];
 
 const bgColor = colorStages[0];
 const sunColor = colorStages[0];
-scene.fog = new THREE.FogExp2(0x05000a, 0.008);
+scene.fog = new THREE.FogExp2(0x161216, 0.008);
 
 //const globalPlane = new THREE.Plane(new THREE.Vector3(- 1, 0, 0), 0.1);
 
@@ -268,6 +287,7 @@ const createParticles = () => {
 };
 
 const animate = () => {
+  console.log(window.storyIndex);
   stats.begin();
   render();
   stats.end();
@@ -286,6 +306,15 @@ const render = time => {
   if (ballGroup.blobMovement) {
     ballGroup.roughBall();
   }
+
+  // if (window.storyIndex === 1) {
+  //   new TWEEN.Tween(postprocessing.godrayCombineUniforms.fGodRayIntensity)
+  //     .to({value: 0.15}, 500)
+  //     .start();
+  //   // renderer.localClippingEnabled = false;
+  //   // scene.remove(ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8);
+  //
+  // }
 
   if (window.storyIndex === 2) {
     animateCamera();
@@ -334,6 +363,9 @@ const render = time => {
 
     ballGroup.infertile();
     updateSceneColor();
+    new TWEEN.Tween(postprocessing.godrayCombineUniforms.fGodRayIntensity)
+      .to({value: 0}, 2000)
+      .start();
 
   }
 
