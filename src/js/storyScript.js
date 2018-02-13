@@ -28,7 +28,7 @@
   let currentAge;
   let childrenAge;
   let feedbackAge = false;
-  let storyAudio;
+  //let storyAudio;
 
   const ageCategories = [
     `Goed, op deze leeftijd zijn we het vruchtbaarst. Je hebt nog genoeg tijd om na deze leeftijd kinderen te maken.`,
@@ -39,11 +39,11 @@
   let interval;
 
   let clickMe = true;
-  const timeNeeded = 5000;
+  //let timeNeeded = 5000;
 
   const initStory = () => {
     loadJson();
-    createAudio();
+    //createAudio();
     buttons.addEventListener(`click`, handleNext);
     text.addEventListener(`change`, toggleVisibility);
     if (STATE === `home`) {
@@ -61,49 +61,49 @@
     .then(data => readJson(data));
   };
 
-  const createAudio = () => {
-    storyAudio = new Audio(`./assets/audio/dummyAudio.mp3`);
-    storyAudio.volume = .05;
-    window.storyAudio = storyAudio;
-    // const one = new Audio(`./assets/audio/one.mp3`);
-    // const two = new Audio(`./assets/audio/two.mp3`);
-    // const three = new Audio(`./assets/audio/three.mp3`);
-    // const four = new Audio(`./assets/audio/four.mp3`);
-    // const five = new Audio(`./assets/audio/five.mp3`);
-    // const six = new Audio(`./assets/audio/six.mp3`);
-    // const seven = new Audio(`./assets/audio/seven.mp3`);
-    // const eight = new Audio(`./assets/audio/eight.mp3`);
-    // const nine = new Audio(`./assets/audio/nine.mp3`);
-    // const ten = new Audio(`./assets/audio/ten.mp3`);
-    // const eleven = new Audio(`./assets/audio/eleven.mp3`);
-    // const twelve = new Audio(`./assets/audio/twelve.mp3`);
-    // const thirteen = new Audio(`./assets/audio/thirteen.mp3`);
-    // const fourteen = new Audio(`./assets/audio/fourteen.mp3`);
-    // const fifteen = new Audio(`./assets/audio/fifteen.mp3`);
-    // const sixteen = new Audio(`./assets/audio/sixteen.mp3`);
-    // const seventeen = new Audio(`./assets/audio/seventeen.mp3`);
-    // const eighteen = new Audio(`./assets/audio/eighteen.mp3`);
-    // const nineteen = new Audio(`./assets/audio/nineteen.mp3`);
-    // const twenty = new Audio(`./assets/audio/twenty.mp3`);
-    // const twentyOne = new Audio(`./assets/audio/twentyOne.mp3`);
-    // const twentyTwo = new Audio(`./assets/audio/twentyTwo.mp3`);
-    // const twentyThree = new Audio(`./assets/audio/twentyThree.mp3`);
-    // const twentyFour = new Audio(`./assets/audio/twentyFour.mp3`);
-    // const twentyFive = new Audio(`./assets/audio/twentyFive.mp3`);
-    // const twentySix = new Audio(`./assets/audio/twentySix.mp3`);
-    // const twentySeven = new Audio(`./assets/audio/twentySeven.mp3`);
-    // const twentyEight = new Audio(`./assets/audio/twentyEight.mp3`);
-    // const twentyNine = new Audio(`./assets/audio/twentyNine.mp3`);
-    // const thirty = new Audio(`./assets/audio/thirty.mp3`);
-    // const thirtyOne = new Audio(`./assets/audio/thirtyOne.mp3`);
-    // const thirtyTwo = new Audio(`./assets/audio/thirtyTwo.mp3`);
-    // const thirtyThree = new Audio(`./assets/audio/thirtyThree.mp3`);
-    // const thirtyFour = new Audio(`./assets/audio/thirtyFour.mp3`);
-    //
-    // storyAudio.push(one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, fourteen, fifteen, sixteen,
-    // seventeen, eighteen, nineteen, twenty, twentyOne, twentyTwo, twentyThree, twentyFour, twentyFive, twentySix, twentySeven, twentyEight, twentyNine, thirty, thirtyOne, thirtyTwo, thirtyThree,
-    // thirtyFour, thirtyFive);
-  };
+  // const createAudio = () => {
+  //   storyAudio = new Audio(`./assets/audio/dummyAudio.mp3`);
+  //   storyAudio.volume = .05;
+  //   window.storyAudio = storyAudio;
+  //   // const one = new Audio(`./assets/audio/one.mp3`);
+  //   // const two = new Audio(`./assets/audio/two.mp3`);
+  //   // const three = new Audio(`./assets/audio/three.mp3`);
+  //   // const four = new Audio(`./assets/audio/four.mp3`);
+  //   // const five = new Audio(`./assets/audio/five.mp3`);
+  //   // const six = new Audio(`./assets/audio/six.mp3`);
+  //   // const seven = new Audio(`./assets/audio/seven.mp3`);
+  //   // const eight = new Audio(`./assets/audio/eight.mp3`);
+  //   // const nine = new Audio(`./assets/audio/nine.mp3`);
+  //   // const ten = new Audio(`./assets/audio/ten.mp3`);
+  //   // const eleven = new Audio(`./assets/audio/eleven.mp3`);
+  //   // const twelve = new Audio(`./assets/audio/twelve.mp3`);
+  //   // const thirteen = new Audio(`./assets/audio/thirteen.mp3`);
+  //   // const fourteen = new Audio(`./assets/audio/fourteen.mp3`);
+  //   // const fifteen = new Audio(`./assets/audio/fifteen.mp3`);
+  //   // const sixteen = new Audio(`./assets/audio/sixteen.mp3`);
+  //   // const seventeen = new Audio(`./assets/audio/seventeen.mp3`);
+  //   // const eighteen = new Audio(`./assets/audio/eighteen.mp3`);
+  //   // const nineteen = new Audio(`./assets/audio/nineteen.mp3`);
+  //   // const twenty = new Audio(`./assets/audio/twenty.mp3`);
+  //   // const twentyOne = new Audio(`./assets/audio/twentyOne.mp3`);
+  //   // const twentyTwo = new Audio(`./assets/audio/twentyTwo.mp3`);
+  //   // const twentyThree = new Audio(`./assets/audio/twentyThree.mp3`);
+  //   // const twentyFour = new Audio(`./assets/audio/twentyFour.mp3`);
+  //   // const twentyFive = new Audio(`./assets/audio/twentyFive.mp3`);
+  //   // const twentySix = new Audio(`./assets/audio/twentySix.mp3`);
+  //   // const twentySeven = new Audio(`./assets/audio/twentySeven.mp3`);
+  //   // const twentyEight = new Audio(`./assets/audio/twentyEight.mp3`);
+  //   // const twentyNine = new Audio(`./assets/audio/twentyNine.mp3`);
+  //   // const thirty = new Audio(`./assets/audio/thirty.mp3`);
+  //   // const thirtyOne = new Audio(`./assets/audio/thirtyOne.mp3`);
+  //   // const thirtyTwo = new Audio(`./assets/audio/thirtyTwo.mp3`);
+  //   // const thirtyThree = new Audio(`./assets/audio/thirtyThree.mp3`);
+  //   // const thirtyFour = new Audio(`./assets/audio/thirtyFour.mp3`);
+  //   //
+  //   // storyAudio.push(one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, fourteen, fifteen, sixteen,
+  //   // seventeen, eighteen, nineteen, twenty, twentyOne, twentyTwo, twentyThree, twentyFour, twentyFive, twentySix, twentySeven, twentyEight, twentyNine, thirty, thirtyOne, thirtyTwo, thirtyThree,
+  //   // thirtyFour, thirtyFive);
+  // };
 
   const startEicelStory = () => {
     canvas.classList.add(`canvasAnimation`);
@@ -115,8 +115,8 @@
       setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
       ambiance.volume = .05;
       ambiance.play();
-      setTimeout(() => {storyAudio.play();}, 2000);
-      setTimeout(() => {storyAudio.pause();}, 7000);
+      // setTimeout(() => {storyAudio.play();}, 2000);
+      // setTimeout(() => {storyAudio.pause();}, 7000);
       STATE = `eicel`;
       window.STATE = STATE;
 
@@ -349,7 +349,7 @@
 
   const toggleVisibility = textContent => {
 
-    controlAudio();
+    //controlAudio();
 
     text.style.opacity = 1;
 
@@ -367,10 +367,10 @@
 
   };
 
-  const controlAudio = () => {
-    setTimeout(() => {storyAudio.play();console.log(`play`);}, 1000);
-    setTimeout(() => {storyAudio.pause();console.log(`pause`);}, timeNeeded);
-  };
+  // const controlAudio = () => {
+  //   setTimeout(() => {storyAudio.play();console.log(`play`);}, 1000);
+  //   setTimeout(() => {storyAudio.pause();console.log(`pause`);}, timeNeeded);
+  // };
 
   const toggleFade = () => {
 
