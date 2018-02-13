@@ -33,7 +33,7 @@
   const ageCategories = [
     `Goed, op deze leeftijd zijn we het vruchtbaarst. Je hebt nog genoeg tijd om na deze leeftijd kinderen te maken.`,
     `Op deze leeftijd zijn we nog van goede kwaliteit, goed! Let wel op indien je daarna nog kinderen wenst.`,
-    `Let op, op deze leeftijd zijn daalt ons aantal en onze kwaliteit snel!`
+    `Let op, op deze leeftijd daalt ons aantal en onze kwaliteit snel!`
   ];
 
   let interval;
@@ -134,16 +134,13 @@
 
       window.innerIndex = innerIndex;
 
-      if (storyIndex === story.length - 1) {
-        //EINDE STORY --> START TESTIMONY SCRIPT
-        return;
-      }
-
       console.log(childrenAge);
 
       if (!childrenAge || feedbackAge) {
         storyIndex ++;
-        progressNav();
+        if (storyIndex !== 5) {
+          progressNav();
+        }
         toggleVisibility(story[storyIndex].text);
       } else if (storyIndex === 5 && childrenAge && !feedbackAge) {
         console.log(childrenAge - 5);
@@ -157,6 +154,8 @@
         } else if (childrenAge >= 35) {
           toggleVisibility(ageCategories[2]);
         }
+        userChildrenAge.classList.remove(`visibleText`);
+        userChildrenAge.classList.add(`fadeText`);
         return;
       }
 
@@ -172,11 +171,10 @@
       }
 
       //DISABLE BUTTON
-      if (storyIndex !== story.length - 1) {
-        if (storyIndex !== 1 && storyIndex !== 5) {
-          clickMe = false;
-          toggleFade();
-        }
+      if (storyIndex === story.length - 1 || storyIndex !== 1 && storyIndex !== 5) {
+        console.log(`FADE THIS SHIT`);
+        clickMe = false;
+        toggleFade();
       }
 
       if (storyIndex === 4) {
@@ -230,10 +228,8 @@
         ageChildrenInput.addEventListener(`change`, handleChildrenAge);
         ageChildrenInput.addEventListener(`input`, handleChildrenAge);
       } else if (storyIndex > 5) {
-        userChildrenAge.classList.remove(`visibleText`);
         age.classList.remove(`fadeText`);
         count.classList.remove(`fadeText`);
-        userChildrenAge.classList.add(`fadeText`);
         age.classList.add(`visibleText`);
         count.classList.add(`visibleText`);
         ageChildrenInput.removeEventListener(`change`, handleChildrenAge);
@@ -349,7 +345,9 @@
 
   const toggleVisibility = textContent => {
 
-    //controlAudio();
+    //if (storyIndex === story.length - 1) {
+    //  controlAudio();
+    //}
 
     text.style.opacity = 1;
 
