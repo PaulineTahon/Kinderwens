@@ -61,50 +61,6 @@
     .then(data => readJson(data));
   };
 
-  // const createAudio = () => {
-  //   storyAudio = new Audio(`./assets/audio/dummyAudio.mp3`);
-  //   storyAudio.volume = .05;
-  //   window.storyAudio = storyAudio;
-  //   // const one = new Audio(`./assets/audio/one.mp3`);
-  //   // const two = new Audio(`./assets/audio/two.mp3`);
-  //   // const three = new Audio(`./assets/audio/three.mp3`);
-  //   // const four = new Audio(`./assets/audio/four.mp3`);
-  //   // const five = new Audio(`./assets/audio/five.mp3`);
-  //   // const six = new Audio(`./assets/audio/six.mp3`);
-  //   // const seven = new Audio(`./assets/audio/seven.mp3`);
-  //   // const eight = new Audio(`./assets/audio/eight.mp3`);
-  //   // const nine = new Audio(`./assets/audio/nine.mp3`);
-  //   // const ten = new Audio(`./assets/audio/ten.mp3`);
-  //   // const eleven = new Audio(`./assets/audio/eleven.mp3`);
-  //   // const twelve = new Audio(`./assets/audio/twelve.mp3`);
-  //   // const thirteen = new Audio(`./assets/audio/thirteen.mp3`);
-  //   // const fourteen = new Audio(`./assets/audio/fourteen.mp3`);
-  //   // const fifteen = new Audio(`./assets/audio/fifteen.mp3`);
-  //   // const sixteen = new Audio(`./assets/audio/sixteen.mp3`);
-  //   // const seventeen = new Audio(`./assets/audio/seventeen.mp3`);
-  //   // const eighteen = new Audio(`./assets/audio/eighteen.mp3`);
-  //   // const nineteen = new Audio(`./assets/audio/nineteen.mp3`);
-  //   // const twenty = new Audio(`./assets/audio/twenty.mp3`);
-  //   // const twentyOne = new Audio(`./assets/audio/twentyOne.mp3`);
-  //   // const twentyTwo = new Audio(`./assets/audio/twentyTwo.mp3`);
-  //   // const twentyThree = new Audio(`./assets/audio/twentyThree.mp3`);
-  //   // const twentyFour = new Audio(`./assets/audio/twentyFour.mp3`);
-  //   // const twentyFive = new Audio(`./assets/audio/twentyFive.mp3`);
-  //   // const twentySix = new Audio(`./assets/audio/twentySix.mp3`);
-  //   // const twentySeven = new Audio(`./assets/audio/twentySeven.mp3`);
-  //   // const twentyEight = new Audio(`./assets/audio/twentyEight.mp3`);
-  //   // const twentyNine = new Audio(`./assets/audio/twentyNine.mp3`);
-  //   // const thirty = new Audio(`./assets/audio/thirty.mp3`);
-  //   // const thirtyOne = new Audio(`./assets/audio/thirtyOne.mp3`);
-  //   // const thirtyTwo = new Audio(`./assets/audio/thirtyTwo.mp3`);
-  //   // const thirtyThree = new Audio(`./assets/audio/thirtyThree.mp3`);
-  //   // const thirtyFour = new Audio(`./assets/audio/thirtyFour.mp3`);
-  //   //
-  //   // storyAudio.push(one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, fourteen, fifteen, sixteen,
-  //   // seventeen, eighteen, nineteen, twenty, twentyOne, twentyTwo, twentyThree, twentyFour, twentyFive, twentySix, twentySeven, twentyEight, twentyNine, thirty, thirtyOne, thirtyTwo, thirtyThree,
-  //   // thirtyFour, thirtyFive);
-  // };
-
   const startEicelStory = () => {
     canvas.classList.add(`canvasAnimation`);
     console.log(`CLICK REGISTERED`);
@@ -141,7 +97,9 @@
         if (storyIndex !== 5) {
           progressNav();
         }
-        toggleVisibility(story[storyIndex].text);
+        if (storyIndex !== 9) {
+          toggleVisibility(story[storyIndex].text);
+        }
       } else if (storyIndex === 5 && childrenAge && !feedbackAge) {
         console.log(childrenAge - 5);
         console.log(childrenAge, feedbackAge);
@@ -160,7 +118,7 @@
       }
 
       //COUNTDOWN
-      if (storyIndex >= 3 && storyIndex !== 5) {
+      if (storyIndex >= 3 && storyIndex !== 5 && storyIndex !== 9) {
         countEggsDown();
         countAgeDown();
       }
@@ -171,7 +129,7 @@
       }
 
       //DISABLE BUTTON
-      if (storyIndex === story.length - 1 || storyIndex !== 1 && storyIndex !== 5) {
+      if (storyIndex === 9 || storyIndex !== 1 && storyIndex !== 5) {
         console.log(`FADE THIS SHIT`);
         clickMe = false;
         toggleFade();
@@ -223,10 +181,10 @@
         count.classList.remove(`visibleText`);
         age.classList.add(`fadeText`);
         count.classList.add(`fadeText`);
-        console.log(userChildrenAge);
         ageChildrenValue.innerHTML = `${ageChildrenInput.value} jaar`;
         ageChildrenInput.addEventListener(`change`, handleChildrenAge);
         ageChildrenInput.addEventListener(`input`, handleChildrenAge);
+        console.log(currentAge);
       } else if (storyIndex > 5) {
         age.classList.remove(`fadeText`);
         count.classList.remove(`fadeText`);
@@ -285,8 +243,12 @@
 
     const navBgs = document.querySelectorAll(`.nav__list__bg`);
     const navStages = document.querySelectorAll(`.nav__list__stage`);
-
-    const navIndex = storyIndex - 2;
+    let navIndex;
+    if (storyIndex < 6) {
+      navIndex = storyIndex - 2;
+    } else {
+      navIndex = storyIndex - 3;
+    }
 
     if (navBgs[navIndex - 1] && navBgs[navIndex - 1].classList.contains(`nav__list--active`)) {
       navBgs[navIndex - 1].classList.remove(`nav__list--active`);
@@ -454,7 +416,6 @@
     ageValue.classList.add(`visibleText`);
     ageValue.innerHTML = `${ageInput.value} jaar`;
     currentAge = ageInput.value;
-    console.log(currentAge);
   };
 
   const handleChildrenAge = () => {
@@ -463,7 +424,6 @@
     ageChildrenValue.classList.add(`visibleText`);
     ageChildrenValue.innerHTML = `${ageChildrenInput.value} jaar`;
     childrenAge = ageChildrenInput.value;
-    console.log(childrenAge);
   };
 
   const readJson = data => {

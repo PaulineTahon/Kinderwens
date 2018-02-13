@@ -337,17 +337,13 @@ const render = time => {
 
   }
 
-  // if (window.storyIndex === 9) {
-  //
-  //   deleteScene();
-  //
-  // }
+  if (window.storyIndex === 9) {
+    ballGroup.blobMovement = false;
+    scene.remove(ballGroup);
+
+  }
 
 };
-
-// const deleteScene() {
-//
-// }
 
 const updateSceneColor = () => {
 
