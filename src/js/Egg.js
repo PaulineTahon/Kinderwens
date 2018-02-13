@@ -202,8 +202,24 @@ export default class Egg {
 
 
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
+      .to({r: 0 / 255, g: 0 / 255, b: 0 / 255}, 2000)
       .start();
+
+    new TWEEN.Tween(this.lambertMaterial)
+        .to({opacity: 0}, 2000)
+        .start();
+
+    new TWEEN.Tween(this.lambertMaterial2)
+        .to({opacity: 0}, 5000)
+        .start();
+
+    if (window.storyIndex === 8) {
+      this.blobMovement = false;
+    }
+
+    // new TWEEN.Tween(this.lambertMaterial.emissive)
+    //   .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
+    //   .start();
 
 
     // 50 JAAR - MENOPAUZE

@@ -26,8 +26,7 @@
 }
 
 .info__eicel {
-  font-family: futura;
-  font-size: 3.5rem;
+  font-size: 3.4rem;
   width: 16rem;
   line-height: 4rem;
   color: #b1a8cb;
@@ -140,7 +139,7 @@
   text-align: right;
   font-family: futura;
   /* font-weight: 0; */
-  font-size: 3.5rem;
+  font-size: 3.4rem;
   line-height: 4rem;
   color: #b1a8cb;
 

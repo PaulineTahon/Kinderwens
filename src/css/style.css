@@ -84,7 +84,7 @@ body {
   left: calc(50% - 8rem);
   display: flex;
   justify-content: space-between;
-  width: 16rem;
+  width: 17rem;
   font-size: 1.2rem;
   font-family: 'sofia pro';
 
@@ -169,6 +169,7 @@ body {
     width: auto;
 
     &_value {
+      opacity: 0;
       text-align: center;
     }
   }

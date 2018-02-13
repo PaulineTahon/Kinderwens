@@ -15,15 +15,7 @@ const scene = new THREE.Scene();
 
 let startCameraAnimation = true;
 
-//let ball;//, ball2, ball3,
-//let bulbLight, bulbLight2;
 let ballGroup, ballGroup2, ballGroup3, ballGroup4, ballGroup5, ballGroup6, ballGroup7, ballGroup8, ballGroup9;
-//let ballGroup8, ballGroup9;
-//let lambertMaterial;//, lambertMaterial2, lambertMaterial3;
-
-// let pointLight;
-
-//const spheres = [];
 
 let particleCloud;
 let particleGeometry;
@@ -31,9 +23,6 @@ let particleGeometry;
 const textureLoader = new THREE.TextureLoader();
 
 let materialDepth;
-console.log(materialDepth);
-
-//const bgColor = 0x0;
 
 const sunPosition = new THREE.Vector3(0, 1000, - 1000);
 const screenSpacePosition = new THREE.Vector3();
@@ -49,13 +38,23 @@ const postprocessing = {enabled: true};
 //   {r: 5 / 255, g: 0 / 255, b: 10 / 255}, // 50 jaar
 // ];
 
+// const colorStages = [
+//   {r: 22 / 255, g: 18 / 255, b: 22 / 255}, // 0 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
+//   {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
+//   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
+//   {r: 40 / 255, g: 49 / 255, b: 121 / 255}, // 35 jaar
+//   {r: 13 / 255, g: 19 / 255, b: 61 / 255}, // 50 jaar
+// ];
+
+
 const colorStages = [
   {r: 22 / 255, g: 18 / 255, b: 22 / 255}, // 0 jaar
   {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 12 jaar
   {r: 35 / 255, g: 6 / 255, b: 45 / 255}, // 20 jaar
-  {r: 15 / 255, g: 0 / 255, b: 20 / 255}, // 30 jaar
-  {r: 10 / 255, g: 0 / 255, b: 15 / 255}, // 35 jaar
-  {r: 23 / 255, g: 21 / 255, b: 42 / 255}, // 50 jaar
+  {r: 40 / 255, g: 49 / 255, b: 120 / 255}, // 30 jaar
+  {r: 13 / 255, g: 19 / 255, b: 61 / 255}, // 35 jaar
+  {r: 23 / 255, g: 18 / 255, b: 24 / 255}, // 50 jaar
 ];
 
 const bgColor = colorStages[0];
@@ -77,7 +76,6 @@ const init = () => {
   }
 
   createScene();
-  createAudio();
   createParticles();
   initPostprocessing();
   animate();
@@ -136,25 +134,9 @@ const createScene = () => {
   }
   scene.add(spotLight);
 
-  // const globalPlanes = [ globalPlane ];
-  // renderer.clippingPlanes = globalPlanes; // GUI sets it to globalPlanes
-
-  // renderer.localClippingEnabled = true;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.autoClear = false;
-
-  // ballGroup9.children.forEach(ball => {
-  //   ball.material.opacity = .2;
-  //   console.log(ball.material.opacity);
-  // });
-
-  //orbitcontrols;
-  // const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  // controls.minDistance = 20;
-  // controls.maxDistance = 500;
-  // controls.enablePan = true;
-
 };
 
 const createEggs = () => {
@@ -251,44 +233,6 @@ const initPostprocessing = () => {
   postprocessing.scene.add(postprocessing.quad);
 };
 
-// const createLights = () => {
-//
-//   /* Light1
-//   --------------------------------------*/
-//   const bulbGeometry = new THREE.SphereGeometry(.2, 16, 8);
-//   bulbLight = new THREE.PointLight(0x471764, 1, 100, 2);
-//   const bulbMat = new THREE.MeshStandardMaterial({
-//     emissive: 0x471764,
-//     emissiveIntensity: .1,
-//     color: 0x000000
-//   });
-//
-//   bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
-//   bulbLight.position.set(10, 10, 10);
-//   bulbLight.castShadow = true;
-//   scene.add(bulbLight);
-//
-//   /* Light2
-//   --------------------------------------*/
-//
-//   bulbLight2 = new THREE.PointLight(0x471764, 1, 100, 2);
-//   const bulbMat2 = new THREE.MeshStandardMaterial({
-//     emissive: 0x471764,
-//     emissiveIntensity: .1,
-//     color: 0x000000
-//   });
-//   bulbLight2.add(new THREE.Mesh(bulbGeometry, bulbMat2));
-//   bulbLight2.position.set(10, 10, 10);
-//   bulbLight2.castShadow = true;
-//   scene.add(bulbLight2);
-//
-// };
-
-const createAudio = () => {
-  const audio = document.querySelector(`.audio`);
-  audio.volume = 0.0;
-};
-
 // const createBackground = () => {
 //
 //   const geometry = new THREE.PlaneBufferGeometry(280, 200);
@@ -310,41 +254,6 @@ const createAudio = () => {
 //   mesh.position.z = - 120;
 //   scene.add(mesh);
 //
-// };
-
-// const createIce = () => {
-//   const triangles = 50;
-//   const geometry = new THREE.BufferGeometry();
-//   const positions = [];
-//   const colors = [];
-//   for (let i = 0;i < triangles;i ++) {
-//     positions.push(Math.random() - 0.5);
-//     positions.push(Math.random() - 0.5);
-//     positions.push(Math.random() - 0.5) + 100;
-//     colors.push(Math.random() * 255);
-//     colors.push(Math.random() * 255);
-//     colors.push(Math.random() * 255);
-//     colors.push(Math.random() * 255);
-//   }
-//   const positionAttribute = new THREE.Float32BufferAttribute(positions, 3);
-//   const colorAttribute = new THREE.Uint8BufferAttribute(colors, 4);
-//   colorAttribute.normalized = true;
-//   geometry.addAttribute(`position`, positionAttribute);
-//   geometry.addAttribute(`color`, colorAttribute);
-// 				// material
-//   const material = new THREE.RawShaderMaterial({
-//     uniforms: {
-//       time: {value: 1.0}
-//     },
-//     vertexShader: document.getElementById(`vertexShader2`).textContent,
-//     fragmentShader: document.getElementById(`fragmentShader2`).textContent,
-//     side: THREE.DoubleSide,
-//     transparent: true
-//   });
-//   const iceShard = new THREE.Mesh(geometry, material);
-//   iceShard.scale.multiplyScalar(30);
-//
-//   scene.add(iceShard);
 // };
 
 const createParticles = () => {
@@ -387,36 +296,15 @@ const animate = () => {
 
 const render = time => {
 
+  // console.log(window.storyAudio.currentTime);
+
   TWEEN.update(time);
 
   animateParticles();
-  // if (window.STATE === `eicel`) {
   createLightRays();
-  // }
-
-  // console.log(`[RENDER]`);
-
-  // if (window.STATE === `home`) {
-  //   //animateSpheres();
-  //
-  //   //animateLights();
-  // } else if (window.STATE === `eicel`) {
-  //   //animateSpheres();
-  //   animateParticles();
-  //   createLightRays();
-  //
-  // }
 
   if (ballGroup.blobMovement) {
     ballGroup.roughBall();
-
-    // //ballGroup.animateEgg();
-    // makeRoughBall(ballGroup.mesh.children[1]);
-    // if (window.storyIndex >= 3) {
-    //   makeRoughBall(ballGroup.mesh.children[2]);
-    // }
-    // makeRoughBall(ballGroup.mesh.children[3]);
-    // //makeRoughBall(ballGroup.mesh.children);
   }
 
   // if (window.storyIndex === 1) {
@@ -440,7 +328,7 @@ const render = time => {
   }
 
   if (window.storyIndex === 3) {
-
+    scene.remove(ballGroup9, ballGroup8, ballGroup7, ballGroup5, ballGroup4);
     ballGroup.fertilize();
     updateSceneColor();
 
@@ -475,26 +363,13 @@ const render = time => {
 
     ballGroup.infertile();
     updateSceneColor();
+    new TWEEN.Tween(postprocessing.godrayCombineUniforms.fGodRayIntensity)
+      .to({value: 0}, 2000)
+      .start();
 
   }
 
-  //const currentTime = Date.now();
-
-  //uniforms.iGlobalTime.value = (currentTime - startTime) * 0.0005;
 };
-
-// const animateEggs = () => {
-//   for (let i = 0;i < scene.children.length;i ++) {
-//     const object = scene.children[ i ];
-//     if (object.name === `egg`) {
-//       object.children.forEach(child => {
-//         if (blobMovement) {
-//           makeRoughBall(child);
-//         }
-//       });
-//     }
-//   }
-// };
 
 const updateSceneColor = () => {
 
@@ -527,21 +402,7 @@ const animateCamera = () => {
 
 };
 
-// const updateIceMaterial = () => {
-//   //const time = Date.now();
-//   for (let i = 0;i < scene.children.length;i ++) {
-//     const object = scene.children[ i ];
-//
-//     }
-//     //  object.material.uniforms.time.value = time * 0.005;
-//   //  }
-//   }
-// };
-
 const createLightRays = () => {
-  // const time = Date.now() / 4000;
-  // sphereMesh.position.x = orbitRadius * Math.cos(time);
-  // sphereMesh.position.z = orbitRadius * Math.sin(time) - 100;
 
   if (postprocessing.enabled) {
       // Find the screenspace position of the sun
@@ -569,23 +430,17 @@ const createLightRays = () => {
     postprocessing.scene.overrideMaterial = postprocessing.materialGodraysFakeSun;
     renderer.render(postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors);
     renderer.setScissorTest(false);
-      // -- Draw scene objects --
-      // Colors
+
     scene.overrideMaterial = null;
     renderer.render(scene, camera, postprocessing.rtTextureColors);
-      // Depth
+
     scene.overrideMaterial = materialDepth;
     renderer.render(scene, camera, postprocessing.rtTextureDepth, true);
-      // -- Render god-rays --
-      // Maximum length of god-rays (in texture space [0,1]X[0,1])
+
     const filterLen = 1.0;
-      // Samples taken by filter
+
     const TAPS_PER_PASS = 6.0;
-      // Pass order could equivalently be 3,2,1 (instead of 1,2,3), which
-      // would start with a small filter support and grow to large. however
-      // the large-to-small order produces less objectionable aliasing artifacts that
-      // appear as a glimmer along the length of the beams
-      // pass 1 - render into first ping-pong target
+
     let pass = 1.0;
     let stepLen = filterLen * Math.pow(TAPS_PER_PASS, - pass);
     postprocessing.godrayGenUniforms[ `fStepSize` ].value = stepLen;
@@ -630,46 +485,6 @@ const animateParticles = () => {
   particleCloud.geometry.verticesNeedUpdate = true;
 
 };
-
-// const animateLights = () => {
-//   const time = Date.now() * 0.0005;
-//   bulbLight.position.x = Math.sin(time * 0.7) * 20;
-//   bulbLight.position.y = Math.cos(time * 0.5) * 10;
-//
-//   bulbLight2.position.x = Math.sin(time * 0.5) * 20;
-//   bulbLight2.position.y = Math.cos(time * 0.3) * 10;
-// };
-
-// const animateSpheres = () => {
-//   const time = 0.00001 * Date.now();
-//
-//   for (let i = 0, il = spheres.length;i < il;i ++) {
-//     const sphere = spheres[ i ];
-//     // sphere.position.x = (5000 * Math.cos(timer + i)) / 10;
-//     // sphere.position.y = (2500 * Math.sin(timer + i * 1.1)) / 10;
-//     sphere.position.x = 200 * Math.cos(time);
-//     sphere.position.z = 200 * Math.cos(time) - 100;
-//   }
-// };
-//
-// const createSpheres = () => {
-//
-//   const geometry = new THREE.SphereBufferGeometry(4, 32, 16);
-//
-//   const material = new THREE.MeshBasicMaterial({color: 0x999999, envMap: textureCube, refractionRatio: 0.95, transparent: true, opacity: 0.3});
-//
-//   for (let i = 0;i < 30;i ++) {
-//
-//     const mesh = new THREE.Mesh(geometry, material);
-//     mesh.position.x = Math.random() * 5000 - 2500;
-//     mesh.position.y = Math.random() * 5000 - 2500;
-//     mesh.position.z = Math.random() * 0 - 100;
-//     scene.add(mesh);
-//
-//     spheres.push(mesh);
-//
-//   }
-// };
 
 const onWindowResize = () => {
   camera.aspect = window.innerWidth / window.innerHeight;
