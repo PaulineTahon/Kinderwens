@@ -28,7 +28,8 @@
   let currentAge;
   let childrenAge;
   let feedbackAge = false;
-  //let storyAudio;
+  let storyAudio;
+  let audioIndex = 0;
 
   const ageCategories = [
     `Goed, op deze leeftijd zijn we het vruchtbaarst. Je hebt nog genoeg tijd om na deze leeftijd kinderen te maken.`,
@@ -39,11 +40,11 @@
   let interval;
 
   let clickMe = true;
-  //let timeNeeded = 5000;
+  let timeNeeded = 2800;
 
   const initStory = () => {
     loadJson();
-    //createAudio();
+    createAudio();
     buttons.addEventListener(`click`, handleNext);
     text.addEventListener(`change`, toggleVisibility);
     if (STATE === `home`) {
@@ -61,6 +62,12 @@
     .then(data => readJson(data));
   };
 
+  const createAudio = () => {
+    storyAudio = new Audio(`./assets/audio/storyAudio.wav`);
+    storyAudio.volume = .5;
+    storyAudio.currentTime = .7;
+  };
+
   const startEicelStory = () => {
     canvas.classList.add(`canvasAnimation`);
     console.log(`CLICK REGISTERED`);
@@ -71,11 +78,15 @@
       setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
       ambiance.volume = .05;
       ambiance.play();
-      // setTimeout(() => {storyAudio.play();}, 2000);
-      // setTimeout(() => {storyAudio.pause();}, 7000);
+      setTimeout(() => {storyAudio.play();}, 1000);
+      timeNeeded = story[storyIndex].timeNeeded[audioIndex];
+      audioIndex ++;
+      setTimeout(() => {storyAudio.pause();}, timeNeeded);
+      setTimeout(() => {setInnerText();}, timeNeeded);
       STATE = `eicel`;
       window.STATE = STATE;
-
+      clickMe = false;
+      toggleFade();
       document.removeEventListener(`click`, startEicelStory);
     }
   };
@@ -87,10 +98,9 @@
       e.preventDefault();
 
       innerIndex = 0;
+      audioIndex = 0;
 
       window.innerIndex = innerIndex;
-
-      console.log(childrenAge);
 
       if (!childrenAge || feedbackAge) {
         storyIndex ++;
@@ -99,6 +109,9 @@
         }
         if (storyIndex !== 9) {
           toggleVisibility(story[storyIndex].text);
+          controlAudio();
+          //audioIndex ++;
+          console.log(`[COUNT IT UP]`);
         }
       } else if (storyIndex === 5 && childrenAge && !feedbackAge) {
         console.log(childrenAge - 5);
@@ -124,9 +137,10 @@
       }
 
       //LOOP INNERTEXT
-      if (story[storyIndex].text2) {
-        interval = setInterval(setInnerText, 5000);
-      }
+      // if (story[storyIndex].text2) {
+      //   console.log(`JA`);
+      //   interval = setInterval(setInnerText, 5000);
+      // }
 
       //DISABLE BUTTON
       if (storyIndex === 9 || storyIndex !== 1 && storyIndex !== 5) {
@@ -139,24 +153,28 @@
         userAge.style.display = `none`;
       }
 
-        // const child =  story[storyIndex].info.risks[1].child[1];
-        // console.log(woman);
+      if (storyIndex === 2) {
+        storyAudio.currentTime = 22;
+      }
 
-        // for (let i = 0;i < woman.risks.length;i ++) {
-        //   const risk = document.createElement(`li`);
-        //   risk.className = `eicel_stage_risks_risk`;
-        //   risk.innerHTML = woman.risks[i].title;
-        //   console.log(risk);
-        //   risks.appendChild(risk);
-        // }
-        //
-        // for (let i = 0;i < child.risks.length;i ++) {
-        //   const risk = document.createElement(`li`);
-        //   risk.className = `eicel_stage_risks_risk`;
-        //   risk.innerHTML = child.risks[i].title;
-        //   console.log(risk);
-        //   risks.appendChild(risk);
-        // }
+      // const child =  story[storyIndex].info.risks[1].child[1];
+      // console.log(woman);
+
+      // for (let i = 0;i < woman.risks.length;i ++) {
+      //   const risk = document.createElement(`li`);
+      //   risk.className = `eicel_stage_risks_risk`;
+      //   risk.innerHTML = woman.risks[i].title;
+      //   console.log(risk);
+      //   risks.appendChild(risk);
+      // }
+      //
+      // for (let i = 0;i < child.risks.length;i ++) {
+      //   const risk = document.createElement(`li`);
+      //   risk.className = `eicel_stage_risks_risk`;
+      //   risk.innerHTML = child.risks[i].title;
+      //   console.log(risk);
+      //   risks.appendChild(risk);
+      // }
 
       if (storyIndex === 1) {
         clickMe = false;
@@ -281,18 +299,22 @@
 
       if (innerIndex === 3 && story[storyIndex].text5) {
         toggleVisibility(story[storyIndex].text5);
+        controlAudio();
         innerIndex ++;
         return;
       } else if (innerIndex === 2 && story[storyIndex].text4) {
         toggleVisibility(story[storyIndex].text4);
+        controlAudio();
         innerIndex ++;
         return;
       } else if (innerIndex === 1 && story[storyIndex].text3) {
         toggleVisibility(story[storyIndex].text3);
+        controlAudio();
         innerIndex ++;
         return;
       } else if (innerIndex === 0 && story[storyIndex].text2) {
         toggleVisibility(story[storyIndex].text2);
+        controlAudio();
         innerIndex ++;
         toggleFade();
         return;
@@ -306,10 +328,6 @@
   };
 
   const toggleVisibility = textContent => {
-
-    //if (storyIndex === story.length - 1) {
-    //  controlAudio();
-    //}
 
     text.style.opacity = 1;
 
@@ -327,10 +345,21 @@
 
   };
 
-  // const controlAudio = () => {
-  //   setTimeout(() => {storyAudio.play();console.log(`play`);}, 1000);
-  //   setTimeout(() => {storyAudio.pause();console.log(`pause`);}, timeNeeded);
-  // };
+  const controlAudio = () => {
+
+    if (storyIndex === 0) {
+      timeNeeded = story[storyIndex].timeNeeded[audioIndex];
+    } else {
+      timeNeeded = story[storyIndex].timeNeeded[audioIndex];
+    }
+
+    audioIndex ++;
+    console.log(`[COUNT IT UP]`);
+    console.log(audioIndex, timeNeeded);
+    //storyAudio.play();console.log(`play`);
+    setTimeout(() => {storyAudio.play();console.log(`play`);console.log(storyAudio.currentTime);}, 500);
+    setTimeout(() => {storyAudio.pause();console.log(`pause`);console.log(storyAudio.currentTime);setInnerText();}, timeNeeded);
+  };
 
   const toggleFade = () => {
 

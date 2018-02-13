@@ -1,28 +1,38 @@
 {
   "eicel": [
     {
-      "text": "Hallo, mag ik me even voorstellen ? Ik ben één van <mark class='highlight'>jouw eicellen</mark>.",
+      "text": "Hallo, mag ik me even voorstellen? Ik ben één van <mark class='highlight'>jouw eicellen</mark>.",
       "text2": "Ik ken je al mijn hele leven lang.",
       "text3": "Ik heb enkele weetjes over ons die ik met jou wil delen.",
-      "text4": "Informatie die voor jou heel belangrijk kan zijn..."
+      "text4": "Informatie die voor jou heel belangrijk kan zijn.",
+      "timeNeeded": [
+        "8200", "3000", "4000", "4000"
+      ]
     },
     {
-      "text": "Voor we van start gaan, wil ik graag weten hoe oud je bent."
+      "text": "Voor we van start gaan, wil ik graag weten hoe oud je bent.",
+      "timeNeeded" : ["5500"]
     },
     {
       "text": "Ik of beter gezegd wij eicellen, bestaan reeds <mark class='highlight'>voor je geboorte</mark>.",
       "text2": "Wij zijn dus <mark class='highlight'>even oud</mark> als jij. Bij jouw geboorte zijn we met zo’n één miljoen eicellen.",
       "text3": "Vanaf dan sterven er elk jaar zo’n tien duizend <br />van ons af.",
-      "text4": "We zijn nog lang niet rijp. Daarvoor missen we een hormoon die je in je <mark class='highlight'>pubertijd</mark> zal aanmaken.",
+      "text4": "We zijn nog lang niet rijp. Daarvoor missen we een hormoon dat je in je <mark class='highlight'>pubertijd</mark> zal aanmaken.",
       "age": 0,
-      "eggCount": 1000000
+      "eggCount": 1000000,
+      "timeNeeded": [
+        "5700", "7500", "4600", "6500"
+      ]
     },
     {
       "text": "Rond je twaalf jaar groeien zowel jij als wij naar de <mark class='highlight'>volwassenheid</mark>.",
       "text2": "Jij begint te puberen en wij rijpen. Je vruchtbare periode start nu.",
       "text3": "Dat merk je wanneer <br />je voor het eerst je maandstonden krijgt.",
       "age": 12,
-      "eggCount": 400000
+      "eggCount": 400000,
+      "timeNeeded": [
+        "5200", "7800", "4500"
+      ]
     },
     {
       "text": "Op je twintigste ben <br />je reeds volwassen.",
@@ -30,10 +40,16 @@
       "text3": "Het is meestal ook het moment waarop je verder studeert en op zoek bent naar de ware.",
       "text4": "De kinderwens is er <br />niet of wordt uitgesteld <br />tot later.",
       "age": 20,
-      "eggCount": 200000
+      "eggCount": 200000,
+      "timeNeeded": [
+        "3300", "4000", "5500", "4500"
+      ]
     },
     {
-      "text": "Vanaf welke leeftijd zou jij graag kinderen willen krijgen?"
+      "text": "Vanaf welke leeftijd zou jij graag kinderen willen krijgen?",
+      "timeNeeded": [
+        "5000"
+      ]
     },
     {
       "text": "Vanaf je dertigste begint je vruchtbaarheid te dalen.",
@@ -42,7 +58,10 @@
       "text4": "Om ongewenste kinderloosheid te vermijden raden we je daarom aan enkelen van ons <mark class='highlight'>in te vriezen</mark>.",
       "text5": "Zo worden we niet ouder en blijven we gezond.",
       "age": 30,
-      "eggCount": 100000
+      "eggCount": 100000,
+      "timeNeeded": [
+        "4700", "6500", "7100", "7800", "4000"
+      ]
     },
     {
       "text": "Je 35ste verjaardag is een <mark class='highlight'>bepalend moment</mark> voor ons.",
@@ -51,7 +70,10 @@
       "text4": "Wil je nog een baby? Dat kan maar we raden je toch aan eerst een bezoekje aan je dokter te brengen.",
       "text5": "Die kan je helpen om makkelijker zwanger te worden.",
       "age": 35,
-      "eggCount": 50000
+      "eggCount": 50000,
+      "timeNeeded": [
+        "5200", "6000", "5200", "7100", "4000"
+      ]
     },
     {
       "text": "Rond je vijftigste start <br />je <mark class='highlight'>menopauze</mark>.",
@@ -61,10 +83,9 @@
       "text5": "Vanaf nu ben je <br />dus onvruchtbaar.",
       "age": 50,
       "eggCount": 0,
-      "info": {
-        "risks": "b",
-        "actions": "d"
-      }
+      "timeNeeded": [
+        "3900", "3000", "3200", "4000", "4000"
+      ]
     }
   ]
 }

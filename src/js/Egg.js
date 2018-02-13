@@ -73,7 +73,6 @@ export default class Egg {
     this.pointLight.position.set(10, 10, 10);
     this.mesh.add(this.pointLight);
 
-
     this.mesh.add(this.ball);
     this.mesh.add(this.ball2);
   //  this.mesh.add(this.ball3);
@@ -187,7 +186,7 @@ export default class Egg {
       .start();
 
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 30 / 255, g: 1 / 255, b: 40 / 255}, 2000)
+      .to({r: 13 / 255, g: 19 / 255, b: 61 / 255}, 2000)
       .start();
 
     // 40 JAAR - KLEINE KANS
@@ -200,27 +199,9 @@ export default class Egg {
       .to({r: 0, g: 0, b: 0}, 2000)
       .start();
 
-
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 0 / 255, g: 0 / 255, b: 0 / 255}, 2000)
+      .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
       .start();
-
-    new TWEEN.Tween(this.lambertMaterial)
-        .to({opacity: 0}, 2000)
-        .start();
-
-    new TWEEN.Tween(this.lambertMaterial2)
-        .to({opacity: 0}, 5000)
-        .start();
-
-    if (window.storyIndex === 8) {
-      this.blobMovement = false;
-    }
-
-    // new TWEEN.Tween(this.lambertMaterial.emissive)
-    //   .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
-    //   .start();
-
 
     // 50 JAAR - MENOPAUZE
 

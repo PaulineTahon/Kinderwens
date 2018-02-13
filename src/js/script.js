@@ -287,7 +287,6 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  console.log(window.storyIndex);
   stats.begin();
   render();
   stats.end();
