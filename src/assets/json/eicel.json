@@ -42,19 +42,7 @@
       "text4": "Om ongewenste kinderloosheid te vermijden raden we je daarom aan enkelen van ons <mark class='highlight'>in te vriezen</mark>.",
       "text5": "Zo worden we niet ouder en blijven we gezond.",
       "age": 30,
-      "eggCount": 100000,
-      "info": {
-        "invriezen": {
-          "text":"De behandeling die je ondergaat om je eicellen te laten invriezen, is voor een deel vergelijkbaar met IVF. Wat kun je precies verwachten van zo’n procedure?. Sommige mensen beschouwen het ook wel als ‘uitgestelde IVF’. De hele behandeling duurt ongeveer 2 tot 3 weken.",
-          "procedure": "Voordat je je eicellen kunt laten invriezen, krijg je een aantal onderzoeken. Die dienen om te bepalen of je eierstokken nog voldoende eicellen kunnen maken. Je krijgt hormonen voor het stimuleren van de eicelrijping. Als eerste krijg je hormonen die je menstruatiecyclus stilleggen. Daarna slik of prik je medicijnen om je eicellen te laten rijpen en de eisprong op gang te brengen. Zijn de eicellen rijp? Dan vindt de punctie plaats.",
-          "punctie": "Met een holle naald zuigt de arts een aantal eicellen uit je eierstokken. Dat gebeurt via je vagina. Meestal krijg je een plaatselijke verdoving, want het kan pijnlijk zijn.",
-          "invriezen": "Als er voldoende eicellen gerijpt zijn, dan worden ze ingevroren en bewaard in een vat met vloeibaar stikstof, op een temperatuur van -196 graden Celsius. Op deze manier blijven je eicellen jarenlang goed.",
-          "bevruchting": "Op het moment dat jij eraan toe bent, kun je de opdracht geven om je eicellen te ontdooien en te bevruchten met zaad van je partner. Dat bevruchten gebeurt via ICSI. Kort gezegd injecteren ze daarbij één zaadcel in één van jouw eicellen. Ontwikkelt zich dit tot een embryo? Dan wordt dat embryo (soms twee) teruggeplaatst in je baarmoeder. Om ervoor te zorgen dat je baarmoeder het embryo zo goed mogelijk kan ‘ontvangen’, krijg je vooraf hormonen.",
-          "prijs": " Het hele proces – medicatiekosten, het invriesprocedé, de technische akte – kost je al gauw enkele duizenden euro’s. Daar wordt niets van terugbetaald. Het ziekenfonds betaalt enkel terug wanneer er sprake is van inseminatie van zaadcellen bij eicellen.",
-          "zwangerschapskans": "de kans op een zwangerschap met ingevroren eicellen is bovendien iets lager dan met verse eicellen. Om echt een kans op een kind veilig te stellen, moet je op 31 jaar ongeveer 25 eicellen inbanken",
-          "limiet": "De eicellen die je laat invriezen, mogen bovendien niet langer dan 10 jaar bewaard blijven en moet je voor je 45ste gebruiken als je er een IVF-behandeling mee wilt doen (zo is het in België wettelijk bepaald)."
-        }
-      }
+      "eggCount": 100000
     },
     {
       "text": "Je 35ste verjaardag is een <mark class='highlight'>bepalend moment</mark> voor ons.",
@@ -63,43 +51,7 @@
       "text4": "Wil je nog een baby? Dat kan maar we raden je toch aan eerst een bezoekje aan je dokter te brengen.",
       "text5": "Die kan je helpen om makkelijker zwanger te worden.",
       "age": 35,
-      "eggCount": 50000,
-      "info": {
-        "risks": [
-          {
-            "title": "Chromosomale afwijkingen",
-            "text": " Bij het willen zwanger worden moet men rekening houden dat de kans op chromosomale afwijkingen bij de baby, zoals bijvoorbeeld het syndroom van Down, groter is. Op 35 jarige leeftijd is de kans dat je kindje het syndroom van Down zal hebben 1 op 384."
-          },
-          {
-            "title": "Vroeggeboorte",
-            "text": "Boven de 35 jaar neemt de kans op een vroeggeboorte toe. De kans op een vroeggeboorte (voor de 33ste week) anderhalf keer zo groot. De oorzaak hiervan is hoogstwaarschijnlijk omdat je placenta dan van minder goede kwaliteit is."
-          },
-          {
-            "title": "Vruchtbaarheid",
-            "text": "Op je 35 daalt je vruchtbaarheid exponentieel. De kans om spontaan zwanger te worden is dan de helft dan die op 30 jarige leeftijd."
-          },
-          {
-            "title": "Keizersnede",
-            "text": "Eenmaal zwanger geworden en je bent ouder dan 35 jaar stijgt de kans op complicaties bij de bevalling. Daarom wordt er vaker gekozen voor een keizersned. Dit gebeurt in 40% van de gevallen."
-          },
-          {
-            "title": "Zwangerschaps diabetes",
-            "text": "Deze vorm van suikerziekte komt, zoals de naam al zegt, voor als je zwanger bent.Als je leeftijd toeneemt, krijg je ook meer kans op zwangerschapsdiabetes. Hiervoor wordt soms medicatie voorgeschreven"
-          },
-          {
-            "title": "Tweeling",
-            "text": "Eenmaal zwanger geworden en je bent ouder dan 35 jaar is er 40 % kans dat de bevalling met een keizersnede zal gebeuren. Als je voor het eerst bevalt na je 35 jaar is de kans op een miskraam 40 %. Ook al neem je geen medicatie om zwanger te worden toch is kans op een tweeling."
-          },
-          {
-            "title": "Miskraam",
-            "text": "Het aantal miskramen neemt toe als de leeftijd van de moeder toeneemt. Als je voor het eerst bevalt na je 35 jaar is de kans op een miskraam 40 %."
-          }
-
-        ],
-        "actions": {
-          "text": "Indien je van plan bent je kinderwens nog even uit te stellen, kun je ervoor opteren om je eicellen te laten invriezen. Vanaf dan verouderen wij niet meer, dat minimaliseert de kans op complicaties bij uitgestelde zwangerschap."
-        }
-      }
+      "eggCount": 50000
     },
     {
       "text": "Rond je vijftigste start je <mark class='highlight'>menopauze</mark>.",

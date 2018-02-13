@@ -254,7 +254,7 @@
       <div class="rainbow2"></div>
     </div>
     <div class="eicelStory">
-      <audio class="audio" src="assets/audio/main_ambiance.mp3" loop></audio>
+      <audio class="ambiance" src="assets/audio/ambiance.mp3" loop type="audio/mp3"></audio>
       <div class="eicel">
         <h1 class="eicel_stage_text" onChange="toggleVisibility"></h1>
         <div class="info">
@@ -262,7 +262,11 @@
         </div>
         <div class="user_children_age">
           <p class="user_children_age_input_value"></p>
-          <input class="user_children_age_input" type="range" min="12" value="29" max="50"/>
+          <input class="user_children_age_input" type="range" min="12" max="50"/>
+          <div class="user_age_flex">
+            <span class="user_age_0">12</span>
+            <span class="user_age_100">50</span>
+          </div>
         </div>
         <div class="user_age">
           <p class="user_age_input_value"></p>

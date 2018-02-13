@@ -169,6 +169,7 @@ body {
     width: auto;
 
     &_value {
+      opacity: 0;
       text-align: center;
     }
   }
