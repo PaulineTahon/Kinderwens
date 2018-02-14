@@ -64,8 +64,9 @@
 
   const createAudio = () => {
     storyAudio = new Audio(`./assets/audio/storyAudio.wav`);
-    storyAudio.volume = .5;
+    storyAudio.volume = .8;
     storyAudio.currentTime = .7;
+    window.storyAudio = storyAudio;
   };
 
   const startEicelStory = () => {
@@ -76,7 +77,7 @@
       const eicel = document.querySelector(`.eicelStory`);
       home.classList.add(`fade`);
       setTimeout(() => {eicel.classList.add(`visible`);home.classList.add(`dontdisplay`);}, 2000);
-      ambiance.volume = .05;
+      ambiance.volume = .8;
       ambiance.play();
       setTimeout(() => {storyAudio.play();}, 1000);
       timeNeeded = story[storyIndex].timeNeeded[audioIndex];
@@ -110,8 +111,6 @@
         if (storyIndex !== 9) {
           toggleVisibility(story[storyIndex].text);
           controlAudio();
-          //audioIndex ++;
-          console.log(`[COUNT IT UP]`);
         }
       } else if (storyIndex === 5 && childrenAge && !feedbackAge) {
         console.log(childrenAge - 5);
@@ -354,8 +353,7 @@
     }
 
     audioIndex ++;
-    console.log(`[COUNT IT UP]`);
-    console.log(audioIndex, timeNeeded);
+
     //storyAudio.play();console.log(`play`);
     setTimeout(() => {storyAudio.play();console.log(`play`);console.log(storyAudio.currentTime);}, 500);
     setTimeout(() => {storyAudio.pause();console.log(`pause`);console.log(storyAudio.currentTime);setInnerText();}, timeNeeded);
@@ -376,11 +374,11 @@
       // }
 
       if (storyIndex === 2) {
-        setTimeout(() => {age.classList.remove(`fade`);age.classList.add(`visible`);}, 2000);
+        setTimeout(() => {age.classList.remove(`fade`);age.classList.add(`visible`);}, 5000);
       }
 
       if (storyIndex === 2 && innerIndex === 1) {
-        setTimeout(() => {count.classList.remove(`fade`);count.classList.add(`visible`);}, 1000);
+        setTimeout(() => {count.classList.remove(`fade`);count.classList.add(`visible`);}, 5000);
       }
 
     } else {

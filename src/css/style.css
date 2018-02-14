@@ -18,7 +18,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #161216;
+  background-color: #0a000f;
 }
 
 .c {
@@ -346,7 +346,7 @@ input[type=range]::-webkit-slider-thumb {
   top: 0;
   height: 100vh;
   width: 100vw;
-  background-color: #191919;
+  background-color: #0a000f;
 }
 
 .overlay_animation {

@@ -1,6 +1,7 @@
 import OpenSimplexNoise from 'open-simplex-noise';
 const noise = new OpenSimplexNoise();
 const blobSpeed = 0.0007;
+// const clock = new THREE.Clock();
 
 export default class Egg {
   constructor () {
@@ -17,7 +18,7 @@ export default class Egg {
 
     this.lambertMaterial = new THREE.MeshLambertMaterial({
       color: 0xccfffd,
-      emissive: 0x3f334b,
+      emissive: 0x495c68, // 0x3f334b
       wireframe: false,
       clippingPlanes: [ window.localPlane ],
       transparent: true,
@@ -26,7 +27,7 @@ export default class Egg {
 
     this.lambertMaterial2 = new THREE.MeshLambertMaterial({
       color: 0xccfffd,
-      emissive: 0x3f334b,
+      emissive: 0x0a000f,
       wireframe: false,
       transparent: true,
       opacity: 0.0,
@@ -69,9 +70,28 @@ export default class Egg {
     // this.ball3.position.z = 0;
     // this.ball3.castShadow = true;
 
-    this.pointLight = new THREE.PointLight(0xccfffd, 1, 100);
+    //0xccfffd
+    //0x67ff98
+    this.pointLight = new THREE.PointLight(0x5fe4d6, .8, 100);
     this.pointLight.position.set(10, 10, 10);
     this.mesh.add(this.pointLight);
+
+
+    // const sphere = new THREE.SphereGeometry(0.5, 16, 8);
+
+    this.pointLight2 = new THREE.PointLight(0xff0040, .5, 100);
+    // this.pointLight2.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: 0xff0040})));
+    this.pointLight2.position.set(0, - 10, - 20);
+    this.mesh.add(this.pointLight2);
+
+    //0x6ffdbf
+    //0x5fe4d6
+    //0x735ead
+    this.pointLight3 = new THREE.PointLight(0x0a000f, 1, 100);
+    // this.pointLight3.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: 0x5fe4d6})));
+    this.pointLight3.position.set(10, - 10, 20);
+    this.mesh.add(this.pointLight3);
+
 
     this.mesh.add(this.ball);
     this.mesh.add(this.ball2);
@@ -90,9 +110,27 @@ export default class Egg {
     this.mesh.add(this.iceShard);
   }
 
+  intro() {
+
+    new TWEEN.Tween(this.lambertMaterial.emissive)
+        .to({r: 10 / 255, g: 0 / 255, b: 15 / 255}, 2000)
+        .start();
+  }
+
   roughBall() {
     makeRoughBall(this.ball, this.ball2);
     // makeRoughBall(this.ball, this.ball2, this.ball3);
+  }
+
+  animatePointLight() {
+
+    const time = Date.now() * 0.0005;
+    // const delta = clock.getDelta();
+    // if (this.ball)
+    // if (object) object.rotation.y -= 0.5 * delta;
+    this.pointLight2.position.x = Math.sin(time * 0.7) * 100;
+    this.pointLight2.position.y = Math.cos(time * 0.5) * 90;
+    this.pointLight2.position.z = Math.cos(time * 0.3) * 80;
   }
 
   fertilize() {
@@ -181,12 +219,16 @@ export default class Egg {
 
   infertilizeProgression() {
 
-    new TWEEN.Tween(this.pointLight.color)
-      .to({r: 0, g: 0, b: 0}, 2000)
-      .start();
+    // new TWEEN.Tween(this.pointLight.color)
+    //   .to({r: 5 / 255, g: 0 / 255, b: 10 / 255}, 2000)
+    //   .start();
+    //
+    // new TWEEN.Tween(this.lambertMaterial.color)
+    //   .to({r: 5 / 255, g: 0 / 255, b: 10 / 255}, 2000)
+    //   .start();
 
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 13 / 255, g: 19 / 255, b: 61 / 255}, 2000)
+      .to({r: 5 / 255, g: 0 / 255, b: 10 / 255}, 2000)
       .start();
 
     // 40 JAAR - KLEINE KANS
@@ -196,11 +238,23 @@ export default class Egg {
   infertile() {
 
     new TWEEN.Tween(this.pointLight.color)
-      .to({r: 0, g: 0, b: 0}, 2000)
+      .to({r: 0 / 255, g: 0 / 255, b: 0 / 255}, 2000)
       .start();
 
     new TWEEN.Tween(this.lambertMaterial.emissive)
-      .to({r: 25 / 255, g: 0 / 255, b: 35 / 255}, 2000)
+      .to({r: 0 / 255, g: 0 / 255, b: 0 / 255}, 2000)
+      .start();
+
+    new TWEEN.Tween(this.lambertMaterial2.emissive)
+      .to({r: 0 / 255, g: 0 / 255, b: 0 / 255}, 2000)
+      .start();
+
+    new TWEEN.Tween(this.lambertMaterial2)
+      .to({opacity: 0}, 2000)
+      .start();
+
+    new TWEEN.Tween(this.lambertMaterial)
+      .to({opacity: 0}, 2000)
       .start();
 
     // 50 JAAR - MENOPAUZE
