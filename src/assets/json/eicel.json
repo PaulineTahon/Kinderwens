@@ -21,7 +21,7 @@
       "age": 0,
       "eggCount": 1000000,
       "timeNeeded": [
-        "5700", "7500", "4600", "6500"
+        "5800", "7100", "4600", "6800"
       ]
     },
     {
@@ -31,7 +31,7 @@
       "age": 12,
       "eggCount": 400000,
       "timeNeeded": [
-        "5200", "7800", "4500"
+        "5500", "7800", "4500"
       ]
     },
     {
@@ -42,7 +42,7 @@
       "age": 20,
       "eggCount": 200000,
       "timeNeeded": [
-        "3300", "4000", "5500", "4500"
+        "3200", "4100", "5500", "4700"
       ]
     },
     {
@@ -60,12 +60,12 @@
       "age": 30,
       "eggCount": 100000,
       "timeNeeded": [
-        "4700", "6500", "7100", "7800", "4000"
+        "4400", "6500", "7100", "7450", "4000"
       ]
     },
     {
       "text": "Je 35ste verjaardag is een <mark class='highlight'>bepalend moment</mark> voor ons.",
-      "text2": "Je vruchtbaarheid begint nu sneller te dalen. We zijn immers ook een dagje ouder.",
+      "text2": "Je vruchtbaarheid begint nu te dalen. We zijn immers ook een dagje ouder.",
       "text3": "We dalen nu sneller in aantal en ook onze kwaliteit neemt af.",
       "text4": "Wil je nog een baby? Dat kan maar we raden je toch aan eerst een bezoekje aan je dokter te brengen.",
       "text5": "Die kan je helpen om makkelijker zwanger te worden.",
@@ -84,7 +84,7 @@
       "age": 50,
       "eggCount": 0,
       "timeNeeded": [
-        "3900", "3000", "3200", "4000", "4000"
+        "3900", "3300", "3300", "4100", "4000"
       ]
     }
   ]

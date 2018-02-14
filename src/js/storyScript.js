@@ -28,12 +28,12 @@
   let currentAge;
   let childrenAge;
   let feedbackAge = false;
-  let storyAudio;
+  let storyAudio, feedbackAudio;
   let audioIndex = 0;
 
   const ageCategories = [
     `Goed, op deze leeftijd zijn we het vruchtbaarst. Je hebt nog genoeg tijd om na deze leeftijd kinderen te maken.`,
-    `Op deze leeftijd zijn we nog van goede kwaliteit, goed! Let wel op indien je daarna nog kinderen wenst.`,
+    `Op deze leeftijd zijn we nog van goede kwaliteit. Let wel op indien je daarna nog kinderen wenst.`,
     `Let op, op deze leeftijd daalt ons aantal en onze kwaliteit snel!`
   ];
 
@@ -64,7 +64,9 @@
 
   const createAudio = () => {
     storyAudio = new Audio(`./assets/audio/storyAudio.wav`);
+    feedbackAudio = new Audio(`./assets/audio/feedbackAudio.wav`);
     storyAudio.volume = .8;
+    feedbackAudio.volume = .8;
     storyAudio.currentTime = .7;
     window.storyAudio = storyAudio;
   };
@@ -94,7 +96,7 @@
 
   const handleNext = e => {
 
-    if (clickMe) {
+    if (clickMe && storyAudio.paused) {
 
       e.preventDefault();
 
@@ -119,10 +121,22 @@
         if (childrenAge < 30) {
           console.log(ageCategories[0]);
           toggleVisibility(ageCategories[0]);
+          setTimeout(() => {feedbackAudio.play();}, 500);
+          clickMe = false;
+          toggleFade();
+          setTimeout(() => {clickMe = true;toggleFade();}, 6500);
         } else if (childrenAge < 35) {
           toggleVisibility(ageCategories[1]);
+          setTimeout(() => {feedbackAudio.play();}, 500);
+          clickMe = false;
+          toggleFade();
+          setTimeout(() => {clickMe = true;toggleFade();}, 6500);
         } else if (childrenAge >= 35) {
           toggleVisibility(ageCategories[2]);
+          setTimeout(() => {feedbackAudio.play();}, 500);
+          clickMe = false;
+          toggleFade();
+          setTimeout(() => {clickMe = true;toggleFade();}, 6500);
         }
         userChildrenAge.classList.remove(`visibleText`);
         userChildrenAge.classList.add(`fadeText`);
@@ -142,8 +156,7 @@
       // }
 
       //DISABLE BUTTON
-      if (storyIndex === 9 || storyIndex !== 1 && storyIndex !== 5) {
-        console.log(`FADE THIS SHIT`);
+      if (storyIndex === 8 || storyIndex !== 1 && storyIndex !== 5) {
         clickMe = false;
         toggleFade();
       }
@@ -221,7 +234,6 @@
 
     const element = e.currentTarget;
 
-    console.log(stages);
     stages.forEach(child => {
       console.log(child);
       if (child.classList.contains(`nav__list__stage--active`)) {
@@ -231,7 +243,6 @@
       }
     });
     listItems.forEach(child => {
-      console.log(child);
       if (child.children[1].classList.contains(`nav__list--active`)) {
         child.children[1].classList.remove(`nav__list--active`);
         child.children[1].classList.add(`nav__list--inactive`);
@@ -355,13 +366,13 @@
     audioIndex ++;
 
     //storyAudio.play();console.log(`play`);
-    setTimeout(() => {storyAudio.play();console.log(`play`);console.log(storyAudio.currentTime);}, 500);
-    setTimeout(() => {storyAudio.pause();console.log(`pause`);console.log(storyAudio.currentTime);setInnerText();}, timeNeeded);
+    setTimeout(() => {storyAudio.play();}, 500);
+    setTimeout(() => {storyAudio.pause();setInnerText();}, timeNeeded);
   };
 
   const toggleFade = () => {
 
-    if (!clickMe) {
+    if (!clickMe || storyIndex === 8 && storyAudio.currentTime > 145) {
       // console.log(`FADE`);
       buttons.classList.remove(`visible`);
       buttons.classList.add(`fade`);

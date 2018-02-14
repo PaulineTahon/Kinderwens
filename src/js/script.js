@@ -4,9 +4,6 @@
 import './storyScript.js';
 import Egg from './Egg.js';
 
-const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom);
 const intensity = 0;
 let camera;
 const canvas = document.getElementById(`c`);
@@ -67,8 +64,6 @@ scene.fog = new THREE.FogExp2(0x0a000f, 0.02); //0.008
 //let bulbLight, bulbLight2;
 
 const init = () => {
-
-  console.log(`[SCRIPT INITIATED]`);
 
   if (!window.storyIndex) {
     window.storyIndex = 0;
@@ -287,9 +282,7 @@ const createParticles = () => {
 };
 
 const animate = () => {
-  stats.begin();
   render();
-  stats.end();
   requestAnimationFrame(animate);
 };
 
@@ -389,7 +382,10 @@ const render = time => {
 
   }
 
-  if (window.storyIndex === 9) {
+  if (window.storyAudio.currentTime > 145 && (window.storyIndex - 2) === 6 && window.storyAudio.paused) {
+    const eicel = document.querySelector(`.eicelStory`);
+    setTimeout(() => {eicel.classList.remove(`visible`);eicel.classList.add(`fade`);}, 3000);
+    setTimeout(() => {eicel.classList.add(`dontdisplay`);}, 7000);
     ballGroup.blobMovement = false;
     scene.remove(ballGroup);
 
@@ -398,7 +394,6 @@ const render = time => {
 };
 
 const updateSceneColor = () => {
-  console.log(window.storyIndex - 2);
   if (postprocessing.godraysFakeSunUniforms.bgColor.value !== colorStages[window.storyIndex - 2]) {
     new TWEEN.Tween(postprocessing.godraysFakeSunUniforms.bgColor.value)
       .to(colorStages[window.storyIndex - 2], 2000)

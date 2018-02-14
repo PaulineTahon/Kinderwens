@@ -1,12 +1,5 @@
 @import 'cssHome.css';
 
-/* @font-face {
-  font-family: roboto;
-  src:
-    url(../assets/fonts/roboto/roboto-thin.woff2) format('woff2'),
-    url(../assets/fonts/roboto/roboto-thin.woff) format('woff');
-} */
-
 html {
   margin: 0;
   padding: 0;
@@ -86,7 +79,7 @@ body {
   justify-content: space-between;
   width: 17rem;
   font-size: 1.2rem;
-  font-family: 'sofia pro';
+  font-family: sofiapro;
 
   &__valueMetric, &__countMetric {
     text-transform: capitalize;
